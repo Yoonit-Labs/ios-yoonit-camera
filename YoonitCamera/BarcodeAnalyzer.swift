@@ -1,6 +1,6 @@
 //
 //  BarcodeAnalyzer.swift
-//  FaceTracker
+//  YoonitCamera
 //
 //  Created by Haroldo Shigueaki Teruya on 23/09/20.
 //

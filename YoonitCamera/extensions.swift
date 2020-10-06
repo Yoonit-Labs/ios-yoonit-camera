@@ -1,6 +1,6 @@
 //
 //  extensions.swift
-//  FaceTracker
+//  YoonitCamera
 //
 //  Created by Hallison da Paz on 16/01/20.
 //  Copyright © 2020 CyberLabs. All rights reserved.
