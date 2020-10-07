@@ -1,9 +1,9 @@
 //
 //  ViewController.swift
-//  FaceModuleDemo
+//  YoonitCameraDemo
 //
-//  Created by Hallison da Paz on 13/01/20.
-//  Copyright © 2020 Hallison da Paz.
+//  Created on 07/10/2020.
+//  Márcio Habigzang Brufatto © CyberLabs AI 2020.
 //
 
 import UIKit

@@ -1,6 +1,6 @@
 //
 //  NewCameraViewController.swift
-//  FaceTrackerShowCase
+//  YoonitCameraDemo
 //
 //  Created by Marcio Habigzang Brufatto on 10/09/20.
 //  Copyright © 2020 CyberLabs. All rights reserved.
