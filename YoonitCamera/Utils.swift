@@ -1,9 +1,8 @@
 //
 //  utils.swift
-//  FaceModuleDemo
+//  YoonitCamera
 //
 //  Created by Hallison da Paz on 14/01/20.
-//  Copyright © 2020 Hallison da Paz. All rights reserved.
 //
 
 import Foundation
