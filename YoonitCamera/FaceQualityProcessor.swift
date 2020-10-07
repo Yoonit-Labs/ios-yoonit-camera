@@ -1,6 +1,6 @@
 //
 //  FaceQualityProcessor.swift
-//  FaceTracker
+//  YoonitCamera
 //
 //  Created by Hallison da Paz on 04/03/20.
 //
@@ -12,17 +12,14 @@ import VideoToolbox
 
 class FaceQualityProcessor {
     
-    let DARKNESS_THRESHOLD = 0.4
-    let LIGHTNESS_THRESHOLD = 0.65
-    var statusBarHeight: CGFloat = 0.0
-    var laplacianKernel: [Int16] = [-1, -1, -1,
+    private let DARKNESS_THRESHOLD = 0.4
+    private let LIGHTNESS_THRESHOLD = 0.65
+    private var statusBarHeight: CGFloat = 0.0
+    private var laplacianKernel: [Int16] = [-1, -1, -1,
                                     -1,  8, -1,
                                     -1, -1, -1]
     
-    lazy var lapDivisor = laplacianKernel.map { Int32($0) }.reduce(0, +)
-    
-    private var imageIndex = 0
-    private let queue = DispatchQueue(label: "ai.cyberlabs.imageprocessing", qos: .userInitiated)
+    private lazy var lapDivisor = laplacianKernel.map { Int32($0) }.reduce(0, +)
     
     init() {
         DispatchQueue.main.async {
@@ -43,8 +40,8 @@ class FaceQualityProcessor {
         pixels: CVPixelBuffer,
         toRect faceRect: CGRect,
         atScale scale: CGFloat,
-        view: FaceAnalyzer) {
-                
+        faceAnalyzer: FaceAnalyzer) {
+                                
         // Grayscale version.
         var lumaBuffer = convertToGrayScale(pixels)
                                 
@@ -54,7 +51,7 @@ class FaceQualityProcessor {
         if (hasGoodIlumination) {
             // Classify image quality.
             let imageQuality = self.computeFaceQuality(lumaImageBuffer: &lumaBuffer)
-                            
+                                
             // Convert CVPixelBuffer to UIImage.
             let image = imageFromPixelBuffer(imageBuffer: pixels, scale: UIScreen.main.scale)
             
@@ -62,21 +59,16 @@ class FaceQualityProcessor {
             guard let imageCropped = self.crop(imageCamera: image, boundingBoxFace: faceRect) else {
                 return
             }
-                
-            self.imageIndex = view.numCapturedImages
-            let fileURL = fileURLFor(index: self.imageIndex)
+                            
+            let fileURL = fileURLFor(index: faceAnalyzer.numCapturedImages)
             let fileName = try! save(image: imageCropped, at: fileURL)
-            
-            DispatchQueue.main.async {
-                view.notifyCapturedImage(filePath: fileName)
-            }
+                        
+            faceAnalyzer.notifyCapturedImage(filePath: fileName)
         }
     }
     
     
     func computeFaceQuality(lumaImageBuffer: inout vImage_Buffer) -> Float {
-//        TODO: contrast reserved for future use
-//        let contrast = Float.random(in: 0.0...1.0)
         let sharpness = evaluateSharpness(&lumaImageBuffer)
         return sharpness
     }
@@ -116,11 +108,11 @@ class FaceQualityProcessor {
         return result
     }
         
-    func evaluateIluminationFor(lumaImageBuffer: inout vImage_Buffer) -> Bool{
+    func evaluateIluminationFor(lumaImageBuffer: inout vImage_Buffer) -> Bool {
         let luma = [vImagePixelCount](repeating: 0, count: 256)
         let lumaHist = UnsafeMutablePointer<vImagePixelCount>(mutating: luma)
-
         var error = kvImageNoError
+        
         error = vImageHistogramCalculation_Planar8(
                     &lumaImageBuffer,
                     lumaHist,
@@ -129,17 +121,17 @@ class FaceQualityProcessor {
             print("Histogram error: \(error)")
         }
 
-
         let count = Double(lumaImageBuffer.width * lumaImageBuffer.height)
-
         var dark = 0.0
         var light = 0.0
+        
         for i in 0...35 {
             dark = dark + Double(lumaHist[i])
             light = light + Double(lumaHist[255-i])
         }
         dark = dark/count
         light = light/count
+        
         if dark > DARKNESS_THRESHOLD || light > LIGHTNESS_THRESHOLD {
             return false
         }
@@ -149,16 +141,16 @@ class FaceQualityProcessor {
     func evaluateSharpness(_ lumaImageBuffer: inout vImage_Buffer) -> Float {
 
         var error = kvImageNoError
-
         var destinationBuffer = vImage_Buffer()
         error = kvImageNoError
+        
         if destinationBuffer.data == nil {
             error = vImageBuffer_Init(
-                        &destinationBuffer,
-                        lumaImageBuffer.height,
-                        lumaImageBuffer.width,
-                        8,
-                        vImage_Flags(kvImageNoFlags))
+                &destinationBuffer,
+                lumaImageBuffer.height,
+                lumaImageBuffer.width,
+                8,
+                vImage_Flags(kvImageNoFlags))
 
             if (error != kvImageNoError) {
                 print("Error unknow")
@@ -169,19 +161,21 @@ class FaceQualityProcessor {
             free(destinationBuffer.data)
         }
 
-        error = vImageConvolve_Planar8(&lumaImageBuffer,
-                                        &destinationBuffer,
-                                        nil,
-                                        0,
-                                        0,
-                                        &laplacianKernel,
-                                        3,
-                                        3,
-                                        lapDivisor,
-                                        0,
-                                        vImage_Flags(kvImageEdgeExtend))
+        error = vImageConvolve_Planar8(
+            &lumaImageBuffer,
+            &destinationBuffer,
+            nil,
+            0,
+            0,
+            &laplacianKernel,
+            3,
+            3,
+            lapDivisor,
+            0,
+            vImage_Flags(kvImageEdgeExtend))
+        
         if (error != kvImageNoError) {
-            print("XABU NA CONVOLUCAO - linha 216")
+            print("Error on convolution")
         }
 
         let count = destinationBuffer.width * destinationBuffer.height
@@ -190,18 +184,17 @@ class FaceQualityProcessor {
 
         var doubleArr = [Double](repeating: 0.0, count: Int(count))
         vDSP_vfltu8D(UnsafePointer<UInt8>(arr.baseAddress!), 1, &doubleArr, 1, count)
-
-        // TODO: deal with Nan
-        print(doubleArr.filter({$0 < 0}))
+        
         var avg = 0.0
         var std = 0.0
-        vDSP_normalizeD(doubleArr,
-                        1,
-                        nil,
-                        1,
-                        &avg,
-                        &std,
-                        UInt(doubleArr.count))
+        vDSP_normalizeD(
+            doubleArr,
+            1,
+            nil,
+            1,
+            &avg,
+            &std,
+            UInt(doubleArr.count))
 
         return Float(std)
     }

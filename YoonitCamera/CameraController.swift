@@ -1,6 +1,6 @@
 //
 //  CameraController.swift
-//  FaceTracker
+//  YoonitCamera
 //
 //  Created by Marcio Habigzang Brufatto on 03/09/20.
 //
@@ -99,6 +99,8 @@ class CameraController: NSObject, CameraControllerProtocol {
     
     public func stopAnalyzer() {
         self.faceAnalyzer?.stop()
+        self.faceAnalyzer?.numCapturedImages = 0
+        
         self.barcodeAnalyzer?.stop()
     }
             
@@ -116,6 +118,7 @@ class CameraController: NSObject, CameraControllerProtocol {
             self.cameraEventListener?.onMessage(message: "Camera Preview not started")
             return
         }
+        
         if (self.cameraLensFacing == .front) {
             self.cameraLensFacing = .back
         } else {
@@ -127,6 +130,10 @@ class CameraController: NSObject, CameraControllerProtocol {
         
         // Add camera input.
         self.buildCameraInput(cameraLens: self.cameraLensFacing)
+        
+        if (self.captureType == .FACE) {
+            self.faceAnalyzer?.reset()
+        }
     }
     
     /*
@@ -150,10 +157,6 @@ class CameraController: NSObject, CameraControllerProtocol {
         }
         let cameraInput = try! AVCaptureDeviceInput(device: device)
         self.session.addInput(cameraInput)
-        
-        if(self.captureType == .FACE) {
-            self.faceAnalyzer?.reset()
-        }
     }
 }
 

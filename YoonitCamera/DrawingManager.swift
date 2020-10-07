@@ -1,6 +1,6 @@
 //
 //  DrawingManager.swift
-//  FaceTracker
+//  YoonitCamera
 //
 //  Created by Hallison da Paz on 08/03/20.
 //

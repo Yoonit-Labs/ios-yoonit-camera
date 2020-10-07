@@ -1,6 +1,6 @@
 //
 //  CameraView.swift
-//  FaceTracker
+//  YoonitCamera
 //
 //  Created by Marcio Habigzang Brufatto on 03/09/20.
 //

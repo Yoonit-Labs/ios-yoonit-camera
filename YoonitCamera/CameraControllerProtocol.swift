@@ -1,6 +1,6 @@
 //
 //  CameraControllerProtocol.swift
-//  FaceTracker
+//  YoonitCamera
 //
 //  Created by Marcio Habigzang Brufatto on 08/09/20.
 //
