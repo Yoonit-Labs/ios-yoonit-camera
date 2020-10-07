@@ -1,0 +1,29 @@
+PODS:
+  - DropDown (2.3.13)
+  - YoonitCamera (1.0.0)
+
+DEPENDENCIES:
+  - DropDown
+  - YoonitCamera (from `https://github.com/Yoonit-Labs/ios-yoonit-camera.git`, branch `development`)
+
+SPEC REPOS:
+  trunk:
+    - DropDown
+
+EXTERNAL SOURCES:
+  YoonitCamera:
+    :branch: development
+    :git: https://github.com/Yoonit-Labs/ios-yoonit-camera.git
+
+CHECKOUT OPTIONS:
+  YoonitCamera:
+    :commit: 6ea5e53055532352998164c783eb900549a555e1
+    :git: https://github.com/Yoonit-Labs/ios-yoonit-camera.git
+
+SPEC CHECKSUMS:
+  DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
+  YoonitCamera: 7790670f46b473cfca424e44f528e8d649852167
+
+PODFILE CHECKSUM: 75bf8e68c3d1379b933778b5b8fc75515aa79b04
+
+COCOAPODS: 1.9.3
