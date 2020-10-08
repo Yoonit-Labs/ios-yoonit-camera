@@ -61,7 +61,7 @@ Pod::Spec.new do |spec|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  spec.source = { :git => "https://github.com/Yoonit-Labs/ios-yoonit-camera.git", :branch => "development" } #"#{spec.version}" }
+  spec.source = { :git => "https://github.com/Yoonit-Labs/ios-yoonit-camera.git", :tag => "#{spec.version}" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
