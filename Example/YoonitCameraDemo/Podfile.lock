@@ -4,7 +4,7 @@ PODS:
 
 DEPENDENCIES:
   - DropDown
-  - YoonitCamera (from `https://github.com/Yoonit-Labs/ios-yoonit-camera.git`, branch `development`)
+  - YoonitCamera (from `https://github.com/Yoonit-Labs/ios-yoonit-camera.git`, tag `1.0.0`)
 
 SPEC REPOS:
   trunk:
@@ -12,18 +12,18 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   YoonitCamera:
-    :branch: development
     :git: https://github.com/Yoonit-Labs/ios-yoonit-camera.git
+    :tag: 1.0.0
 
 CHECKOUT OPTIONS:
   YoonitCamera:
-    :commit: 6ea5e53055532352998164c783eb900549a555e1
     :git: https://github.com/Yoonit-Labs/ios-yoonit-camera.git
+    :tag: 1.0.0
 
 SPEC CHECKSUMS:
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   YoonitCamera: 7790670f46b473cfca424e44f528e8d649852167
 
-PODFILE CHECKSUM: 75bf8e68c3d1379b933778b5b8fc75515aa79b04
+PODFILE CHECKSUM: 1fa4de99772ce53935b0b49e47e0018f4916cc85
 
 COCOAPODS: 1.9.3
