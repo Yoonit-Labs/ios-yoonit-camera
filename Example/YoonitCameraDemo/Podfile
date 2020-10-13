@@ -6,7 +6,7 @@ target 'YoonitCameraDemo' do
   use_frameworks!
 
   # Pods for YoonitCameraDemo
-  pod 'YoonitCamera', :git => "https://github.com/Yoonit-Labs/ios-yoonit-camera.git", :tag => '1.0.0'
+  pod 'YoonitCamera'
   
   pod 'DropDown'
 end
