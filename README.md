@@ -9,7 +9,7 @@ Face image capture and QR Code scanning library.
 Add the following line to your `Podfile` file:
 
 ```  
-pod 'YoonitCamera', :git => "git@github.com:Yoonit-Labs/ios-yoonit-camera.git", :tag => '1.0.0'
+pod 'YoonitCamera'
 ```
 
 And run in the root of your project:

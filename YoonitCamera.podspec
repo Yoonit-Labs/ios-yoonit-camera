@@ -10,7 +10,7 @@ Pod::Spec.new do |spec|
 
   spec.name         = "YoonitCamera"
   spec.version      = "1.0.0"
-  spec.summary      = "YoonitCamera module for Key App."
+  spec.summary      = "YoonitCamera module for detects human faces or scan Qrcode."
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
@@ -43,7 +43,7 @@ Pod::Spec.new do |spec|
   #  profile URL.
   #
 
-  spec.author             = { "Márcio Habigzang Brufatto" => "mhbrufatto@gmail.com" }
+  spec.author             = { "CyberLabs.AI" => "luigui.delyer@cyberlabs.com.br" }
 
   # ――― Platform Specifics ――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
