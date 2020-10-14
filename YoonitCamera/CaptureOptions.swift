@@ -14,4 +14,5 @@ public class CaptureOptions {
     var facePaddingPercent: Float = 0.27
     var faceImageSize: Int = 200
     var faceDetectionBox: Bool = true
+    var cameraLensFacing: AVCaptureDevice.Position = AVCaptureDevice.Position.front
 }

@@ -17,7 +17,6 @@ class CameraController: NSObject, CameraControllerProtocol {
     private var session = AVCaptureSession()
     private lazy var previewLayer = AVCaptureVideoPreviewLayer(session: session)
     private let videoDataOutput = AVCaptureVideoDataOutput()
-    private var cameraLensFacing: AVCaptureDevice.Position = AVCaptureDevice.Position.front
     
     private var captureType: CaptureType = .NONE
     private var faceAnalyzer: FaceAnalyzer?
@@ -62,7 +61,7 @@ class CameraController: NSObject, CameraControllerProtocol {
             return
         }
         
-        self.buildCameraInput(cameraLens: self.cameraLensFacing)
+        self.buildCameraInput(cameraLens: self.captureOptions!.cameraLensFacing)
         
         // Show camera feed.
         self.previewLayer.videoGravity = .resizeAspectFill
@@ -93,7 +92,6 @@ class CameraController: NSObject, CameraControllerProtocol {
         
         if (captureType == .FACE) {
             self.captureType = .FACE
-            self.faceAnalyzer?.cameraLensFacing = self.cameraLensFacing
             self.faceAnalyzer?.start()
             return
         }
@@ -121,20 +119,19 @@ class CameraController: NSObject, CameraControllerProtocol {
             return
         }
         
-        if (self.cameraLensFacing == .front) {
-            self.cameraLensFacing = .back
+        if (self.captureOptions!.cameraLensFacing == .front) {
+            self.captureOptions!.cameraLensFacing = .back
         } else {
-            self.cameraLensFacing = .front
+            self.captureOptions!.cameraLensFacing = .front
         }
         
         // Remove camera input.
         self.session.inputs.forEach({ self.session.removeInput($0) })
         
         // Add camera input.
-        self.buildCameraInput(cameraLens: self.cameraLensFacing)
+        self.buildCameraInput(cameraLens: self.captureOptions!.cameraLensFacing)
         
         if (self.captureType == .FACE) {
-            self.faceAnalyzer?.cameraLensFacing = self.cameraLensFacing
             self.faceAnalyzer?.reset()
         }
     }
@@ -143,7 +140,7 @@ class CameraController: NSObject, CameraControllerProtocol {
      Return selected camera.
      */
     public func getCameraLens() -> Int {
-        return self.cameraLensFacing.rawValue
+        return self.captureOptions!.cameraLensFacing.rawValue
     }
     
     /*

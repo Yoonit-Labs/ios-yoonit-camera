@@ -16,7 +16,6 @@ class FaceAnalyzer: NSObject {
     public var cameraEventListener: CameraEventListenerDelegate?
     public var cameraCallBack: CameraCallBackDelegate!
     public var numCapturedImages = 0
-    public var cameraLensFacing: AVCaptureDevice.Position?
     
     private var session: AVCaptureSession!
     private var captureOptions: CaptureOptions?
@@ -148,7 +147,7 @@ class FaceAnalyzer: NSObject {
                 pixels: pixelBuffer,
                 toRect: extendedFace,
                 atScale: scale,
-                cameraLensFacing: self.cameraLensFacing!,
+                cameraLensFacing: self.captureOptions!.cameraLensFacing,
                 faceAnalyzer: self)
         }
     }
