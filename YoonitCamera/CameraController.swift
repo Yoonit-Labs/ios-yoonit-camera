@@ -69,7 +69,8 @@ class CameraController: NSObject, CameraControllerProtocol {
         if (self.cameraView != nil) {
             self.cameraView.layer.addSublayer(self.previewLayer)
         }
-        self.session.sessionPreset = .hd1280x720
+//        self.session.sessionPreset = .hd1280x720
+        self.session.sessionPreset = .hd1920x1080
         self.session.startRunning()
     }
     
@@ -152,7 +153,7 @@ class CameraController: NSObject, CameraControllerProtocol {
         guard let device = AVCaptureDevice.DiscoverySession(
             deviceTypes: [.builtInWideAngleCamera],
             mediaType: .video,
-            position: cameraLens).devices.first
+                position: cameraLens).devices.first
         else {
             self.cameraEventListener?.onError(error: "You have a problem with your camera, please verify the settings of the your camera")
             fatalError("No back camera device found, please make sure to run in an iOS device and not a simulator")
