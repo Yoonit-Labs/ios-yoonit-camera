@@ -9,6 +9,7 @@ import Foundation
 import Accelerate
 import UIKit
 import VideoToolbox
+import AVFoundation
 
 class FaceQualityProcessor {
     
@@ -40,6 +41,7 @@ class FaceQualityProcessor {
         pixels: CVPixelBuffer,
         toRect faceRect: CGRect,
         atScale scale: CGFloat,
+        cameraLensFacing: AVCaptureDevice.Position,
         faceAnalyzer: FaceAnalyzer) {
                                 
         // Grayscale version.
@@ -48,12 +50,16 @@ class FaceQualityProcessor {
         // Classify ilumination.
         let hasGoodIlumination = self.evaluateIluminationFor(lumaImageBuffer: &lumaBuffer)
         
+        
         if (hasGoodIlumination) {
             // Classify image quality.
             let imageQuality = self.computeFaceQuality(lumaImageBuffer: &lumaBuffer)
-                                
+            
+            //set the orientation of the image
+            let orientation = cameraLensFacing.rawValue == 1 ? UIImage.Orientation.up : UIImage.Orientation.upMirrored
+            
             // Convert CVPixelBuffer to UIImage.
-            let image = imageFromPixelBuffer(imageBuffer: pixels, scale: UIScreen.main.scale)
+            let image = imageFromPixelBuffer(imageBuffer: pixels, scale: UIScreen.main.scale, orientation: orientation)
             
             // Crop the face and scale.
             guard let imageCropped = self.crop(imageCamera: image, boundingBoxFace: faceRect) else {

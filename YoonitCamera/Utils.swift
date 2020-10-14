@@ -13,7 +13,7 @@ import Accelerate
 
 // MARK: Helper Methods for image conversion and manipulation
 
-func imageFromPixelBuffer(imageBuffer : CVPixelBuffer, scale: CGFloat) -> UIImage {
+func imageFromPixelBuffer(imageBuffer : CVPixelBuffer, scale: CGFloat, orientation: UIImage.Orientation) -> UIImage {
     // Get a CMSampleBuffer's Core Video image buffer for the media data
     // Lock the base address of the pixel buffer
     CVPixelBufferLockBaseAddress(imageBuffer, CVPixelBufferLockFlags.readOnly)
@@ -43,11 +43,11 @@ func imageFromPixelBuffer(imageBuffer : CVPixelBuffer, scale: CGFloat) -> UIImag
 
     // Unlock the pixel buffer
     CVPixelBufferUnlockBaseAddress(imageBuffer, CVPixelBufferLockFlags.readOnly)
-
+    
     // Create an image object from the Quartz image
     let image = UIImage.init(cgImage: quartzImage!,
                              scale: scale,
-                             orientation: UIImage.Orientation.upMirrored)
+                             orientation: orientation)
     
     return image
 }

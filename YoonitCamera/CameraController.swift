@@ -92,6 +92,7 @@ class CameraController: NSObject, CameraControllerProtocol {
         
         if (captureType == .FACE) {
             self.captureType = .FACE
+            self.faceAnalyzer?.cameraLensFacing = self.cameraLensFacing
             self.faceAnalyzer?.start()
             return
         }
@@ -132,6 +133,7 @@ class CameraController: NSObject, CameraControllerProtocol {
         self.buildCameraInput(cameraLens: self.cameraLensFacing)
         
         if (self.captureType == .FACE) {
+            self.faceAnalyzer?.cameraLensFacing = self.cameraLensFacing
             self.faceAnalyzer?.reset()
         }
     }
