@@ -68,7 +68,6 @@ class CameraController: NSObject, CameraControllerProtocol {
         if (self.cameraView != nil) {
             self.cameraView.layer.addSublayer(self.previewLayer)
         }
-//        self.session.sessionPreset = .hd1280x720
         self.session.sessionPreset = .hd1920x1080
         self.session.startRunning()
     }

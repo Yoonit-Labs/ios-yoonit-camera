@@ -111,5 +111,3 @@ func convertToGrayScale(_ pixelBuffer: CVPixelBuffer)-> vImage_Buffer {
 
     return destinationBuffer
 }
-
-
