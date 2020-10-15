@@ -11,6 +11,8 @@ public protocol CameraControllerProtocol {
     func layoutSubviews()
     func startPreview()
     func stopAnalyzer()
+    func pauseAnalyzer()
+    func playAnalyzer()
     func toggleCameraLens()
     func getCameraLens() -> Int
     func startCaptureType(captureType: CaptureType)

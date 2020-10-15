@@ -17,6 +17,7 @@ class CameraController: NSObject, CameraControllerProtocol {
     private var session = AVCaptureSession()
     private lazy var previewLayer = AVCaptureVideoPreviewLayer(session: session)
     private let videoDataOutput = AVCaptureVideoDataOutput()
+    private var cameraLensFacing: AVCaptureDevice.Position = AVCaptureDevice.Position.front
     
     private var captureType: CaptureType = .NONE
     private var faceAnalyzer: FaceAnalyzer?
@@ -61,15 +62,14 @@ class CameraController: NSObject, CameraControllerProtocol {
             return
         }
         
-        self.buildCameraInput(cameraLens: self.captureOptions!.cameraLensFacing)
+        self.buildCameraInput(cameraLens: self.cameraLensFacing)
         
         // Show camera feed.
         self.previewLayer.videoGravity = .resizeAspectFill
         if (self.cameraView != nil) {
             self.cameraView.layer.addSublayer(self.previewLayer)
         }
-//        self.session.sessionPreset = .hd1280x720
-        self.session.sessionPreset = .hd1920x1080
+        self.session.sessionPreset = .hd1280x720
         self.session.startRunning()
     }
     
@@ -97,6 +97,19 @@ class CameraController: NSObject, CameraControllerProtocol {
         }
     }
     
+    public func pauseAnalyzer() {
+        self.faceAnalyzer?.stop()
+        self.barcodeAnalyzer?.stop()
+    }
+    
+    public func playAnalyzer() {
+        if(self.captureType == .FACE) {
+            self.faceAnalyzer?.start()
+        } else {
+            self.barcodeAnalyzer?.start()
+        }
+    }
+    
     public func stopAnalyzer() {
         self.faceAnalyzer?.stop()
         self.faceAnalyzer?.numCapturedImages = 0
@@ -119,17 +132,17 @@ class CameraController: NSObject, CameraControllerProtocol {
             return
         }
         
-        if (self.captureOptions!.cameraLensFacing == .front) {
-            self.captureOptions!.cameraLensFacing = .back
+        if (self.cameraLensFacing == .front) {
+            self.cameraLensFacing = .back
         } else {
-            self.captureOptions!.cameraLensFacing = .front
+            self.cameraLensFacing = .front
         }
         
         // Remove camera input.
         self.session.inputs.forEach({ self.session.removeInput($0) })
         
         // Add camera input.
-        self.buildCameraInput(cameraLens: self.captureOptions!.cameraLensFacing)
+        self.buildCameraInput(cameraLens: self.cameraLensFacing)
         
         if (self.captureType == .FACE) {
             self.faceAnalyzer?.reset()
@@ -140,7 +153,7 @@ class CameraController: NSObject, CameraControllerProtocol {
      Return selected camera.
      */
     public func getCameraLens() -> Int {
-        return self.captureOptions!.cameraLensFacing.rawValue
+        return self.cameraLensFacing.rawValue
     }
     
     /*
@@ -150,7 +163,7 @@ class CameraController: NSObject, CameraControllerProtocol {
         guard let device = AVCaptureDevice.DiscoverySession(
             deviceTypes: [.builtInWideAngleCamera],
             mediaType: .video,
-                position: cameraLens).devices.first
+            position: cameraLens).devices.first
         else {
             self.cameraEventListener?.onError(error: "You have a problem with your camera, please verify the settings of the your camera")
             fatalError("No back camera device found, please make sure to run in an iOS device and not a simulator")

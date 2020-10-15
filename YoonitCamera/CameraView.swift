@@ -71,6 +71,16 @@ public class CameraView: UIView {
     public func stopCapture() {
         self.cameraController?.stopAnalyzer()
     }
+    
+    @objc
+    public func pauseCapture() {
+        self.cameraController?.pauseAnalyzer()
+    }
+    
+    @objc
+    public func playCapture() {
+        self.cameraController?.playAnalyzer()
+    }
         
     @objc
     public func toggleCameraLens() {
