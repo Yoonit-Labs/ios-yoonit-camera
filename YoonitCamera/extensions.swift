@@ -17,11 +17,12 @@ extension Date {
 }
 
 extension CGRect {
-    func adjustedBySafeArea(height: CGFloat)->CGRect {
-        return height < 0.1 ? self : CGRect(x: self.minX,
-                                            y: self.minY - height,
-                                            width: self.width,
-                                            height: self.height)
+    func adjustedBySafeArea(height: CGFloat) -> CGRect {
+        return height < 0.1 ? self : CGRect(
+            x: self.minX,
+            y: self.minY - height,
+            width: self.width,
+            height: self.height)
     }
     
     func increase(by percentage: CGFloat) -> CGRect {

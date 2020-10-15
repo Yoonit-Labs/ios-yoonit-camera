@@ -64,7 +64,7 @@ class CameraViewController: UIViewController {
             self.cameraView.startCaptureType(captureType: captureType)
         }
     }
-    
+            
     @IBAction func toggleCam(_ sender: UIButton) {
         if sender.currentTitle == "Front cam" {
             self.cameraView.toggleCameraLens()
@@ -94,20 +94,21 @@ class CameraViewController: UIViewController {
 }
 
 extension CameraViewController: CameraEventListenerDelegate {
-    func onFaceDetected(faceDetected: Bool) {
-        print("onFaceDetected: " + faceDetected.description)
-        
-        if (!faceDetected) {
-            DispatchQueue.main.async {
-                self.savedFrame.image = nil
-            }
+    func onFaceDetected(x: Int, y: Int, width: Int, height: Int) {
+        print("onFaceDetected: x: \(x), y: \(y), width: \(width), height: \(height)")
+    }
+    
+    func onFaceUndetected() {
+        print("onFaceUndetected")
+        DispatchQueue.main.async {
+            self.savedFrame.image = nil
         }
     }
         
     func onFaceImageCreated(count: Int, total: Int, imagePath: String) {
         let subpath = imagePath.substring(from: imagePath.index(imagePath.startIndex, offsetBy: 7))
-        let image = UIImage(contentsOfFile: subpath)
-                                
+        let image = UIImage(contentsOfFile: subpath)                                        
+        
         self.savedFrame.image = self.showFaceImagePreview ? image : nil
     }
 

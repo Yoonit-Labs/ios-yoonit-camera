@@ -21,9 +21,9 @@ class FaceAnalyzer: NSObject {
     private var captureOptions: CaptureOptions?
     private var cameraView: CameraView!
     private var previewLayer: AVCaptureVideoPreviewLayer!
-    private var processor = FaceQualityProcessor()
-    private var drawingManager = DrawingManager()
     
+    private var faceQualityProcessor = FaceQualityProcessor()
+    private var drawingManager = DrawingManager()
     private var lastTimestamp = Date().currentTimeMillis()
     private var shouldDraw = true
     private var faceDetected = false
@@ -90,19 +90,17 @@ class FaceAnalyzer: NSObject {
         self.start()
     }
             
-    func faceDetect(image: CVPixelBuffer ) {
+    func faceDetect(image: CVPixelBuffer) {
         let faceDetectionRequest = VNDetectFaceRectanglesRequest(completionHandler: {
             (request: VNRequest, error: Error?) in
             
             DispatchQueue.main.async {
                 if let results = request.results as? [VNFaceObservation], results.count > 0 {
-                    self.faceDetected = true
-                    self.cameraEventListener?.onFaceDetected(faceDetected: self.faceDetected)
-                    self.handleFaceDetectionResults(results, from: image)
+                    self.handleFaceDetectionResults(observedFaces: results, from: image)
                 } else {
                     if self.faceDetected {
                         self.faceDetected = false
-                        self.cameraEventListener?.onFaceDetected(faceDetected: self.faceDetected)
+                        self.cameraEventListener?.onFaceUndetected()
                         self.clearDrawings()
                         self.drawings = []
                     }
@@ -118,34 +116,60 @@ class FaceAnalyzer: NSObject {
     }
     
     private func handleFaceDetectionResults(
-        _ observedFaces: [VNFaceObservation],
+        observedFaces: [VNFaceObservation],
         from pixelBuffer: CVPixelBuffer) {
                                         
         // The largest bounding box.
         let closestFace = observedFaces.sorted {
             return $0.boundingBox.width > $1.boundingBox.width
-            }[0]
+        }[0]
+        
+        let scale = self.pixelsToDotsRatio(pixelBuffer)
         
         // From normalized coordinates to screen (dots) coordinates.
-        let faceBoundingBoxOnScreen = self.previewLayer!.layerRectConverted(
-            fromMetadataOutputRect: closestFace.boundingBox)
-        let extendedFace = faceBoundingBoxOnScreen.increase(
-            by: CGFloat(self.captureOptions!.facePaddingPercent))
-        let scale = self.pixelsToDotsRatio(pixelBuffer)
+        let faceBoundingBox = self.previewLayer!.layerRectConverted(fromMetadataOutputRect: closestFace.boundingBox)
+        let faceBoundingBoxExtended = faceBoundingBox.increase(by: CGFloat(self.captureOptions!.facePaddingPercent))
+        let faceBoundingBoxScaled = faceBoundingBoxExtended.adjustedBySafeArea(height: topSafeHeight/scale)
+        
+        let left = Int(faceBoundingBoxScaled.minX)
+        let top = Int(faceBoundingBoxScaled.minY)
+        let right = Int(faceBoundingBoxScaled.maxX)
+        let bottom = Int(faceBoundingBoxScaled.maxY)
+        
+        if
+            left < 0 ||
+            top < 0 ||
+            bottom > Int(UIScreen.main.bounds.height) ||
+            right > Int(UIScreen.main.bounds.width) {
+            if self.faceDetected {
+                self.faceDetected = false
+                self.cameraEventListener?.onFaceUndetected()
+                self.clearDrawings()
+                self.drawings = []
+            }
+            return
+        }
+        self.faceDetected = true
         
         // Draw face bounding box.
         if captureOptions!.faceDetectionBox {
-            self.drawings = self.drawingManager.makeShapeFor(
-                extendedFace.adjustedBySafeArea(height: topSafeHeight/scale))
+            self.drawings = self.drawingManager.makeShapeFor(boundingBox: faceBoundingBoxScaled)
         }
+                    
+        self.cameraEventListener?.onFaceDetected(
+            x: left,
+            y: top,
+            width: right,
+            height: bottom)
         
         let currentTimestamp = Date().currentTimeMillis()
         let diffTime = currentTimestamp - self.lastTimestamp
+        
         if diffTime > self.captureOptions!.faceTimeBetweenImages {
             self.lastTimestamp = currentTimestamp
-            self.processor.process(
+            self.faceQualityProcessor.process(
                 pixels: pixelBuffer,
-                toRect: extendedFace,
+                toRect: faceBoundingBoxExtended,
                 atScale: scale,
                 captureOptions: self.captureOptions!,
                 faceAnalyzer: self)
