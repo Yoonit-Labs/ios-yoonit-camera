@@ -12,7 +12,7 @@
         <!--Photo List View Controller-->
         <scene sceneID="5ms-4Q-5gj">
             <objects>
-                <tableViewController id="QlM-PP-une" customClass="PhotoListViewController" customModule="FaceTrackerShowCase" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="QlM-PP-une" customClass="PhotoListViewController" customModule="YoonitCameraDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="StK-AU-s9c">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -41,7 +41,7 @@
         <!--Details View Controller-->
         <scene sceneID="Olq-8l-oMf">
             <objects>
-                <viewController storyboardIdentifier="Detail" id="7Ig-ub-r0D" customClass="DetailsViewController" customModule="FaceTrackerShowCase" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Detail" id="7Ig-ub-r0D" customClass="DetailsViewController" customModule="YoonitCameraDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Zca-CM-QCb">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -49,6 +49,47 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qd2-8e-IhB">
                                 <rect key="frame" x="0.0" y="39" width="414" height="818"/>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AsI-gc-hSx">
+                                <rect key="frame" x="0.0" y="734" width="414" height="128"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Height: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="egh-mi-5do">
+                                        <rect key="frame" x="8" y="8" width="77" height="28"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ValueHeigth" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5UU-ug-jMi">
+                                        <rect key="frame" x="93" y="8" width="121" height="28"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Width:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aNf-eB-Xmd">
+                                        <rect key="frame" x="8" y="54" width="65" height="28"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ValueWidth" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sTS-VF-fbL">
+                                        <rect key="frame" x="93" y="54" width="114" height="28"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.30925396126760563" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="4Mz-Ia-V5D"/>
+                                    <constraint firstItem="sTS-VF-fbL" firstAttribute="leading" secondItem="aNf-eB-Xmd" secondAttribute="trailing" constant="20" id="5Um-iE-h47"/>
+                                    <constraint firstItem="egh-mi-5do" firstAttribute="leading" secondItem="AsI-gc-hSx" secondAttribute="leading" constant="8" id="K6t-sK-MfH"/>
+                                    <constraint firstItem="5UU-ug-jMi" firstAttribute="leading" secondItem="egh-mi-5do" secondAttribute="trailing" constant="8" symbolic="YES" id="KKa-5i-bVj"/>
+                                    <constraint firstItem="5UU-ug-jMi" firstAttribute="top" secondItem="AsI-gc-hSx" secondAttribute="top" constant="8" id="OjZ-vD-bXU"/>
+                                    <constraint firstItem="aNf-eB-Xmd" firstAttribute="leading" secondItem="AsI-gc-hSx" secondAttribute="leading" constant="8" id="QJg-Xk-AqC"/>
+                                    <constraint firstItem="sTS-VF-fbL" firstAttribute="top" secondItem="5UU-ug-jMi" secondAttribute="bottom" constant="18" id="Qn7-y1-HxF"/>
+                                    <constraint firstItem="egh-mi-5do" firstAttribute="top" secondItem="AsI-gc-hSx" secondAttribute="top" constant="8" id="bB3-8U-oE1"/>
+                                    <constraint firstItem="aNf-eB-Xmd" firstAttribute="top" secondItem="egh-mi-5do" secondAttribute="bottom" constant="18" id="rC1-d3-aPY"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="sHz-uU-9Q3"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -56,21 +97,26 @@
                             <constraint firstItem="qd2-8e-IhB" firstAttribute="centerX" secondItem="Zca-CM-QCb" secondAttribute="centerX" id="AOh-aQ-GMm"/>
                             <constraint firstItem="qd2-8e-IhB" firstAttribute="leading" secondItem="sHz-uU-9Q3" secondAttribute="leading" id="Hm3-NF-B8n"/>
                             <constraint firstItem="sHz-uU-9Q3" firstAttribute="bottom" secondItem="qd2-8e-IhB" secondAttribute="bottom" constant="5" id="R4l-Y3-2KE"/>
+                            <constraint firstItem="AsI-gc-hSx" firstAttribute="trailing" secondItem="sHz-uU-9Q3" secondAttribute="trailing" id="dEP-wX-NzK"/>
                             <constraint firstItem="qd2-8e-IhB" firstAttribute="centerY" secondItem="Zca-CM-QCb" secondAttribute="centerY" id="iXv-fU-WsP"/>
+                            <constraint firstItem="AsI-gc-hSx" firstAttribute="leading" secondItem="sHz-uU-9Q3" secondAttribute="leading" id="kHj-Po-BwR"/>
+                            <constraint firstItem="sHz-uU-9Q3" firstAttribute="bottom" secondItem="AsI-gc-hSx" secondAttribute="bottom" id="spH-Iy-afT"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="imageView" destination="qd2-8e-IhB" id="SFI-U7-b4D"/>
+                        <outlet property="valueHeight" destination="5UU-ug-jMi" id="bb7-jA-T25"/>
+                        <outlet property="valueWidth" destination="sTS-VF-fbL" id="Gk5-sd-Biy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y65-WX-YfR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3045" y="1282"/>
+            <point key="canvasLocation" x="3044.9275362318845" y="1281.6964285714284"/>
         </scene>
         <!--Details View Controller-->
         <scene sceneID="ddg-CQ-4dK">
             <objects>
-                <viewController storyboardIdentifier="DetailTest" id="5yp-1d-0Xg" customClass="DetailsViewController" customModule="FaceTrackerShowCase" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailTest" id="5yp-1d-0Xg" customClass="DetailsViewController" customModule="YoonitCameraDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="a0N-Hy-cMB">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -149,7 +195,7 @@
         <!--Camera-->
         <scene sceneID="npD-1J-q4R">
             <objects>
-                <viewController id="l7p-dQ-FCU" customClass="CameraViewController" customModule="FaceTrackerShowCase" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="l7p-dQ-FCU" customClass="CameraViewController" customModule="YoonitCameraDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hFs-or-lPB">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

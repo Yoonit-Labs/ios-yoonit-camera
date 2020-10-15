@@ -13,6 +13,8 @@ import Foundation
 class DetailsViewController: UIViewController {
 
     @IBOutlet var imageView: UIImageView!
+    @IBOutlet var valueWidth: UILabel!
+    @IBOutlet var valueHeight: UILabel!
     
     var selectedImage: String?
     var selectedImagePath: String?
@@ -23,6 +25,8 @@ class DetailsViewController: UIViewController {
         if let name = selectedImage{
             if let imageToLoad = loadImageFromDiskWith(fileName: name) {
                 imageView.image = imageToLoad
+                valueWidth.text = "\(imageToLoad.size.width)"
+                valueHeight.text = "\(imageToLoad.size.height)"
             }
         }
     }

@@ -59,6 +59,7 @@ class CameraViewController: UIViewController {
                 self.clearFaceImagePreview()
             }
             
+            self.cameraView.setFaceImageSize(faceImageSizeHeight: 400, faceImageSizeWidth: 400)
             self.cameraView.setFaceNumberOfImages(faceNumberOfImages: 30)
             self.cameraView.startCaptureType(captureType: captureType)
         }
