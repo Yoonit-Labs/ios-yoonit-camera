@@ -29,7 +29,7 @@ public class CameraView: UIView {
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
-        self.cameraController = CameraController(cameraView: self, captureOptions: captureOptions)
+        self.cameraController = CameraController(cameraView: self, captureOptions: captureOptions)        
     }
             
     override public func layoutSubviews() {

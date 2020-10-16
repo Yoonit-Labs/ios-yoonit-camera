@@ -10,9 +10,18 @@ import Foundation
 @objc
 public protocol CameraEventListenerDelegate {
 
-    func onFaceImageCreated(count: Int, total: Int, imagePath: String)
+    func onFaceImageCreated(
+        count: Int,
+        total: Int,
+        imagePath: String)
 
-    func onFaceDetected(faceDetected: Bool)
+    func onFaceDetected(
+        x: Int,
+        y: Int,
+        width: Int,
+        height: Int)
+    
+    func onFaceUndetected()
 
     func onEndCapture()
 
