@@ -147,7 +147,7 @@ class FaceAnalyzer: NSObject {
                 pixels: pixelBuffer,
                 toRect: extendedFace,
                 atScale: scale,
-                cameraLensFacing: self.captureOptions!,
+                captureOptions: self.captureOptions!,
                 faceAnalyzer: self)
         }
     }
