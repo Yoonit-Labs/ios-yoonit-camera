@@ -17,9 +17,10 @@ class CameraController: NSObject, CameraControllerProtocol {
     private var session = AVCaptureSession()
     private lazy var previewLayer = AVCaptureVideoPreviewLayer(session: session)
     private let videoDataOutput = AVCaptureVideoDataOutput()
-    private var cameraLensFacing: AVCaptureDevice.Position = AVCaptureDevice.Position.front
+    
     
     private var captureType: CaptureType = .NONE
+    private var faceAnalyzerStatus: FaceAnalyzerStatus = .IDLE
     private var faceAnalyzer: FaceAnalyzer?
     private var barcodeAnalyzer: BarcodeAnalyzer?
     
@@ -62,13 +63,14 @@ class CameraController: NSObject, CameraControllerProtocol {
             return
         }
         
-        self.buildCameraInput(cameraLens: self.cameraLensFacing)
+        self.buildCameraInput(cameraLens: self.captureOptions!.cameraLensFacing)
         
         // Show camera feed.
         self.previewLayer.videoGravity = .resizeAspectFill
         if (self.cameraView != nil) {
             self.cameraView.layer.addSublayer(self.previewLayer)
         }
+        self.faceAnalyzerStatus = .IDLE
         self.session.sessionPreset = .hd1280x720
         self.session.startRunning()
     }
@@ -83,6 +85,7 @@ class CameraController: NSObject, CameraControllerProtocol {
         }
         
         self.stopAnalyzer()
+        self.faceAnalyzerStatus = .RUNNING
         
         if (captureType == .BARCODE) {
             self.captureType = .BARCODE
@@ -98,15 +101,29 @@ class CameraController: NSObject, CameraControllerProtocol {
     }
     
     public func pauseAnalyzer() {
-        self.faceAnalyzer?.stop()
-        self.barcodeAnalyzer?.stop()
+        if(self.faceAnalyzerStatus == .RUNNING) {
+            self.faceAnalyzerStatus = .PAUSED
+            self.faceAnalyzer?.stop()
+            self.barcodeAnalyzer?.stop()
+        } else if(self.faceAnalyzerStatus == .IDLE) {
+            self.cameraEventListener?.onError(error: "Capture has not yet started")
+        } else {
+            self.cameraEventListener?.onError(error: "Capture alredy is paused")
+        }
     }
     
-    public func playAnalyzer() {
-        if(self.captureType == .FACE) {
-            self.faceAnalyzer?.start()
+    public func resumeAnalyzer() {
+        if(self.faceAnalyzerStatus == .PAUSED) {
+            self.faceAnalyzerStatus = .RUNNING
+            if(self.captureType == .FACE) {
+                self.faceAnalyzer?.start()
+            } else {
+                self.barcodeAnalyzer?.start()
+            }
+        } else if(self.faceAnalyzerStatus == .IDLE){
+            self.cameraEventListener?.onError(error: "Capture has not yet started")
         } else {
-            self.barcodeAnalyzer?.start()
+            self.cameraEventListener?.onError(error: "Capture alredy is running")
         }
     }
     
@@ -132,17 +149,17 @@ class CameraController: NSObject, CameraControllerProtocol {
             return
         }
         
-        if (self.cameraLensFacing == .front) {
-            self.cameraLensFacing = .back
+        if (self.captureOptions!.cameraLensFacing == .front) {
+            self.captureOptions!.cameraLensFacing = .back
         } else {
-            self.cameraLensFacing = .front
+            self.captureOptions!.cameraLensFacing = .front
         }
         
         // Remove camera input.
         self.session.inputs.forEach({ self.session.removeInput($0) })
         
         // Add camera input.
-        self.buildCameraInput(cameraLens: self.cameraLensFacing)
+        self.buildCameraInput(cameraLens: self.captureOptions!.cameraLensFacing)
         
         if (self.captureType == .FACE) {
             self.faceAnalyzer?.reset()
@@ -153,7 +170,7 @@ class CameraController: NSObject, CameraControllerProtocol {
      Return selected camera.
      */
     public func getCameraLens() -> Int {
-        return self.cameraLensFacing.rawValue
+        return self.captureOptions!.cameraLensFacing.rawValue
     }
     
     /*

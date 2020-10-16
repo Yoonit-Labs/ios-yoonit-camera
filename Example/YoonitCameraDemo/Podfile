@@ -6,7 +6,7 @@ target 'YoonitCameraDemo' do
   use_frameworks!
 
   # Pods for YoonitCameraDemo
-  pod 'YoonitCamera'
+  pod 'YoonitCamera', path => '../../'
   
   pod 'DropDown'
 end

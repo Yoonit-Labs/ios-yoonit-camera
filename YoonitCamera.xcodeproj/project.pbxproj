@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6147FB2B2538E7650016594C /* FaceAnalyzerStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6147FB2A2538E7650016594C /* FaceAnalyzerStatus.swift */; };
 		6176EEFB252CF9D200F4D4DD /* YoonitCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = 6176EEF9252CF9D200F4D4DD /* YoonitCamera.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6176EF10252CF9F600F4D4DD /* FaceAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF02252CF9F600F4D4DD /* FaceAnalyzer.swift */; };
 		6176EF11252CF9F600F4D4DD /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF03252CF9F600F4D4DD /* extensions.swift */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6147FB2A2538E7650016594C /* FaceAnalyzerStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceAnalyzerStatus.swift; sourceTree = "<group>"; };
 		6176EEF6252CF9D200F4D4DD /* YoonitCamera.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YoonitCamera.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6176EEF9252CF9D200F4D4DD /* YoonitCamera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YoonitCamera.h; sourceTree = "<group>"; };
 		6176EEFA252CF9D200F4D4DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				6176EF06252CF9F600F4D4DD /* Utils.swift */,
 				6176EEF9252CF9D200F4D4DD /* YoonitCamera.h */,
 				6176EEFA252CF9D200F4D4DD /* Info.plist */,
+				6147FB2A2538E7650016594C /* FaceAnalyzerStatus.swift */,
 			);
 			path = YoonitCamera;
 			sourceTree = "<group>";
@@ -200,6 +203,7 @@
 				6176EF1B252CF9F600F4D4DD /* CaptureOptions.swift in Sources */,
 				6176EF16252CF9F600F4D4DD /* DrawingManager.swift in Sources */,
 				6176EF18252CF9F600F4D4DD /* CameraEventLitenerDelegate.swift in Sources */,
+				6147FB2B2538E7650016594C /* FaceAnalyzerStatus.swift in Sources */,
 				6176EF15252CF9F600F4D4DD /* FaceQualityProcessor.swift in Sources */,
 				6176EF1C252CF9F600F4D4DD /* CameraController.swift in Sources */,
 				6176EF17252CF9F600F4D4DD /* CameraView.swift in Sources */,

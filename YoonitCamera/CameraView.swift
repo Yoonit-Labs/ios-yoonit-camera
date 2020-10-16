@@ -78,8 +78,8 @@ public class CameraView: UIView {
     }
     
     @objc
-    public func playCapture() {
-        self.cameraController?.playAnalyzer()
+    public func resumeCapture() {
+        self.cameraController?.resumeAnalyzer()
     }
         
     @objc
@@ -113,7 +113,8 @@ public class CameraView: UIView {
     }
     
     @objc
-    public func setFaceImageSize(faceImageSize: Int) {
-        self.captureOptions.faceImageSize = faceImageSize
+    public func setFaceImageSize(faceImageSizeHeight: Int, faceImageSizeWidth: Int) {
+        self.captureOptions.faceImageSizeHeight = faceImageSizeHeight
+        self.captureOptions.faceImageSizeWidth = faceImageSizeWidth
     }
 }

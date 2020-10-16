@@ -80,7 +80,7 @@ class CameraViewController: UIViewController {
     }
     
     @objc func foregroundCall(){
-        self.cameraView.playCapture()
+        self.cameraView.resumeCapture()
     }
     
     @objc func willResignActive(_ notification: Notification) {

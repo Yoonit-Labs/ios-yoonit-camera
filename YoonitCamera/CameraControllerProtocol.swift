@@ -12,7 +12,7 @@ public protocol CameraControllerProtocol {
     func startPreview()
     func stopAnalyzer()
     func pauseAnalyzer()
-    func playAnalyzer()
+    func resumeAnalyzer()
     func toggleCameraLens()
     func getCameraLens() -> Int
     func startCaptureType(captureType: CaptureType)
