@@ -50,7 +50,6 @@ class FaceQualityProcessor {
         // Classify ilumination.
         let hasGoodIlumination = self.evaluateIluminationFor(lumaImageBuffer: &lumaBuffer)
         
-        
         if (hasGoodIlumination) {
             // Classify image quality.
             let imageQuality = self.computeFaceQuality(lumaImageBuffer: &lumaBuffer)
@@ -60,7 +59,7 @@ class FaceQualityProcessor {
             
             // Convert CVPixelBuffer to UIImage.
             let image = imageFromPixelBuffer(imageBuffer: pixels, scale: UIScreen.main.scale, orientation: orientation)
-            
+
             // Crop the face and scale.
             guard let imageCropped = self.crop(imageCamera: image, boundingBoxFace: faceRect) else {
                 return
@@ -187,10 +186,9 @@ class FaceQualityProcessor {
         }
 
         let count = destinationBuffer.width * destinationBuffer.height
-        let arr = UnsafeMutableBufferPointer(start: destinationBuffer.data.assumingMemoryBound(to: UInt8.self),
-                                             count: Int(count))
-
+        let arr = UnsafeMutableBufferPointer(start: destinationBuffer.data.assumingMemoryBound(to: UInt8.self), count: Int(count))
         var doubleArr = [Double](repeating: 0.0, count: Int(count))
+        
         vDSP_vfltu8D(UnsafePointer<UInt8>(arr.baseAddress!), 1, &doubleArr, 1, count)
         
         var avg = 0.0
