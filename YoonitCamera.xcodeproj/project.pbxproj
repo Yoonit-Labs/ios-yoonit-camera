@@ -202,9 +202,6 @@
 				6176EF11252CF9F600F4D4DD /* extensions.swift in Sources */,
 				6176EF1B252CF9F600F4D4DD /* CaptureOptions.swift in Sources */,
 				6176EF16252CF9F600F4D4DD /* DrawingManager.swift in Sources */,
-        
-        
-     \\
 				6176EF18252CF9F600F4D4DD /* CameraEventLitenerDelegate.swift in Sources */,
 				6147FB2B2538E7650016594C /* FaceAnalyzerStatus.swift in Sources */,
 				6176EF15252CF9F600F4D4DD /* FaceQualityProcessor.swift in Sources */,
