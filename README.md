@@ -95,6 +95,8 @@ class YourViewController: UIViewController, CameraEventListenerDelegate {
 | **`startPreview`** | - | void | - | Start camera preview if has permission.
 | **`startCaptureType`** | `captureType: String` | void | `none` default capture type. `face` for face recognition. `barcode` to read barcode content. | Set capture type none, face or barcode.
 | **`stopCapture`** | - | void | - | Stop any type of capture.
+| **`pauseCapture`** | - | void | - | Pause any type of capture. 
+| **`playCapture`** | - | void | - | Play the type of capture that was selected.
 | **`toggleCameraLens`** | - | void | - | Set camera lens facing front or back.
 | **`getCameraLens`** | - | Int | - | Return `Int` that represents lens face state: 0 for front 1 for back camera.  
 | **`setFaceNumberOfImages`** | `faceNumberOfImages: Int` | void | Any positive `Int` value | Default value is 0. For value 0 is saved infinity images. When saved images reached the "face number os images", the `onEndCapture` is triggered.

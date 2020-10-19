@@ -19,6 +19,7 @@ class CameraController: NSObject, CameraControllerProtocol {
     private let videoDataOutput = AVCaptureVideoDataOutput()
     
     private var captureType: CaptureType = .NONE
+    private var analyzerStatus: FaceAnalyzerStatus = .IDLE
     private var faceAnalyzer: FaceAnalyzer?
     private var barcodeAnalyzer: BarcodeAnalyzer?
     
@@ -68,7 +69,8 @@ class CameraController: NSObject, CameraControllerProtocol {
         if (self.cameraView != nil) {
             self.cameraView.layer.addSublayer(self.previewLayer)
         }
-        self.session.sessionPreset = .hd1920x1080
+        self.analyzerStatus = .IDLE
+        self.session.sessionPreset = .hd1280x720
         self.session.startRunning()
     }
     
@@ -82,6 +84,7 @@ class CameraController: NSObject, CameraControllerProtocol {
         }
         
         self.stopAnalyzer()
+        self.analyzerStatus = .RUNNING
         
         if (captureType == .BARCODE) {
             self.captureType = .BARCODE
@@ -96,13 +99,50 @@ class CameraController: NSObject, CameraControllerProtocol {
         }
     }
     
+    public func pauseAnalyzer() {
+        switch self.analyzerStatus {
+            
+        case .RUNNING:
+            self.analyzerStatus = .PAUSED
+            self.faceAnalyzer?.stop()
+            self.barcodeAnalyzer?.stop()
+            
+        case .IDLE:
+            self.cameraEventListener?.onError(error: "Capture has not yet started.")
+            
+        case .PAUSED:
+            self.cameraEventListener?.onError(error: "Capture alredy is paused.")
+        }
+    }
+    
+    public func resumeAnalyzer() {
+        switch self.analyzerStatus {
+            
+        case .RUNNING:
+            self.cameraEventListener?.onError(error: "Capture alredy is running.")
+            
+        case .IDLE:
+            self.cameraEventListener?.onError(error: "Capture has not yet started.")
+            
+        case .PAUSED:
+            self.analyzerStatus = .RUNNING
+            if (self.captureType == .FACE) {
+                self.faceAnalyzer?.start()
+            } else {
+                self.barcodeAnalyzer?.start()
+            }
+        }
+    }
+    
     public func stopAnalyzer() {
         self.faceAnalyzer?.stop()
-        self.faceAnalyzer?.numCapturedImages = 0
+        self.faceAnalyzer?.numberOfImages = 0
         
         self.barcodeAnalyzer?.stop()
+        
+        self.analyzerStatus = .IDLE
     }
-            
+    
     public func layoutSubviews() {
         if (self.cameraView != nil) {
             self.previewLayer.frame = self.cameraView.bounds
@@ -123,7 +163,7 @@ class CameraController: NSObject, CameraControllerProtocol {
         } else {
             self.captureOptions!.cameraLensFacing = .front
         }
-        
+                    
         // Remove camera input.
         self.session.inputs.forEach({ self.session.removeInput($0) })
         
@@ -149,10 +189,10 @@ class CameraController: NSObject, CameraControllerProtocol {
         guard let device = AVCaptureDevice.DiscoverySession(
             deviceTypes: [.builtInWideAngleCamera],
             mediaType: .video,
-                position: cameraLens).devices.first
-        else {
-            self.cameraEventListener?.onError(error: "You have a problem with your camera, please verify the settings of the your camera")
-            fatalError("No back camera device found, please make sure to run in an iOS device and not a simulator")
+            position: cameraLens).devices.first
+            else {
+                self.cameraEventListener?.onError(error: "You have a problem with your camera, please verify the settings of the your camera")
+                fatalError("No back camera device found, please make sure to run in an iOS device and not a simulator")
         }
         let cameraInput = try! AVCaptureDeviceInput(device: device)
         self.session.addInput(cameraInput)

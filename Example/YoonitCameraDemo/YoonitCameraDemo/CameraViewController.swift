@@ -33,6 +33,21 @@ class CameraViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        if #available(iOS 13.0, *) {
+            NotificationCenter.default.addObserver(self, selector: #selector(willResignActive), name: UIScene.willDeactivateNotification, object: nil)
+        } else {
+            NotificationCenter.default.addObserver(self, selector: #selector(willResignActive), name: UIApplication.willResignActiveNotification, object: nil)
+        }
+        
+        
+        if #available(iOS 13.0, *) {
+            NotificationCenter.default.addObserver(self, selector: #selector(foregroundCall), name: UIScene.didActivateNotification, object: nil)
+        } else {
+            NotificationCenter.default.addObserver(self, selector: #selector(foregroundCall), name: UIApplication.didBecomeActiveNotification, object: nil)
+        }
+        
+        
         self.cameraView.cameraEventListener = self
         self.showFaceImagePreview = true
         self.qrCodeTextField.isHidden = true
@@ -62,7 +77,15 @@ class CameraViewController: UIViewController {
             self.cameraView.startCaptureType(captureType: captureType)
         }
     }
-            
+    
+    @objc func foregroundCall(){
+        self.cameraView.resumeCapture()
+    }
+    
+    @objc func willResignActive(_ notification: Notification) {
+        self.cameraView.pauseCapture()
+    }
+  
     @IBAction func toggleCam(_ sender: UIButton) {
         if sender.currentTitle == "Front cam" {
             self.cameraView.toggleCameraLens()
