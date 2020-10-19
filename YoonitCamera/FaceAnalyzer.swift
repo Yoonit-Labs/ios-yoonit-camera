@@ -11,12 +11,10 @@ import Vision
 
 class FaceAnalyzer: NSObject {
     
-    private let ANALYZER_LIMIT = 25
+    private let MAX_NUMBER_OF_IMAGES = 25
     
     public var cameraEventListener: CameraEventListenerDelegate?
     public var cameraCallBack: CameraCallBackDelegate!
-    public var numCapturedImages = 0
-    
     private var session: AVCaptureSession!
     private var captureOptions: CaptureOptions?
     private var cameraView: CameraView!
@@ -27,6 +25,8 @@ class FaceAnalyzer: NSObject {
     private var lastTimestamp = Date().currentTimeMillis()
     private var shouldDraw = true
     private var faceDetected = false
+    
+    public var numberOfImages = 0
         
     private let topSafeHeight: CGFloat = {
         if #available(iOS 11.0, *) {
@@ -178,10 +178,10 @@ class FaceAnalyzer: NSObject {
     
     public func notifyCapturedImage(filePath: String) {
         if (self.captureOptions!.faceNumberOfImages > 0) {
-            if (self.numCapturedImages <= self.captureOptions!.faceNumberOfImages) {
-                self.numCapturedImages += 1
+            if (self.numberOfImages <= self.captureOptions!.faceNumberOfImages) {
+                self.numberOfImages += 1
                 self.cameraEventListener?.onFaceImageCreated(
-                    count: numCapturedImages,
+                    count: numberOfImages,
                     total: self.captureOptions!.faceNumberOfImages,
                     imagePath: filePath
                 )
@@ -193,9 +193,9 @@ class FaceAnalyzer: NSObject {
             return
         }
         
-        self.numCapturedImages = (numCapturedImages + 1) % ANALYZER_LIMIT
+        self.numberOfImages = (numberOfImages + 1) % MAX_NUMBER_OF_IMAGES
         self.cameraEventListener?.onFaceImageCreated(
-            count: numCapturedImages,
+            count: numberOfImages,
             total: self.captureOptions!.faceNumberOfImages,
             imagePath: filePath
         )

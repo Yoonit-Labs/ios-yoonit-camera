@@ -67,7 +67,7 @@ class FaceQualityProcessor {
             
             let resizedImage = self.resizeImage(image: imageCropped, targetSize: CGSize(width: captureOptions.faceImageSizeWidth, height: captureOptions.faceImageSizeHeight))
             
-            let fileURL = fileURLFor(index: faceAnalyzer.numCapturedImages)
+            let fileURL = fileURLFor(index: faceAnalyzer.numberOfImages)
             let fileName = try! save(image: resizedImage, at: fileURL)
                         
             faceAnalyzer.notifyCapturedImage(filePath: fileName)
