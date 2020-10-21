@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/Yoonit-Labs/ios-yoonit-camera/feature/docs/logo_cyberlabs.png" width="300">
 
-# YoonitCamera
+# ios-yoonit-camera
 
 ![Generic badge](https://img.shields.io/badge/version-v1.0.2-<COLOR>.svg) ![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)
 
@@ -18,9 +18,7 @@ And run in the root of your project:
 
 ```
 pod install
-```
-
-<br/>  
+```  
 
 ## Usage  
   All the functionalities that the `ios-yoonit-camera` provides is accessed through the `CameraView`, that includes the camera preview.  Below we have the basic usage code, for more details, see the [**Methods**](#methods).
@@ -80,45 +78,41 @@ class YourViewController: UIViewController, CameraEventListenerDelegate {
     ...
     self.cameraView.cameraEventListener = self
     ...
-    func onBarcodeScanned(count: Int, total: Int, imagePath: String) {
+    func onBarcodeScanned(content: String) {
         // YOUR CODE
     }
 }
 ```
 
-<br/>
+## API
 
-## Methods   
+### Methods   
 
-| Function | Parameters | Return Type | Valid values | Description |
-|-|-|-|-|-|  
-| **`startPreview`** | - | void | - | Start camera preview if has permission.
-| **`startCaptureType`** | `captureType: String` | void | `none` default capture type. `face` for face recognition. `barcode` to read barcode content. | Set capture type none, face or barcode.
-| **`stopCapture`** | - | void | - | Stop any type of capture.
-| **`pauseCapture`** | - | void | - | Pause any type of capture. 
-| **`playCapture`** | - | void | - | Play the type of capture that was selected.
-| **`toggleCameraLens`** | - | void | - | Set camera lens facing front or back.
-| **`getCameraLens`** | - | Int | - | Return `Int` that represents lens face state: 0 for front 1 for back camera.  
-| **`setFaceNumberOfImages`** | `faceNumberOfImages: Int` | void | Any positive `Int` value | Default value is 0. For value 0 is saved infinity images. When saved images reached the "face number os images", the `onEndCapture` is triggered.
-| **`setFaceDetectionBox`** |`faceDetectionBox: Bool` | void | `true` or `false` | Set to show face detection box when face detected.   
-| **`setFaceTimeBetweenImages`** | `faceTimeBetweenImages: Int64` | void | Any positive number that represent time in milli seconds | Set saving face images time interval in milli seconds.  
-| **`setFacePaddingPercent`** | `facePaddingPercent: Float` | void | Any positive `Float` value | Set face image and bounding box padding in percent.  
-| **`setFaceImageSize`** | `faceImageSize: Int` | void | Any positive `Int` value | Set face image size to be saved.    
+| Function                       | Parameters                    | Return Type | Valid values                                                    | Description
+| -                              | -                             | -           | -                                                               | -  
+| **`startPreview`**             | -                             | void        | -                                                               | Start camera preview if has permission.
+| **`startCaptureType`**         | `captureType: String`         | void        | <ul><li>`"none"`</li><li>`"face"`</li><li>`"barcode"`</li></ul> | Set capture type none, face or barcode.
+| **`stopCapture`**              | -                             | void        | -                                                               | Stop any type of capture.
+| **`toggleCameraLens`**         | -                             | void        | -                                                               | Set camera lens facing front or back.
+| **`getCameraLens`**            | -                             | Int         | -                                                               | Return `Int` that represents lens face state: 0 for front 1 for back camera.  
+| **`setFaceNumberOfImages`**    | `faceNumberOfImages: Int`     | void        | Any positive `Int` value                                        | Default value is 0. For value 0 is saved infinity images. When saved images reached the "face number os images", the `onEndCapture` is triggered.
+| **`setFaceDetectionBox`**      | `faceDetectionBox: Bool`   | void        | `true` or `false`                                               | Set to show face detection box when face detected.   
+| **`setFaceTimeBetweenImages`** | `faceTimeBetweenImages: Int64` | void        | Any positive number that represent time in milli seconds        | Set saving face images time interval in milli seconds.  
+| **`setFacePaddingPercent`**    | `facePaddingPercent: Float`   | void        | Any positive `Float` value                                      | Set face image and bounding box padding in percent.  
+| **`setFaceImageSize`**         | `width: Int, height: Int`     | void        | Any positive `Int` value                                        | Set face image size to be saved.
 
-<br/>  
+### Events
 
-## Events
-
-| Event | Parameters | Description |
-|-|-|-|
-| **`onFaceImageCreated`** | `count: Int, total: Int, imagePath: String` | Emit when the camera save an image face.  
-| **`onFaceDetected`** | `x: Int, y: Int, width: Int, height: Int` | Emit when a face is detected. The parameters is the face bounding box.
-|**`onFaceUndetected`**| - | Emit when there is no more face detecting.
-| **`onEndCapture`** | - | Emit when the number of images saved is equal of the number of images set.   
-| **`onBarcodeScanned`** | `content: String` | Emit content when detect a barcode.   
-| **`onError`** |`error: String` | Emit message error.  
-| **`onMessage`** | `message: String` | Emit message.   
-| **`onPermissionDenied`** | - | Emit when try to `startPreview` but there is not camera permission.
+| Event                    | Parameters                                  | Description
+| -                        | -                                           | -
+| **`onFaceImageCreated`** | `count: Int, total: Int, imagePath: String` | Must have started capture type of face (see `startCaptureType`). Emitted when the face image file is created: <ul><li>count: current index</li><li>total: total to create</li><li>imagePath: the face image path</li><ul>  
+| **`onFaceDetected`**     | `x: Int, y: Int, width: Int, height: Int`   | Must have started capture type of face. Emit the detected face bounding box.
+| **`onFaceUndetected`**   | -                                           | Must have started capture type of face. Emitted after `onFaceDetected`, when there is no more face detecting.
+| **`onEndCapture`**       | -                                           | Must have started capture type of face. Emitted when the number of face image files created is equal of the number of images set (see the method `setFaceNumberOfImages`).   
+| **`onBarcodeScanned`**   | `content: String`                           | Must have started capture type of barcode (see `startCaptureType`). Emitted when the camera scan a QR Code.   
+| **`onError`**            | `error: String`                             | Emit message error.  
+| **`onMessage`**          | `message: String`                           | Emit message.   
+| **`onPermissionDenied`** | -                                           | Emit when try to `startPreview` but there is not camera permission.
 
 
 ## To contribute and make it better
