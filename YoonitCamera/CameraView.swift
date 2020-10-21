@@ -113,8 +113,7 @@ public class CameraView: UIView {
     }
     
     @objc
-    public func setFaceImageSize(faceImageSizeHeight: Int, faceImageSizeWidth: Int) {
-        self.captureOptions.faceImageSizeHeight = faceImageSizeHeight
-        self.captureOptions.faceImageSizeWidth = faceImageSizeWidth
+    public func setFaceImageSize(width: Int, height: Int) {
+        self.captureOptions.faceImageSize = CGSize(width: width, height: height)
     }
 }

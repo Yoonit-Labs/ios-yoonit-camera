@@ -61,14 +61,18 @@ class FaceQualityProcessor {
             let image = imageFromPixelBuffer(imageBuffer: pixels, scale: UIScreen.main.scale, orientation: orientation)
 
             // Crop the face and scale.
-            guard let imageCropped = self.crop(imageCamera: image, boundingBoxFace: faceRect) else {
+            let imageCropped = self.crop(imageCamera: image, boundingBoxFace: faceRect)
+            
+            // The image cropped can be null because the bounding box must be inside the screen.
+            if (imageCropped == nil) {
                 return
             }
-            
-            let resizedImage = self.resizeImage(image: imageCropped, targetSize: CGSize(width: captureOptions.faceImageSizeWidth, height: captureOptions.faceImageSizeHeight))
+                        
+            // Resize image based in the capture options.
+            let imageResized = try! imageCropped!.resized(to: captureOptions.faceImageSize)
             
             let fileURL = fileURLFor(index: faceAnalyzer.numberOfImages)
-            let fileName = try! save(image: resizedImage, at: fileURL)
+            let fileName = try! save(image: imageResized, at: fileURL)
                         
             faceAnalyzer.notifyCapturedImage(filePath: fileName)
         }
@@ -203,32 +207,6 @@ class FaceQualityProcessor {
             UInt(doubleArr.count))
 
         return Float(std)
-    }
-    
-    private func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
-        let size = image.size
-
-        let widthRatio  = targetSize.width  / size.width
-        let heightRatio = targetSize.height / size.height
-
-        // Figure out what our orientation is, and use that to form the rectangle
-        var newSize: CGSize
-        if(widthRatio > heightRatio) {
-            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
-        } else {
-            newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
-        }
-
-        // This is the rect that we've calculated out and this is what is actually used below
-        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
-
-        // Actually do the resizing to the rect using the ImageContext stuff
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
-        image.draw(in: rect)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-
-        return newImage!
     }
 }
 
