@@ -19,7 +19,6 @@ class CameraController: NSObject, CameraControllerProtocol {
     private let videoDataOutput = AVCaptureVideoDataOutput()
     
     private var captureType: CaptureType = .NONE
-    private var analyzerStatus: FaceAnalyzerStatus = .IDLE
     private var faceAnalyzer: FaceAnalyzer?
     private var barcodeAnalyzer: BarcodeAnalyzer?
     
@@ -69,7 +68,7 @@ class CameraController: NSObject, CameraControllerProtocol {
         if (self.cameraView != nil) {
             self.cameraView.layer.addSublayer(self.previewLayer)
         }
-        self.analyzerStatus = .IDLE
+        
         self.session.sessionPreset = .hd1280x720
         self.session.startRunning()
     }
@@ -84,7 +83,6 @@ class CameraController: NSObject, CameraControllerProtocol {
         }
         
         self.stopAnalyzer()
-        self.analyzerStatus = .RUNNING
         
         if (captureType == .BARCODE) {
             self.captureType = .BARCODE
@@ -98,49 +96,12 @@ class CameraController: NSObject, CameraControllerProtocol {
             return
         }
     }
-    
-    public func pauseAnalyzer() {
-        switch self.analyzerStatus {
-            
-        case .RUNNING:
-            self.analyzerStatus = .PAUSED
-            self.faceAnalyzer?.stop()
-            self.barcodeAnalyzer?.stop()
-            
-        case .IDLE:
-            self.cameraEventListener?.onError(error: "Capture has not yet started.")
-            
-        case .PAUSED:
-            self.cameraEventListener?.onError(error: "Capture alredy is paused.")
-        }
-    }
-    
-    public func resumeAnalyzer() {
-        switch self.analyzerStatus {
-            
-        case .RUNNING:
-            self.cameraEventListener?.onError(error: "Capture alredy is running.")
-            
-        case .IDLE:
-            self.cameraEventListener?.onError(error: "Capture has not yet started.")
-            
-        case .PAUSED:
-            self.analyzerStatus = .RUNNING
-            if (self.captureType == .FACE) {
-                self.faceAnalyzer?.start()
-            } else {
-                self.barcodeAnalyzer?.start()
-            }
-        }
-    }
-    
+        
     public func stopAnalyzer() {
         self.faceAnalyzer?.stop()
         self.faceAnalyzer?.numberOfImages = 0
         
         self.barcodeAnalyzer?.stop()
-        
-        self.analyzerStatus = .IDLE
     }
     
     public func layoutSubviews() {

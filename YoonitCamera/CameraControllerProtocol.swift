@@ -10,9 +10,7 @@ import Foundation
 public protocol CameraControllerProtocol {
     func layoutSubviews()
     func startPreview()
-    func stopAnalyzer()
-    func pauseAnalyzer()
-    func resumeAnalyzer()
+    func stopAnalyzer()    
     func toggleCameraLens()
     func getCameraLens() -> Int
     func startCaptureType(captureType: CaptureType)
