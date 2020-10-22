@@ -1,14 +1,19 @@
 //
-//  DrawingManager.swift
-//  YoonitCamera
+// +-+-+-+-+-+-+
+// |y|o|o|n|i|t|
+// +-+-+-+-+-+-+
 //
-//  Created by Hallison da Paz on 08/03/20.
+// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+// | Yoonit Camera lib for iOS applications                          |
+// | Haroldo Teruya & Marcio Brufatto @ Cyberlabs AI 2020            |
+// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //
+
 
 import Foundation
 import UIKit
 
-class DrawingManager {
+class FaceBoundinxBoxController {
     
     func drawLine(
         onLayer layer: CALayer,

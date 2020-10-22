@@ -9,7 +9,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "YoonitCamera"
-  spec.version      = "1.0.2"
+  spec.version      = "1.0.3"
   spec.summary      = "YoonitCamera module for detects human faces or scan Qrcode."
 
   # This description is used to generate tags and improve search results.
@@ -72,7 +72,7 @@ Pod::Spec.new do |spec|
   #  Not including the public_header_files will make all headers public.
   #
 
-  spec.source_files  = "YoonitCamera", "Classes", "Classes/**/*.{h,m}"
+  spec.source_files  = "YoonitCamera/src/**/*", "Classes", "Classes/**/*.{h,m,swift}"
   spec.exclude_files = "Classes/Exclude"
   spec.swift_version = "5.0"
 end

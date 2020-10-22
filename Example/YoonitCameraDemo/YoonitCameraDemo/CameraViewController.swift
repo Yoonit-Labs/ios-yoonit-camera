@@ -1,15 +1,19 @@
 //
-//  NewCameraViewController.swift
-//  YoonitCameraDemo
+// +-+-+-+-+-+-+
+// |y|o|o|n|i|t|
+// +-+-+-+-+-+-+
 //
-//  Created by Marcio Habigzang Brufatto on 10/09/20.
-//  Copyright © 2020 CyberLabs. All rights reserved.
+// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+// | Yoonit Camera lib for iOS applications                          |
+// | Haroldo Teruya & Marcio Brufatto @ Cyberlabs AI 2020            |
+// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //
 
 
 import UIKit
 import YoonitCamera
 import DropDown
+
 
 class CameraViewController: UIViewController {
 

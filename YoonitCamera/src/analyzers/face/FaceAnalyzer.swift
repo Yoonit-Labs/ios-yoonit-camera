@@ -1,9 +1,14 @@
 //
-//  FaceAnalyzer.swift
-//  YoonitCamera
+// +-+-+-+-+-+-+
+// |y|o|o|n|i|t|
+// +-+-+-+-+-+-+
 //
-//  Created by Marcio Habigzang Brufatto on 09/09/20.
+// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+// | Yoonit Camera lib for iOS applications                          |
+// | Haroldo Teruya & Marcio Brufatto @ Cyberlabs AI 2020            |
+// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //
+
 
 import AVFoundation
 import UIKit
@@ -20,8 +25,8 @@ class FaceAnalyzer: NSObject {
     private var cameraView: CameraView!
     private var previewLayer: AVCaptureVideoPreviewLayer!
     
-    private var faceQualityProcessor = FaceQualityProcessor()
-    private var drawingManager = DrawingManager()
+    private var faceQualityController = FaceQualityController()
+    private var faceBoundingBoxController = FaceBoundinxBoxController()
     private var lastTimestamp = Date().currentTimeMillis()
     private var shouldDraw = true
     private var faceDetected = false
@@ -153,7 +158,7 @@ class FaceAnalyzer: NSObject {
         
         // Draw face bounding box.
         if captureOptions!.faceDetectionBox {
-            self.drawings = self.drawingManager.makeShapeFor(boundingBox: faceBoundingBoxScaled)
+            self.drawings = self.faceBoundingBoxController.makeShapeFor(boundingBox: faceBoundingBoxScaled)
         }
                     
         self.cameraEventListener?.onFaceDetected(
@@ -167,7 +172,7 @@ class FaceAnalyzer: NSObject {
         
         if diffTime > self.captureOptions!.faceTimeBetweenImages {
             self.lastTimestamp = currentTimestamp
-            self.faceQualityProcessor.process(
+            self.faceQualityController.process(
                 pixels: pixelBuffer,
                 toRect: faceBoundingBoxExtended,
                 atScale: scale,

@@ -2,7 +2,7 @@
 
 # ios-yoonit-camera
 
-![Generic badge](https://img.shields.io/badge/version-v1.0.2-<COLOR>.svg) ![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)
+![Generic badge](https://img.shields.io/badge/version-v1.0.3-<COLOR>.svg) ![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)
 
 Face image capture and QR Code scanning library.
 
