@@ -1,8 +1,8 @@
-<img src="https://raw.githubusercontent.com/Yoonit-Labs/ios-yoonit-camera/feature/docs/logo_cyberlabs.png" width="300">
+<img src="https://raw.githubusercontent.com/Yoonit-Labs/ios-yoonit-camera/master/logo_cyberlabs.png" width="300">
 
 # ios-yoonit-camera
 
-![Generic badge](https://img.shields.io/badge/version-v1.0.2-<COLOR>.svg) ![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)
+![Generic badge](https://img.shields.io/badge/version-v1.0.3-<COLOR>.svg) ![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)
 
 Face image capture and QR Code scanning library.
 

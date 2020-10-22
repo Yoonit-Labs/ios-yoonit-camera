@@ -1,9 +1,14 @@
 //
-//  FaceQualityProcessor.swift
-//  YoonitCamera
+// +-+-+-+-+-+-+
+// |y|o|o|n|i|t|
+// +-+-+-+-+-+-+
 //
-//  Created by Hallison da Paz on 04/03/20.
+// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+// | Yoonit Camera lib for iOS applications                          |
+// | Haroldo Teruya & Marcio Brufatto @ Cyberlabs AI 2020            |
+// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //
+
 
 import Foundation
 import Accelerate
@@ -11,7 +16,7 @@ import UIKit
 import VideoToolbox
 import AVFoundation
 
-class FaceQualityProcessor {
+class FaceQualityController {
     
     private let DARKNESS_THRESHOLD = 0.4
     private let LIGHTNESS_THRESHOLD = 0.65

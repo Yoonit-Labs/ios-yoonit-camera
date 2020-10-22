@@ -1,9 +1,14 @@
 //
-//  SceneDelegate.swift
-//  YoonitCameraDemo
+// +-+-+-+-+-+-+
+// |y|o|o|n|i|t|
+// +-+-+-+-+-+-+
 //
-//  Created by Marcio Habigzang Brufatto on 07/10/20.
+// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+// | Yoonit Camera lib for iOS applications                          |
+// | Haroldo Teruya & Marcio Brufatto @ Cyberlabs AI 2020            |
+// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //
+
 
 import UIKit
 

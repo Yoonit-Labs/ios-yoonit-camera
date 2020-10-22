@@ -8,14 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		5C0C642D2540AC3F00EDF95B /* CameraControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0C642C2540AC3F00EDF95B /* CameraControllerProtocol.swift */; };
+		5C0C64392542108B00EDF95B /* logo_cyberlabs.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C0C64382542108B00EDF95B /* logo_cyberlabs.png */; };
 		6176EEFB252CF9D200F4D4DD /* YoonitCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = 6176EEF9252CF9D200F4D4DD /* YoonitCamera.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6176EF10252CF9F600F4D4DD /* FaceAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF02252CF9F600F4D4DD /* FaceAnalyzer.swift */; };
 		6176EF11252CF9F600F4D4DD /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF03252CF9F600F4D4DD /* extensions.swift */; };
 		6176EF12252CF9F600F4D4DD /* BarcodeAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF04252CF9F600F4D4DD /* BarcodeAnalyzer.swift */; };
 		6176EF13252CF9F600F4D4DD /* CaptureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF05252CF9F600F4D4DD /* CaptureType.swift */; };
 		6176EF14252CF9F600F4D4DD /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF06252CF9F600F4D4DD /* Utils.swift */; };
-		6176EF15252CF9F600F4D4DD /* FaceQualityProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF07252CF9F600F4D4DD /* FaceQualityProcessor.swift */; };
-		6176EF16252CF9F600F4D4DD /* DrawingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF08252CF9F600F4D4DD /* DrawingManager.swift */; };
+		6176EF15252CF9F600F4D4DD /* FaceQualityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF07252CF9F600F4D4DD /* FaceQualityController.swift */; };
+		6176EF16252CF9F600F4D4DD /* FaceBoundinxBoxController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF08252CF9F600F4D4DD /* FaceBoundinxBoxController.swift */; };
 		6176EF17252CF9F600F4D4DD /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF09252CF9F600F4D4DD /* CameraView.swift */; };
 		6176EF18252CF9F600F4D4DD /* CameraEventListenerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF0A252CF9F600F4D4DD /* CameraEventListenerDelegate.swift */; };
 		6176EF19252CF9F600F4D4DD /* CameraCallBackDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF0B252CF9F600F4D4DD /* CameraCallBackDelegate.swift */; };
@@ -30,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		5C0C642C2540AC3F00EDF95B /* CameraControllerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraControllerProtocol.swift; sourceTree = "<group>"; };
+		5C0C64382542108B00EDF95B /* logo_cyberlabs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_cyberlabs.png; sourceTree = "<group>"; };
 		6176EEF6252CF9D200F4D4DD /* YoonitCamera.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YoonitCamera.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6176EEF9252CF9D200F4D4DD /* YoonitCamera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YoonitCamera.h; sourceTree = "<group>"; };
 		6176EEFA252CF9D200F4D4DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -38,8 +40,8 @@
 		6176EF04252CF9F600F4D4DD /* BarcodeAnalyzer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarcodeAnalyzer.swift; sourceTree = "<group>"; };
 		6176EF05252CF9F600F4D4DD /* CaptureType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaptureType.swift; sourceTree = "<group>"; };
 		6176EF06252CF9F600F4D4DD /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
-		6176EF07252CF9F600F4D4DD /* FaceQualityProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaceQualityProcessor.swift; sourceTree = "<group>"; };
-		6176EF08252CF9F600F4D4DD /* DrawingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawingManager.swift; sourceTree = "<group>"; };
+		6176EF07252CF9F600F4D4DD /* FaceQualityController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaceQualityController.swift; sourceTree = "<group>"; };
+		6176EF08252CF9F600F4D4DD /* FaceBoundinxBoxController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaceBoundinxBoxController.swift; sourceTree = "<group>"; };
 		6176EF09252CF9F600F4D4DD /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		6176EF0A252CF9F600F4D4DD /* CameraEventListenerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraEventListenerDelegate.swift; sourceTree = "<group>"; };
 		6176EF0B252CF9F600F4D4DD /* CameraCallBackDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraCallBackDelegate.swift; sourceTree = "<group>"; };
@@ -63,10 +65,72 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5C0C642E2541DD1A00EDF95B /* delegates */ = {
+			isa = PBXGroup;
+			children = (
+				6176EF0B252CF9F600F4D4DD /* CameraCallBackDelegate.swift */,
+				6176EF0A252CF9F600F4D4DD /* CameraEventListenerDelegate.swift */,
+			);
+			path = delegates;
+			sourceTree = "<group>";
+		};
+		5C0C64312541F4FB00EDF95B /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				6176EF0F252CF9F600F4D4DD /* FileUtils.swift */,
+				6176EF06252CF9F600F4D4DD /* Utils.swift */,
+			);
+			path = utils;
+			sourceTree = "<group>";
+		};
+		5C0C64322541F5E500EDF95B /* analyzers */ = {
+			isa = PBXGroup;
+			children = (
+				5C0C64342541F60600EDF95B /* face */,
+				5C0C64332541F5FB00EDF95B /* barcode */,
+			);
+			path = analyzers;
+			sourceTree = "<group>";
+		};
+		5C0C64332541F5FB00EDF95B /* barcode */ = {
+			isa = PBXGroup;
+			children = (
+				6176EF04252CF9F600F4D4DD /* BarcodeAnalyzer.swift */,
+			);
+			path = barcode;
+			sourceTree = "<group>";
+		};
+		5C0C64342541F60600EDF95B /* face */ = {
+			isa = PBXGroup;
+			children = (
+				6176EF02252CF9F600F4D4DD /* FaceAnalyzer.swift */,
+				6176EF08252CF9F600F4D4DD /* FaceBoundinxBoxController.swift */,
+				6176EF07252CF9F600F4D4DD /* FaceQualityController.swift */,
+			);
+			path = face;
+			sourceTree = "<group>";
+		};
+		5C0C6435254208E400EDF95B /* src */ = {
+			isa = PBXGroup;
+			children = (
+				5C0C64322541F5E500EDF95B /* analyzers */,
+				5C0C64312541F4FB00EDF95B /* utils */,
+				5C0C642E2541DD1A00EDF95B /* delegates */,
+				5C0C642C2540AC3F00EDF95B /* CameraControllerProtocol.swift */,
+				6176EF0E252CF9F600F4D4DD /* CameraController.swift */,
+				6176EF09252CF9F600F4D4DD /* CameraView.swift */,
+				6176EF0D252CF9F600F4D4DD /* CaptureOptions.swift */,
+				6176EF05252CF9F600F4D4DD /* CaptureType.swift */,
+				6176EF03252CF9F600F4D4DD /* extensions.swift */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		6176EEEC252CF9D200F4D4DD = {
 			isa = PBXGroup;
 			children = (
 				6176EFA7252E476000F4D4DD /* Example */,
+				5C0C64382542108B00EDF95B /* logo_cyberlabs.png */,
 				6176EF25252CFEE000F4D4DD /* README.md */,
 				6176EF22252CFC9500F4D4DD /* LICENSE */,
 				6176EF1F252CFA4300F4D4DD /* YoonitCamera.podspec */,
@@ -86,20 +150,7 @@
 		6176EEF8252CF9D200F4D4DD /* YoonitCamera */ = {
 			isa = PBXGroup;
 			children = (
-				5C0C642C2540AC3F00EDF95B /* CameraControllerProtocol.swift */,
-				6176EF0B252CF9F600F4D4DD /* CameraCallBackDelegate.swift */,
-				6176EF0A252CF9F600F4D4DD /* CameraEventListenerDelegate.swift */,
-				6176EF04252CF9F600F4D4DD /* BarcodeAnalyzer.swift */,
-				6176EF0E252CF9F600F4D4DD /* CameraController.swift */,
-				6176EF09252CF9F600F4D4DD /* CameraView.swift */,
-				6176EF0D252CF9F600F4D4DD /* CaptureOptions.swift */,
-				6176EF05252CF9F600F4D4DD /* CaptureType.swift */,
-				6176EF08252CF9F600F4D4DD /* DrawingManager.swift */,
-				6176EF03252CF9F600F4D4DD /* extensions.swift */,
-				6176EF02252CF9F600F4D4DD /* FaceAnalyzer.swift */,
-				6176EF07252CF9F600F4D4DD /* FaceQualityProcessor.swift */,
-				6176EF0F252CF9F600F4D4DD /* FileUtils.swift */,
-				6176EF06252CF9F600F4D4DD /* Utils.swift */,
+				5C0C6435254208E400EDF95B /* src */,
 				6176EEF9252CF9D200F4D4DD /* YoonitCamera.h */,
 				6176EEFA252CF9D200F4D4DD /* Info.plist */,
 			);
@@ -178,6 +229,7 @@
 				6176EF26252CFEE000F4D4DD /* README.md in Resources */,
 				6176EF23252CFC9500F4D4DD /* LICENSE in Resources */,
 				6176EF20252CFA4300F4D4DD /* YoonitCamera.podspec in Resources */,
+				5C0C64392542108B00EDF95B /* logo_cyberlabs.png in Resources */,
 				6176EFA8252E476000F4D4DD /* Example in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -197,10 +249,10 @@
 				6176EF19252CF9F600F4D4DD /* CameraCallBackDelegate.swift in Sources */,
 				6176EF11252CF9F600F4D4DD /* extensions.swift in Sources */,
 				6176EF1B252CF9F600F4D4DD /* CaptureOptions.swift in Sources */,
-				6176EF16252CF9F600F4D4DD /* DrawingManager.swift in Sources */,
+				6176EF16252CF9F600F4D4DD /* FaceBoundinxBoxController.swift in Sources */,
 				6176EF18252CF9F600F4D4DD /* CameraEventListenerDelegate.swift in Sources */,
 				5C0C642D2540AC3F00EDF95B /* CameraControllerProtocol.swift in Sources */,
-				6176EF15252CF9F600F4D4DD /* FaceQualityProcessor.swift in Sources */,
+				6176EF15252CF9F600F4D4DD /* FaceQualityController.swift in Sources */,
 				6176EF1C252CF9F600F4D4DD /* CameraController.swift in Sources */,
 				6176EF17252CF9F600F4D4DD /* CameraView.swift in Sources */,
 			);
@@ -261,7 +313,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.7;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -319,7 +371,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.7;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
