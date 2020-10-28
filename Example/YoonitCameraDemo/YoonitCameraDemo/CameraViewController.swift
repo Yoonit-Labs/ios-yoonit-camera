@@ -88,6 +88,10 @@ class CameraViewController: UIViewController {
         self.menu.show()
     }
     
+    @IBAction func toggleFaceDetectionBox(_ sender: UISwitch) {
+        self.cameraView.setFaceDetectionBox(faceDetectionBox: sender.isOn)
+    }
+    
     func clearFaceImagePreview() {
         self.showFaceImagePreview = false
         DispatchQueue.main.async {
