@@ -49,8 +49,7 @@ class CameraController: NSObject, CameraControllerProtocol {
             captureOptions: self.captureOptions,
             cameraView: self.cameraView,
             previewLayer: self.previewLayer,
-            session: self.session,
-            cameraCallBack: self)
+            session: self.session)
         
         self.barcodeAnalyzer = BarcodeAnalyzer(session: self.session)
     }

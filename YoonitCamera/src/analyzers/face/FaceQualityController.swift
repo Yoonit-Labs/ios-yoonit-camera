@@ -63,7 +63,10 @@ class FaceQualityController {
             let orientation = captureOptions.cameraLens.rawValue == 1 ? UIImage.Orientation.up : UIImage.Orientation.upMirrored
             
             // Convert CVPixelBuffer to UIImage.
-            let image = imageFromPixelBuffer(imageBuffer: pixels, scale: UIScreen.main.scale, orientation: orientation)
+            let image = imageFromPixelBuffer(
+                imageBuffer: pixels,
+                scale: UIScreen.main.scale,
+                orientation: orientation)
 
             // Crop the face and scale.
             let imageCropped = self.crop(imageCamera: image, boundingBoxFace: faceRect)

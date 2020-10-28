@@ -14,12 +14,14 @@ import AVFoundation
 import UIKit
 import Vision
 
+/**
+This class is responsible to handle the operations related with the face capture.
+*/
 class FaceAnalyzer: NSObject {
     
     private let MAX_NUMBER_OF_IMAGES = 25
     
     public var cameraEventListener: CameraEventListenerDelegate?
-    public var cameraCallBack: CameraCallBackDelegate!
     private var session: AVCaptureSession!
     private var captureOptions: CaptureOptions
     private var cameraView: CameraView!
@@ -30,7 +32,6 @@ class FaceAnalyzer: NSObject {
     private var lastTimestamp = Date().currentTimeMillis()
     private var shouldDraw = true
     private var faceDetected = false
-    
     public var numberOfImages = 0
     
     private let topSafeHeight: CGFloat = {
@@ -58,16 +59,17 @@ class FaceAnalyzer: NSObject {
         captureOptions: CaptureOptions,
         cameraView: CameraView,
         previewLayer: AVCaptureVideoPreviewLayer,
-        session: AVCaptureSession,
-        cameraCallBack: CameraCallBackDelegate
+        session: AVCaptureSession
     ) {
         self.captureOptions = captureOptions
         self.cameraView = cameraView
         self.previewLayer = previewLayer
-        self.session = session
-        self.cameraCallBack = cameraCallBack
+        self.session = session        
     }
     
+    /**
+     Start face analyzer to capture frame.
+     */
     func start() {
         let videoDataOutput = AVCaptureVideoDataOutput()
         videoDataOutput.videoSettings = [(kCVPixelBufferPixelFormatTypeKey as NSString) : NSNumber(value: kCVPixelFormatType_32BGRA)] as [String : Any]
@@ -185,7 +187,7 @@ class FaceAnalyzer: NSObject {
     
     public func notifyCapturedImage(filePath: String) {
         if (self.captureOptions.faceNumberOfImages > 0) {
-            if (self.numberOfImages <= self.captureOptions.faceNumberOfImages) {
+            if (self.numberOfImages < self.captureOptions.faceNumberOfImages) {
                 self.numberOfImages += 1
                 self.cameraEventListener?.onFaceImageCreated(
                     count: numberOfImages,
@@ -195,7 +197,7 @@ class FaceAnalyzer: NSObject {
                 return
             }
             
-            self.cameraCallBack?.onStopAnalyzer()
+            self.stop()
             self.cameraEventListener?.onEndCapture()
             return
         }
@@ -210,7 +212,7 @@ class FaceAnalyzer: NSObject {
     
     private func pixelsToDotsRatio(_ pixelBuffer: CVPixelBuffer) -> CGFloat {
         return CGFloat(CVPixelBufferGetWidth(pixelBuffer))/self.cameraView!.bounds.width
-    }    
+    }
 }
 
 extension FaceAnalyzer: AVCaptureVideoDataOutputSampleBufferDelegate {
