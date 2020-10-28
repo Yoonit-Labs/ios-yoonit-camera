@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="22I-FD-BPD">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="22I-FD-BPD">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Photo List View Controller-->
         <scene sceneID="5ms-4Q-5gj">
             <objects>
-                <tableViewController id="QlM-PP-une" customClass="PhotoListViewController" customModule="FaceTrackerShowCase" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="QlM-PP-une" customClass="PhotoListViewController" customModule="YoonitCameraDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="StK-AU-s9c">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Picture" id="ChJ-Xe-o2n">
                                 <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
@@ -37,76 +35,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wjd-Yb-Fqr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="942" y="386"/>
-        </scene>
-        <!--Details View Controller-->
-        <scene sceneID="Olq-8l-oMf">
-            <objects>
-                <viewController storyboardIdentifier="Detail" id="7Ig-ub-r0D" customClass="DetailsViewController" customModule="FaceTrackerShowCase" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Zca-CM-QCb">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qd2-8e-IhB">
-                                <rect key="frame" x="0.0" y="39" width="414" height="818"/>
-                            </imageView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="sHz-uU-9Q3"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="qd2-8e-IhB" firstAttribute="centerX" secondItem="Zca-CM-QCb" secondAttribute="centerX" id="AOh-aQ-GMm"/>
-                            <constraint firstItem="qd2-8e-IhB" firstAttribute="leading" secondItem="sHz-uU-9Q3" secondAttribute="leading" id="Hm3-NF-B8n"/>
-                            <constraint firstItem="sHz-uU-9Q3" firstAttribute="bottom" secondItem="qd2-8e-IhB" secondAttribute="bottom" constant="5" id="R4l-Y3-2KE"/>
-                            <constraint firstItem="qd2-8e-IhB" firstAttribute="centerY" secondItem="Zca-CM-QCb" secondAttribute="centerY" id="iXv-fU-WsP"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="imageView" destination="qd2-8e-IhB" id="SFI-U7-b4D"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="y65-WX-YfR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3045" y="1282"/>
-        </scene>
-        <!--Details View Controller-->
-        <scene sceneID="ddg-CQ-4dK">
-            <objects>
-                <viewController storyboardIdentifier="DetailTest" id="5yp-1d-0Xg" customClass="DetailsViewController" customModule="FaceTrackerShowCase" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="a0N-Hy-cMB">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BR6-yz-8Ob">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fQx-25-d4I">
-                                <rect key="frame" x="20" y="799" width="374" height="63"/>
-                                <color key="backgroundColor" systemColor="systemYellowColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="42"/>
-                                <state key="normal" title="Resize!"/>
-                                <connections>
-                                    <action selector="resizeImage:" destination="5yp-1d-0Xg" eventType="touchUpInside" id="WGc-dY-bTb"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="TrF-YU-I93"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="fQx-25-d4I" firstAttribute="bottom" secondItem="BR6-yz-8Ob" secondAttribute="bottom" id="5uP-Gh-Grb"/>
-                            <constraint firstItem="BR6-yz-8Ob" firstAttribute="centerY" secondItem="TrF-YU-I93" secondAttribute="centerY" id="ImV-gI-TJ8"/>
-                            <constraint firstItem="BR6-yz-8Ob" firstAttribute="centerX" secondItem="fQx-25-d4I" secondAttribute="centerX" id="P0V-1O-PJD"/>
-                            <constraint firstItem="BR6-yz-8Ob" firstAttribute="leading" secondItem="TrF-YU-I93" secondAttribute="leading" id="XUv-iY-1uF"/>
-                            <constraint firstItem="BR6-yz-8Ob" firstAttribute="top" secondItem="TrF-YU-I93" secondAttribute="top" id="XZi-rJ-hbv"/>
-                            <constraint firstItem="fQx-25-d4I" firstAttribute="leading" secondItem="a0N-Hy-cMB" secondAttribute="leadingMargin" id="lFH-2t-spn"/>
-                            <constraint firstItem="BR6-yz-8Ob" firstAttribute="centerX" secondItem="TrF-YU-I93" secondAttribute="centerX" id="m39-ld-sPz"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="imageView" destination="BR6-yz-8Ob" id="ovZ-Bs-M9D"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="akU-QP-B4H" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3044.9275362318845" y="527.67857142857144"/>
         </scene>
         <!--Fotos-->
         <scene sceneID="PWx-zV-RCK">
@@ -149,14 +77,14 @@
         <!--Camera-->
         <scene sceneID="npD-1J-q4R">
             <objects>
-                <viewController id="l7p-dQ-FCU" customClass="CameraViewController" customModule="FaceTrackerShowCase" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="l7p-dQ-FCU" customClass="CameraViewController" customModule="YoonitCameraDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hFs-or-lPB">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s7c-6p-oqC" customClass="CameraView" customModule="YoonitCamera">
                                 <rect key="frame" x="0.0" y="44" width="414" height="769"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cye-Bx-CYr">
                                 <rect key="frame" x="206" y="605" width="200" height="200"/>
@@ -165,7 +93,7 @@
                                     <constraint firstAttribute="height" constant="200" id="oiR-GZ-Ku7"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wJp-iv-opc">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wJp-iv-opc">
                                 <rect key="frame" x="158" y="718" width="98" height="71"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="49"/>
                                 <state key="normal" title="Stop"/>
@@ -173,10 +101,10 @@
                                     <action selector="stopCapture:" destination="l7p-dQ-FCU" eventType="touchUpInside" id="e3R-y4-lcT"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZQn-f6-cka">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZQn-f6-cka">
                                 <rect key="frame" x="20" y="44" width="153" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="scrollViewTexturedBackgroundColor"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                 <state key="normal" title="Front cam">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
@@ -184,10 +112,10 @@
                                     <action selector="toggleCam:" destination="l7p-dQ-FCU" eventType="touchUpInside" id="u7F-Vr-Lrv"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NTX-Bi-sU8">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NTX-Bi-sU8">
                                 <rect key="frame" x="20" y="108" width="153" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="scrollViewTexturedBackgroundColor"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                 <state key="normal" title="No capture">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
@@ -195,6 +123,13 @@
                                     <action selector="showDropDown:" destination="l7p-dQ-FCU" eventType="touchUpInside" id="xgW-Xh-rmv"/>
                                 </connections>
                             </button>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="07t-4a-cSE">
+                                <rect key="frame" x="20" y="172" width="49" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="toggleFaceDetectionBox:" destination="l7p-dQ-FCU" eventType="valueChanged" id="uuG-6e-qJe"/>
+                                </connections>
+                            </switch>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="22" translatesAutoresizingMaskIntoConstraints="NO" id="v8g-XX-tYC">
                                 <rect key="frame" x="191" y="676" width="32" height="34"/>
                                 <color key="backgroundColor" red="0.46269756449999999" green="0.46309917639999998" blue="0.5" alpha="0.60493364729999999" colorSpace="custom" customColorSpace="sRGB"/>
@@ -202,9 +137,15 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Face Detection Box" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wjl-wb-SKA">
+                                <rect key="frame" x="81" y="177" width="325" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="8WE-KQ-cXS"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="8WE-KQ-cXS" firstAttribute="bottom" secondItem="cye-Bx-CYr" secondAttribute="bottom" constant="8" id="JhA-8X-NdR"/>
                             <constraint firstItem="wJp-iv-opc" firstAttribute="centerX" secondItem="8WE-KQ-cXS" secondAttribute="centerX" id="KmI-j7-d8x"/>
@@ -217,6 +158,7 @@
                             <constraint firstItem="wJp-iv-opc" firstAttribute="top" secondItem="v8g-XX-tYC" secondAttribute="bottom" constant="8" id="sqz-Ts-asB"/>
                             <constraint firstItem="s7c-6p-oqC" firstAttribute="trailing" secondItem="8WE-KQ-cXS" secondAttribute="trailing" id="xMW-6W-jpf"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="8WE-KQ-cXS"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Camera" id="yzu-f1-K0F"/>
                     <connections>
@@ -231,18 +173,4 @@
             <point key="canvasLocation" x="-149.27536231884059" y="-317.41071428571428"/>
         </scene>
     </scenes>
-    <resources>
-        <systemColor name="scrollViewTexturedBackgroundColor">
-            <color red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="scrollViewTexturedBackgroundColor">
-            <color red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemYellowColor">
-            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-    </resources>
 </document>

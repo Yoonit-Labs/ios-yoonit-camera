@@ -12,6 +12,9 @@
 
 import AVFoundation
 
+/**
+This class is responsible to handle the operations related with the barcode capture.
+*/
 class BarcodeAnalyzer: NSObject {
     
     public var cameraEventListener: CameraEventListenerDelegate?

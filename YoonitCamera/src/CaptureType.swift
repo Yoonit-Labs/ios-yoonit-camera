@@ -17,4 +17,5 @@ public enum CaptureType: Int {
     case NONE = 0
     case FACE = 1
     case BARCODE = 2
+    case FRAME = 3
 }

@@ -37,4 +37,9 @@ public protocol CameraEventListenerDelegate {
     func onPermissionDenied()
 
     func onBarcodeScanned(content: String)
+    
+    func onFrameImageCreated(
+        count: Int,
+        total: Int,
+        imagePath: String)
 }
