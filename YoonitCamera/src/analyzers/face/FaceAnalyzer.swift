@@ -21,7 +21,7 @@ class FaceAnalyzer: NSObject {
     public var cameraEventListener: CameraEventListenerDelegate?
     public var cameraCallBack: CameraCallBackDelegate!
     private var session: AVCaptureSession!
-    private var captureOptions: CaptureOptions?
+    private var captureOptions: CaptureOptions
     private var cameraView: CameraView!
     private var previewLayer: AVCaptureVideoPreviewLayer!
     
@@ -32,7 +32,7 @@ class FaceAnalyzer: NSObject {
     private var faceDetected = false
     
     public var numberOfImages = 0
-        
+    
     private let topSafeHeight: CGFloat = {
         if #available(iOS 11.0, *) {
             let window = UIApplication.shared.windows[0]
@@ -45,9 +45,9 @@ class FaceAnalyzer: NSObject {
     
     public var drawings: [CAShapeLayer] = [] {
         willSet {
-            self.clearDrawings()
+            self.drawings.forEach({ drawing in drawing.removeFromSuperlayer() })
         }
-        didSet{
+        didSet {
             if !self.drawings.isEmpty && self.shouldDraw {
                 self.drawings.forEach({ shape in self.cameraView!.layer.addSublayer(shape) })
             }
@@ -55,7 +55,7 @@ class FaceAnalyzer: NSObject {
     }
     
     init(
-        captureOptions: CaptureOptions? = nil,
+        captureOptions: CaptureOptions,
         cameraView: CameraView,
         previewLayer: AVCaptureVideoPreviewLayer,
         session: AVCaptureSession,
@@ -80,21 +80,22 @@ class FaceAnalyzer: NSObject {
             with: AVMediaType.video),
             connection.isVideoOrientationSupported else { return }
         connection.videoOrientation = .portrait
-                
+        
         self.shouldDraw = true
     }
     
     func stop() {
         self.session?.outputs.forEach({ self.session?.removeOutput($0) })
+        self.drawings = []
+        
         self.shouldDraw = false
-        self.clearDrawings()
     }
     
     func reset() {
         self.stop()
         self.start()
     }
-            
+    
     func faceDetect(image: CVPixelBuffer) {
         let faceDetectionRequest = VNDetectFaceRectanglesRequest(completionHandler: {
             (request: VNRequest, error: Error?) in
@@ -106,7 +107,6 @@ class FaceAnalyzer: NSObject {
                     if self.faceDetected {
                         self.faceDetected = false
                         self.cameraEventListener?.onFaceUndetected()
-                        self.clearDrawings()
                         self.drawings = []
                     }
                 }
@@ -117,23 +117,24 @@ class FaceAnalyzer: NSObject {
             cvPixelBuffer: image,
             orientation: .leftMirrored,
             options: [:])
+        
         try? imageRequestHandler.perform([faceDetectionRequest])
     }
     
     private func handleFaceDetectionResults(
         observedFaces: [VNFaceObservation],
         from pixelBuffer: CVPixelBuffer) {
-                                        
+        
         // The largest bounding box.
         let closestFace = observedFaces.sorted {
             return $0.boundingBox.width > $1.boundingBox.width
-        }[0]
+            }[0]
         
         let scale = self.pixelsToDotsRatio(pixelBuffer)
         
         // From normalized coordinates to screen (dots) coordinates.
         let faceBoundingBox = self.previewLayer!.layerRectConverted(fromMetadataOutputRect: closestFace.boundingBox)
-        let faceBoundingBoxExtended = faceBoundingBox.increase(by: CGFloat(self.captureOptions!.facePaddingPercent))
+        let faceBoundingBoxExtended = faceBoundingBox.increase(by: CGFloat(self.captureOptions.facePaddingPercent))
         let faceBoundingBoxScaled = faceBoundingBoxExtended.adjustedBySafeArea(height: topSafeHeight/scale)
         
         let left = Int(faceBoundingBoxScaled.minX)
@@ -143,13 +144,12 @@ class FaceAnalyzer: NSObject {
         
         if
             left < 0 ||
-            top < 0 ||
-            bottom > Int(UIScreen.main.bounds.height) ||
-            right > Int(UIScreen.main.bounds.width) {
+                top < 0 ||
+                bottom > Int(UIScreen.main.bounds.height) ||
+                right > Int(UIScreen.main.bounds.width) {
             if self.faceDetected {
                 self.faceDetected = false
                 self.cameraEventListener?.onFaceUndetected()
-                self.clearDrawings()
                 self.drawings = []
             }
             return
@@ -157,10 +157,12 @@ class FaceAnalyzer: NSObject {
         self.faceDetected = true
         
         // Draw face bounding box.
-        if captureOptions!.faceDetectionBox {
+        if captureOptions.faceDetectionBox {
             self.drawings = self.faceBoundingBoxController.makeShapeFor(boundingBox: faceBoundingBoxScaled)
+        } else {
+            self.drawings = []
         }
-                    
+        
         self.cameraEventListener?.onFaceDetected(
             x: left,
             y: top,
@@ -170,29 +172,29 @@ class FaceAnalyzer: NSObject {
         let currentTimestamp = Date().currentTimeMillis()
         let diffTime = currentTimestamp - self.lastTimestamp
         
-        if diffTime > self.captureOptions!.faceTimeBetweenImages {
+        if diffTime > self.captureOptions.faceTimeBetweenImages {
             self.lastTimestamp = currentTimestamp
             self.faceQualityController.process(
                 pixels: pixelBuffer,
                 toRect: faceBoundingBoxExtended,
                 atScale: scale,
-                captureOptions: self.captureOptions!,
+                captureOptions: self.captureOptions,
                 faceAnalyzer: self)
         }
     }
     
     public func notifyCapturedImage(filePath: String) {
-        if (self.captureOptions!.faceNumberOfImages > 0) {
-            if (self.numberOfImages <= self.captureOptions!.faceNumberOfImages) {
+        if (self.captureOptions.faceNumberOfImages > 0) {
+            if (self.numberOfImages <= self.captureOptions.faceNumberOfImages) {
                 self.numberOfImages += 1
                 self.cameraEventListener?.onFaceImageCreated(
                     count: numberOfImages,
-                    total: self.captureOptions!.faceNumberOfImages,
+                    total: self.captureOptions.faceNumberOfImages,
                     imagePath: filePath
                 )
                 return
             }
-
+            
             self.cameraCallBack?.onStopAnalyzer()
             self.cameraEventListener?.onEndCapture()
             return
@@ -201,18 +203,14 @@ class FaceAnalyzer: NSObject {
         self.numberOfImages = (numberOfImages + 1) % MAX_NUMBER_OF_IMAGES
         self.cameraEventListener?.onFaceImageCreated(
             count: numberOfImages,
-            total: self.captureOptions!.faceNumberOfImages,
+            total: self.captureOptions.faceNumberOfImages,
             imagePath: filePath
         )
     }
     
     private func pixelsToDotsRatio(_ pixelBuffer: CVPixelBuffer) -> CGFloat {
         return CGFloat(CVPixelBufferGetWidth(pixelBuffer))/self.cameraView!.bounds.width
-    }
-    
-    public func clearDrawings() {
-        self.drawings.forEach({ drawing in drawing.removeFromSuperlayer() })
-    }
+    }    
 }
 
 extension FaceAnalyzer: AVCaptureVideoDataOutputSampleBufferDelegate {
@@ -231,6 +229,7 @@ extension FaceAnalyzer: AVCaptureVideoDataOutputSampleBufferDelegate {
             debugPrint("Unable to get image from sample buffer.")
             return
         }
+        
         self.faceDetect(image: frame)
     }
 }

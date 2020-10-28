@@ -60,7 +60,7 @@ class FaceQualityController {
             let imageQuality = self.computeFaceQuality(lumaImageBuffer: &lumaBuffer)
             
             //set the orientation of the image
-            let orientation = captureOptions.cameraLensFacing.rawValue == 1 ? UIImage.Orientation.up : UIImage.Orientation.upMirrored
+            let orientation = captureOptions.cameraLens.rawValue == 1 ? UIImage.Orientation.up : UIImage.Orientation.upMirrored
             
             // Convert CVPixelBuffer to UIImage.
             let image = imageFromPixelBuffer(imageBuffer: pixels, scale: UIScreen.main.scale, orientation: orientation)

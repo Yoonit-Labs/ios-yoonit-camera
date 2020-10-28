@@ -19,6 +19,5 @@ public protocol CameraControllerProtocol {
     func toggleCameraLens()
     func getCameraLens() -> Int
     func startCaptureType(captureType: CaptureType)
-    var cameraEventListener: CameraEventListenerDelegate? { get set }
-    var captureOptions: CaptureOptions? { get set }
+    var cameraEventListener: CameraEventListenerDelegate? { get set } 
 }
