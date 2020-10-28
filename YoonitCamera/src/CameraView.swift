@@ -70,8 +70,8 @@ public class CameraView: UIView {
      Start capture type: none, face, barcode or frame.
      Must have started preview, see `startPreview`.
      
-     - Parameters: `"none"` | `"face"` | `"barcode"`;
-     - Precondition: value string must be one of `"none"`, `"face"`, `"barcode"` and must have started preview.;
+     - Parameters: `"none"` | `"face"` | `"barcode"` | `"frame"`;
+     - Precondition: value string must be one of `"none"`, `"face"`, `"barcode"`, `"frame"` and must have started preview.;
      */
     @objc
     public func startCaptureType(captureType: String) {
@@ -84,6 +84,9 @@ public class CameraView: UIView {
             
         case "barcode":
             self.cameraController?.startCaptureType(captureType: CaptureType.BARCODE)
+            
+        case "frame":
+            self.cameraController?.startCaptureType(captureType: CaptureType.FRAME)
             
         default:
             if (self.cameraEventListener != nil) {
@@ -121,7 +124,7 @@ public class CameraView: UIView {
     /**
      Set number of face file images to create;
      The time interval to create the image is 1000 milli second.
-     See [setFaceTimeBetweenImages] to change the time interval.
+     See setFaceTimeBetweenImages to change the time interval.
      
      - Parameter faceNumberOfImages: The number of images to create;
      */
@@ -171,5 +174,27 @@ public class CameraView: UIView {
     @objc
     public func setFaceImageSize(width: Int, height: Int) {
         self.captureOptions.faceImageSize = CGSize(width: width, height: height)
+    }
+
+    /**
+     Set number of frame file images to create;
+     The time interval to create the image is 1000 milli second.
+     See setFrameTimeBetweenImages to change the time interval.
+     
+     - Parameter frameNumberOfImages: The number of images to create;
+     */
+    @objc
+    public func setFrameNumberOfImages(frameNumberOfImages: Int) {
+        self.captureOptions.frameNumberOfImages = frameNumberOfImages
+    }
+    
+    /**
+     Set saving frame images time interval in milli seconds.
+     
+     - Parameter frameTimeBetweenImages: The time in milli seconds. Default value is `1000`;
+     */
+    @objc
+    public func setFrameTimeBetweenImages(frameTimeBetweenImages: Int64) {
+        self.captureOptions.frameTimeBetweenImages = frameTimeBetweenImages
     }
 }

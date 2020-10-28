@@ -10,6 +10,7 @@
 		5C0C642D2540AC3F00EDF95B /* CameraControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0C642C2540AC3F00EDF95B /* CameraControllerProtocol.swift */; };
 		5C0C64392542108B00EDF95B /* logo_cyberlabs.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C0C64382542108B00EDF95B /* logo_cyberlabs.png */; };
 		5CB645582549935E0019BD43 /* KeyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB645572549935E0019BD43 /* KeyError.swift */; };
+		5CB6455B2549EB2A0019BD43 /* FrameAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB6455A2549EB2A0019BD43 /* FrameAnalyzer.swift */; };
 		6176EEFB252CF9D200F4D4DD /* YoonitCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = 6176EEF9252CF9D200F4D4DD /* YoonitCamera.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6176EF10252CF9F600F4D4DD /* FaceAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF02252CF9F600F4D4DD /* FaceAnalyzer.swift */; };
 		6176EF11252CF9F600F4D4DD /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF03252CF9F600F4D4DD /* extensions.swift */; };
@@ -33,6 +34,7 @@
 		5C0C642C2540AC3F00EDF95B /* CameraControllerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraControllerProtocol.swift; sourceTree = "<group>"; };
 		5C0C64382542108B00EDF95B /* logo_cyberlabs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_cyberlabs.png; sourceTree = "<group>"; };
 		5CB645572549935E0019BD43 /* KeyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyError.swift; sourceTree = "<group>"; };
+		5CB6455A2549EB2A0019BD43 /* FrameAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameAnalyzer.swift; sourceTree = "<group>"; };
 		6176EEF6252CF9D200F4D4DD /* YoonitCamera.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YoonitCamera.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6176EEF9252CF9D200F4D4DD /* YoonitCamera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YoonitCamera.h; sourceTree = "<group>"; };
 		6176EEFA252CF9D200F4D4DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 			children = (
 				5C0C64342541F60600EDF95B /* face */,
 				5C0C64332541F5FB00EDF95B /* barcode */,
+				5CB645592549EB010019BD43 /* frame */,
 			);
 			path = analyzers;
 			sourceTree = "<group>";
@@ -124,6 +127,14 @@
 				5CB645572549935E0019BD43 /* KeyError.swift */,
 			);
 			path = src;
+			sourceTree = "<group>";
+		};
+		5CB645592549EB010019BD43 /* frame */ = {
+			isa = PBXGroup;
+			children = (
+				5CB6455A2549EB2A0019BD43 /* FrameAnalyzer.swift */,
+			);
+			path = frame;
 			sourceTree = "<group>";
 		};
 		6176EEEC252CF9D200F4D4DD = {
@@ -255,6 +266,7 @@
 				6176EF15252CF9F600F4D4DD /* FaceQualityController.swift in Sources */,
 				6176EF1C252CF9F600F4D4DD /* CameraController.swift in Sources */,
 				6176EF17252CF9F600F4D4DD /* CameraView.swift in Sources */,
+				5CB6455B2549EB2A0019BD43 /* FrameAnalyzer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

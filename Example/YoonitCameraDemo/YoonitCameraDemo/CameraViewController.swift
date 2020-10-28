@@ -22,14 +22,15 @@ class CameraViewController: UIViewController {
     @IBOutlet var cameraTypeDropDown: UIButton!
     @IBOutlet var qrCodeTextField: UITextField!
     
-    var showFaceImagePreview = false
+    var showImagePreview = false
     
     let menu: DropDown = {
         let menu = DropDown()
         menu.dataSource = [
             "No capture",
             "Face capture",
-            "Code capture"
+            "Code capture",
+            "Frame capture"
         ]
         return menu
     }()
@@ -37,10 +38,12 @@ class CameraViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.showFaceImagePreview = true
+        self.showImagePreview = true
         self.qrCodeTextField.isHidden = true
         
         self.cameraView.cameraEventListener = self
+        self.cameraView.setFrameNumberOfImages(frameNumberOfImages: 10)
+        self.cameraView.setFaceNumberOfImages(faceNumberOfImages: 10)
         self.cameraView.startPreview()
         
         self.menu.anchorView = self.cameraTypeDropDown
@@ -55,13 +58,18 @@ class CameraViewController: UIViewController {
             } else if (title == "Face capture") {
                 self.cameraTypeDropDown.setTitle("Face capture", for: .normal)
                 captureType = "face"
-                self.showFaceImagePreview = true
+                self.showImagePreview = true
                 self.qrCodeTextField.isHidden = true
             } else if (title == "Code capture") {
                 self.cameraTypeDropDown.setTitle("Code capture", for: .normal)
                 captureType = "barcode"
                 self.qrCodeTextField.isHidden = false
                 self.clearFaceImagePreview()
+            } else if (title == "Frame capture") {
+                self.cameraTypeDropDown.setTitle("Frame capture", for: .normal)
+                captureType = "frame"
+                self.showImagePreview = true
+                self.qrCodeTextField.isHidden = true
             }
             
             self.cameraView.startCaptureType(captureType: captureType)
@@ -93,7 +101,7 @@ class CameraViewController: UIViewController {
     }
     
     func clearFaceImagePreview() {
-        self.showFaceImagePreview = false
+        self.showImagePreview = false
         DispatchQueue.main.async {
             self.savedFrame.image = nil
         }
@@ -121,7 +129,7 @@ extension CameraViewController: CameraEventListenerDelegate {
         } else {
             print("onFaceImageCreated: \(count) from \(total).")
         }
-        self.savedFrame.image = self.showFaceImagePreview ? image : nil
+        self.savedFrame.image = self.showImagePreview ? image : nil
     }
 
     func onEndCapture() {
@@ -143,5 +151,17 @@ extension CameraViewController: CameraEventListenerDelegate {
     func onBarcodeScanned(content: String) {
         print("onBarcodeScanned: \(content)")
         self.qrCodeTextField.text = content
+    }
+    
+    func onFrameImageCreated(count: Int, total: Int, imagePath: String) {
+        let subpath = imagePath.substring(from: imagePath.index(imagePath.startIndex, offsetBy: 7))
+        let image = UIImage(contentsOfFile: subpath)
+        
+        if total == 0 {
+            print("onFrameImageCreated: \(count).")
+        } else {
+            print("onFrameImageCreated: \(count) from \(total).")
+        }
+        self.savedFrame.image = self.showImagePreview ? image : nil
     }
 }

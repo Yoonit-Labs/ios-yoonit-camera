@@ -26,4 +26,7 @@ public class CaptureOptions {
     var faceTimeBetweenImages: Int64 = 1000
     var facePaddingPercent: Float = 0.27
     var faceImageSize = CGSize(width: 200, height: 200)
+        
+    var frameNumberOfImages: Int = 0
+    var frameTimeBetweenImages: Int64 = 1000
 }

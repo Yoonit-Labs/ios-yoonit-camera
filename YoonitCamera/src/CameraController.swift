@@ -31,11 +31,13 @@ class CameraController: NSObject, CameraControllerProtocol {
     
     private var faceAnalyzer: FaceAnalyzer?
     private var barcodeAnalyzer: BarcodeAnalyzer?
+    private var frameAnalyzer: FrameAnalyzer?
     
     public var cameraEventListener: CameraEventListenerDelegate? {
         didSet {
             self.faceAnalyzer?.cameraEventListener = cameraEventListener
             self.barcodeAnalyzer?.cameraEventListener = cameraEventListener
+            self.frameAnalyzer?.cameraEventListener = cameraEventListener
         }
     }
     
@@ -52,6 +54,8 @@ class CameraController: NSObject, CameraControllerProtocol {
             session: self.session)
         
         self.barcodeAnalyzer = BarcodeAnalyzer(session: self.session)
+        
+        self.frameAnalyzer = FrameAnalyzer(captureOptions: self.captureOptions, session: self.session)
     }
     
     required init?(coder: NSCoder) {
@@ -84,7 +88,7 @@ class CameraController: NSObject, CameraControllerProtocol {
      Start capture type of Image Analyzer.
      Must have started preview.
      
-     - Parameter captureType: `.NONE` | `.FACE` | `.BARCODE`;
+     - Parameter captureType: `.NONE` | `.FACE` | `.BARCODE` | `.FRAME`;
      - Precondition: Must have started preview.
      */
     public func startCaptureType(captureType: CaptureType) {
@@ -104,6 +108,9 @@ class CameraController: NSObject, CameraControllerProtocol {
             
         case CaptureType.BARCODE:
             self.barcodeAnalyzer?.start()
+            
+        case CaptureType.FRAME:
+            self.frameAnalyzer?.start()
             
         default:
             return
@@ -146,9 +153,16 @@ class CameraController: NSObject, CameraControllerProtocol {
             
             // Add camera input.
             self.buildCameraInput(cameraLens: self.captureOptions.cameraLens)
-            
-            if (self.captureOptions.type == .FACE) {
+                                    
+            switch self.captureOptions.type {
+            case CaptureType.FACE:
                 self.faceAnalyzer?.reset()
+                
+            case CaptureType.FRAME:
+                self.frameAnalyzer?.reset()
+                
+            default:
+                return
             }
         }
     }
@@ -177,12 +191,5 @@ class CameraController: NSObject, CameraControllerProtocol {
         
         let cameraInput = try! AVCaptureDeviceInput(device: device)
         self.session.addInput(cameraInput)
-    }
-}
-
-extension CameraController: CameraCallBackDelegate {
-    
-    func onStopAnalyzer() {
-        self.stopAnalyzer()
     }
 }
