@@ -2,9 +2,17 @@
 
 # ios-yoonit-camera
 
-![Generic badge](https://img.shields.io/badge/version-v1.0.3-<COLOR>.svg) ![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)
+![Generic badge](https://img.shields.io/badge/version-v1.1.0-<COLOR>.svg) ![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)
 
-Face image capture and QR Code scanning library.
+A iOS plugin to provide:
+- Camera preview (Front & Back)
+- Face detection (With Min & Max size (Soon))
+- Landmark detection (Soon)
+- Face crop
+- Face capture
+- Frame capture
+- Face ROI (Soon)
+- QR Code scanning
 
 ## Install
 
@@ -91,7 +99,7 @@ class YourViewController: UIViewController, CameraEventListenerDelegate {
 | Function                       | Parameters                    | Return Type | Valid values                                                    | Description
 | -                              | -                             | -           | -                                                               | -  
 | **`startPreview`**             | -                             | void        | -                                                               | Start camera preview if has permission.
-| **`startCaptureType`**         | `captureType: String`         | void        | <ul><li>`"none"`</li><li>`"face"`</li><li>`"barcode"`</li></ul> | Set capture type none, face or barcode.
+| **`startCaptureType`**          | `captureType: String`          | void        | <ul><li>`"none"`</li><li>`"face"`</li><li>`"barcode"`</li><li>`"frame"`</li></ul> | Set capture type none, face, barcode and frame.
 | **`stopCapture`**              | -                             | void        | -                                                               | Stop any type of capture.
 | **`toggleCameraLens`**         | -                             | void        | -                                                               | Set camera lens facing front or back.
 | **`getCameraLens`**            | -                             | Int         | -                                                               | Return `Int` that represents lens face state: 0 for front 1 for back camera.  
@@ -100,15 +108,18 @@ class YourViewController: UIViewController, CameraEventListenerDelegate {
 | **`setFaceTimeBetweenImages`** | `faceTimeBetweenImages: Int64` | void        | Any positive number that represent time in milli seconds        | Set saving face images time interval in milli seconds.  
 | **`setFacePaddingPercent`**    | `facePaddingPercent: Float`   | void        | Any positive `Float` value                                      | Set face image and bounding box padding in percent.  
 | **`setFaceImageSize`**         | `width: Int, height: Int`     | void        | Any positive `Int` value                                        | Set face image size to be saved.
+| **`setFrameTimeBetweenImages`** | `frameTimeBetweenImages: Int64` | void        | Any positive number that represent time in milli seconds                          | Set saving frame images time interval in milli seconds.
+| **`setFrameNumberOfImages`**    | `frameNumberOfImages: Int`     | void        | Any positive `Int` value                                                          | Default value is 0. For value 0 is saved infinity images. When saved images reached the "frame number os images", the `onEndCapture` is triggered.
 
 ### Events
 
 | Event                    | Parameters                                  | Description
 | -                        | -                                           | -
-| **`onFaceImageCreated`** | `count: Int, total: Int, imagePath: String` | Must have started capture type of face (see `startCaptureType`). Emitted when the face image file is created: <ul><li>count: current index</li><li>total: total to create</li><li>imagePath: the face image path</li><ul>  
+| **`onFaceImageCreated`** | `count: Int, total: Int, imagePath: String` | Must have started capture type of face (see `startCaptureType`). Emitted when the face image file is created: <ul><li>count: current index</li><li>total: total to create</li><li>imagePath: the face image path</li><ul>
+| **`onFrameImageCreated`** | `count: Int, total: Int, imagePath: String` | Must have started capture type of frame (see `startCaptureType`). Emitted when the frame image file is created: <ul><li>count: current index</li><li>total: total to create</li><li>imagePath: the frame image path</li><ul>
 | **`onFaceDetected`**     | `x: Int, y: Int, width: Int, height: Int`   | Must have started capture type of face. Emit the detected face bounding box.
 | **`onFaceUndetected`**   | -                                           | Must have started capture type of face. Emitted after `onFaceDetected`, when there is no more face detecting.
-| **`onEndCapture`**       | -                                           | Must have started capture type of face. Emitted when the number of face image files created is equal of the number of images set (see the method `setFaceNumberOfImages`).   
+| **`onEndCapture`**        | -                                           | Must have started capture type of face or frame. Emitted when the number of face or frame image files created is equal of the number of images set (see the method `setFaceNumberOfImages` for face and `setFrameNumberOfImages` for frame).   
 | **`onBarcodeScanned`**   | `content: String`                           | Must have started capture type of barcode (see `startCaptureType`). Emitted when the camera scan a QR Code.   
 | **`onError`**            | `error: String`                             | Emit message error.  
 | **`onMessage`**          | `message: String`                           | Emit message.   
