@@ -44,8 +44,7 @@ class FaceQualityController {
             
     func process(
         pixels: CVPixelBuffer,
-        toRect faceRect: CGRect,
-        atScale scale: CGFloat,
+        toRect faceRect: CGRect,        
         captureOptions: CaptureOptions,
         faceAnalyzer: FaceAnalyzer) {
                                 

@@ -10,10 +10,95 @@
 //
 
 
-import Foundation
+import AVFoundation
 import UIKit
+import Vision
 
-class FaceBoundinxBoxController {
+class FaceBoundingBoxController: NSObject {
+    
+    private var previewLayer: AVCaptureVideoPreviewLayer
+    private var cameraView: CameraView!
+    private var captureOptions: CaptureOptions
+    public var cameraEventListener: CameraEventListenerDelegate?
+    
+    private let topSafeHeight: CGFloat = {
+        if #available(iOS 11.0, *) {
+            let window = UIApplication.shared.windows[0]
+            let safeFrame = window.safeAreaLayoutGuide.layoutFrame
+            return safeFrame.minY > 24 ? safeFrame.minY : 0
+        } else {
+            return 0
+        }
+    }()
+    
+    init(
+        captureOptions: CaptureOptions,
+        cameraView: CameraView,
+        previewLayer: AVCaptureVideoPreviewLayer)
+    {
+        self.captureOptions = captureOptions
+        self.cameraView = cameraView
+        self.previewLayer = previewLayer
+    }
+    
+    /**
+     Get the closest face bounding box.
+     
+     - Parameter faces: The face list camera detected;
+     - Returns: The closest face.
+     */
+    func getClosestFaceBoundingBox(_ faces: [VNFaceObservation]) -> CGRect {
+        
+        // Get the closest face.
+        let closestFace = faces.sorted {
+            return $0.boundingBox.width > $1.boundingBox.width
+            }[0]
+        
+        // Normalize the bounding box coordinates to UI.
+        let faceBoundingBox = self.previewLayer
+            .layerRectConverted(fromMetadataOutputRect: closestFace.boundingBox)
+            .increase(by: CGFloat(self.captureOptions.facePaddingPercent))
+        
+        return faceBoundingBox
+    }
+    
+    func getDetectionBox(boundingBox: CGRect, pixelBuffer: CVPixelBuffer) -> CGRect? {
+        
+        let scale = CGFloat(CVPixelBufferGetWidth(pixelBuffer)) / self.cameraView.bounds.width
+        
+        let faceBoundingBoxScaled = boundingBox.adjustedBySafeArea(height: self.topSafeHeight / scale)
+        
+        let left = Int(faceBoundingBoxScaled.minX)
+        let top = Int(faceBoundingBoxScaled.minY)
+        let right = Int(faceBoundingBoxScaled.maxX)
+        let bottom = Int(faceBoundingBoxScaled.maxY)
+        
+        if
+            left < 0 ||
+                top < 0 ||
+                bottom > Int(UIScreen.main.bounds.height) ||
+                right > Int(UIScreen.main.bounds.width)
+        {
+            return nil
+        }
+        
+        let width = right - left
+
+        // This variable is the face detection box percentage in relation with the
+        // UI view. The value must be between 0 and 1.
+        let detectionBoxRelatedWithScreen = Float(width) / Float(self.previewLayer.bounds.width)
+
+        if (detectionBoxRelatedWithScreen < self.captureOptions.faceCaptureMinSize) {
+            self.cameraEventListener?.onError(error: KeyError.INVALID_CAPTURE_FACE_MIN_SIZE.rawValue)
+            return nil
+        }
+        if (detectionBoxRelatedWithScreen > self.captureOptions.faceCaptureMaxSize) {
+            self.cameraEventListener?.onError(error: KeyError.INVALID_CAPTURE_FACE_MAX_SIZE.rawValue)   
+            return nil
+        }
+        
+        return CGRect(x: left, y: top, width: right - left, height: bottom - top)
+    }
     
     func drawLine(
         onLayer layer: CALayer,
