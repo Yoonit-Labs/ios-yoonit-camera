@@ -175,7 +175,37 @@ public class CameraView: UIView {
     public func setFaceImageSize(width: Int, height: Int) {
         self.captureOptions.faceImageSize = CGSize(width: width, height: height)
     }
-
+    
+    /**
+     Limit the minimum face capture size.
+     This variable is the face detection box percentage in relation with the UI graphic view.
+     The value must be between 0 and 1.
+     
+     For example, if set 0.5, will capture face with the detection box width occupying
+     at least 50% of the screen width.
+     
+     - Parameter faceCaptureMinSize The face capture min size value. Default value is 0;
+     */
+    @objc
+    public func setFaceCaptureMinSize(faceCaptureMinSize: Float) {
+        self.captureOptions.faceCaptureMinSize = faceCaptureMinSize
+    }
+    
+    /**
+     Limit the maximum face capture size.
+     This variable is the face detection box percentage in relation with the UI graphic view.
+     The value must be between 0 and 1.
+     
+     For example, if set 0.7, will capture face with the detection box width occupying
+     at least 70% of the screen width.
+     
+     - Parameter faceCaptureMaxSize The face capture max size value. Default value is 1.0;
+     */
+    @objc
+    public func setFaceCaptureMaxSize(faceCaptureMaxSize: Float) {
+        self.captureOptions.faceCaptureMaxSize = faceCaptureMaxSize
+    }
+    
     /**
      Set number of frame file images to create;
      The time interval to create the image is 1000 milli second.

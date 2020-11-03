@@ -14,7 +14,6 @@ import UIKit
 import YoonitCamera
 import DropDown
 
-
 class CameraViewController: UIViewController {
 
     @IBOutlet var savedFrame: UIImageView!
@@ -41,9 +40,7 @@ class CameraViewController: UIViewController {
         self.showImagePreview = true
         self.qrCodeTextField.isHidden = true
         
-        self.cameraView.cameraEventListener = self
-        self.cameraView.setFrameNumberOfImages(frameNumberOfImages: 10)
-        self.cameraView.setFaceNumberOfImages(faceNumberOfImages: 10)
+        self.cameraView.cameraEventListener = self                
         self.cameraView.startPreview()
         
         self.menu.anchorView = self.cameraTypeDropDown
