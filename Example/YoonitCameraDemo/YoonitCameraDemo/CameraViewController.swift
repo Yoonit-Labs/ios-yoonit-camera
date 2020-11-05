@@ -40,7 +40,7 @@ class CameraViewController: UIViewController {
         self.showImagePreview = true
         self.qrCodeTextField.isHidden = true
         
-        self.cameraView.cameraEventListener = self                
+        self.cameraView.cameraEventListener = self
         self.cameraView.startPreview()
         
         self.menu.anchorView = self.cameraTypeDropDown
@@ -52,16 +52,19 @@ class CameraViewController: UIViewController {
                 captureType = "none"
                 self.clearFaceImagePreview()
                 self.qrCodeTextField.isHidden = true
+                
             } else if (title == "Face capture") {
                 self.cameraTypeDropDown.setTitle("Face capture", for: .normal)
                 captureType = "face"
                 self.showImagePreview = true
                 self.qrCodeTextField.isHidden = true
+                
             } else if (title == "Code capture") {
                 self.cameraTypeDropDown.setTitle("Code capture", for: .normal)
                 captureType = "barcode"
                 self.qrCodeTextField.isHidden = false
                 self.clearFaceImagePreview()
+                
             } else if (title == "Frame capture") {
                 self.cameraTypeDropDown.setTitle("Frame capture", for: .normal)
                 captureType = "frame"
@@ -77,6 +80,7 @@ class CameraViewController: UIViewController {
         if sender.currentTitle == "Front cam" {
             self.cameraView.toggleCameraLens()
             sender.setTitle("Back cam", for: .normal)
+            
         } else {
             self.cameraView.toggleCameraLens()
             sender.setTitle("Front cam", for: .normal)
