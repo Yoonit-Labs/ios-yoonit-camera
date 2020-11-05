@@ -72,31 +72,7 @@ class FaceBoundingBoxController: NSObject {
         let top = Int(faceBoundingBoxScaled.minY)
         let right = Int(faceBoundingBoxScaled.maxX)
         let bottom = Int(faceBoundingBoxScaled.maxY)
-        
-        if
-            left < 0 ||
-                top < 0 ||
-                bottom > Int(UIScreen.main.bounds.height) ||
-                right > Int(UIScreen.main.bounds.width)
-        {
-            return nil
-        }
-        
-        let width = right - left
-
-        // This variable is the face detection box percentage in relation with the
-        // UI view. The value must be between 0 and 1.
-        let detectionBoxRelatedWithScreen = Float(width) / Float(self.previewLayer.bounds.width)
-
-        if (detectionBoxRelatedWithScreen < self.captureOptions.faceCaptureMinSize) {
-            self.cameraEventListener?.onError(error: KeyError.INVALID_CAPTURE_FACE_MIN_SIZE.rawValue)
-            return nil
-        }
-        if (detectionBoxRelatedWithScreen > self.captureOptions.faceCaptureMaxSize) {
-            self.cameraEventListener?.onError(error: KeyError.INVALID_CAPTURE_FACE_MAX_SIZE.rawValue)   
-            return nil
-        }
-        
+            
         return CGRect(x: left, y: top, width: right - left, height: bottom - top)
     }
     
