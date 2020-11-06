@@ -70,8 +70,8 @@ public class CameraView: UIView {
      Start capture type: none, face, barcode or frame.
      Must have started preview, see `startPreview`.
      
-     - Parameters: `"none"` | `"face"` | `"barcode"` | `"frame"`;
-     - Precondition: value string must be one of `"none"`, `"face"`, `"barcode"`, `"frame"` and must have started preview.;
+     - Parameters: `"none"` | `"face"` | `"barcode"` | `"frame"`.
+     - Precondition: value string must be one of `"none"`, `"face"`, `"barcode"`, `"frame"` and must have started preview.
      */
     @objc
     public func startCaptureType(captureType: String) {
@@ -118,18 +118,23 @@ public class CameraView: UIView {
      */
     @objc
     public func getCameraLens() -> Int {
-        return (self.cameraController?.getCameraLens())!
+        return self.cameraController!.getCameraLens()
     }
     
     /**
-     Set number of face file images to create;
+     Set number of face file images to create.
      The time interval to create the image is 1000 milli second.
      See setFaceTimeBetweenImages to change the time interval.
      
-     - Parameter faceNumberOfImages: The number of images to create;
+     - Parameter faceNumberOfImages: The number of images to create.
      */
     @objc
     public func setFaceNumberOfImages(faceNumberOfImages: Int) {
+        if faceNumberOfImages < 0 {
+            self.cameraEventListener?.onError(error: KeyError.INVALID_FACE_NUMBER_OF_IMAGES.rawValue)
+            return
+        }
+        
         self.captureOptions.faceNumberOfImages = faceNumberOfImages
     }
     
@@ -137,7 +142,7 @@ public class CameraView: UIView {
      Set to show/hide face detection box when face detected.
      The detection box is the detected face bounding box draw.
      
-     - Parameter faceDetectionBox: The indicator to show or hide the face detection box. Default value is `true`;
+     - Parameter faceDetectionBox: The indicator to show or hide the face detection box. Default value is `true`.
      */
     @objc
     public func setFaceDetectionBox(faceDetectionBox: Bool) {
@@ -147,32 +152,47 @@ public class CameraView: UIView {
     /**
      Set saving face images time interval in milli seconds.
      
-     - Parameter faceTimeBetweenImages: The time in milli seconds. Default value is `1000`;
+     - Parameter faceTimeBetweenImages: The time in milli seconds. Default value is `1000`.
      */
     @objc
     public func setFaceTimeBetweenImages(faceTimeBetweenImages: Int64) {
+        if faceTimeBetweenImages < 0 {
+            self.cameraEventListener?.onError(error: KeyError.INVALID_FACE_TIME_BETWEEN_IMAGES.rawValue)
+            return
+        }
+        
         self.captureOptions.faceTimeBetweenImages = faceTimeBetweenImages
     }
     
     /**
      Enlarge the face bounding box by percent.
      
-     - Parameter facePaddingPercent: The percent to enlarge the bounding box. Default value is `0.27`;
+     - Parameter facePaddingPercent: The percent to enlarge the bounding box. Default value is `0.27`.
      */
     @objc
     public func setFacePaddingPercent(facePaddingPercent: Float) {
+        if facePaddingPercent < 0 {
+            self.cameraEventListener?.onError(error: KeyError.INVALID_FACE_PADDING_PERCENT.rawValue)
+            return
+        }
+        
         self.captureOptions.facePaddingPercent = facePaddingPercent
     }
     
     /**
      Set face image width and height to be saved.
      
-     - Parameter width: The face image width saved in pixel. Default value is `200`;
-     - Parameter height: The face image height saved in pixel. Default value is `200`;
-     - Precondition: `width` and `height` must be greater than 0;
+     - Parameter width: The face image width saved in pixel. Default value is `200`.
+     - Parameter height: The face image height saved in pixel. Default value is `200`.
+     - Precondition: `width` and `height` must be greater than 0.
      */
     @objc
     public func setFaceImageSize(width: Int, height: Int) {
+        if width <= 0 || height <= 0 {
+            self.cameraEventListener?.onError(error: KeyError.INVALID_FACE_IMAGE_SIZE.rawValue)
+            return
+        }
+        
         self.captureOptions.faceImageSize = CGSize(width: width, height: height)
     }
     
@@ -184,10 +204,15 @@ public class CameraView: UIView {
      For example, if set 0.5, will capture face with the detection box width occupying
      at least 50% of the screen width.
      
-     - Parameter faceCaptureMinSize The face capture min size value. Default value is 0;
+     - Parameter faceCaptureMinSize The face capture min size value. Default value is 0,
      */
     @objc
     public func setFaceCaptureMinSize(faceCaptureMinSize: Float) {
+        if faceCaptureMinSize < 0.0 || faceCaptureMinSize > 1.0 {
+            self.cameraEventListener?.onError(error: KeyError.INVALID_FACE_CAPTURE_MIN_SIZE.rawValue)
+            return
+        }
+        
         self.captureOptions.faceCaptureMinSize = faceCaptureMinSize
     }
     
@@ -199,32 +224,47 @@ public class CameraView: UIView {
      For example, if set 0.7, will capture face with the detection box width occupying
      at least 70% of the screen width.
      
-     - Parameter faceCaptureMaxSize The face capture max size value. Default value is 1.0;
+     - Parameter faceCaptureMaxSize The face capture max size value. Default value is 1.0.
      */
     @objc
     public func setFaceCaptureMaxSize(faceCaptureMaxSize: Float) {
+        if faceCaptureMaxSize < 0.0 || faceCaptureMaxSize > 1.0 {
+            self.cameraEventListener?.onError(error: KeyError.INVALID_FACE_CAPTURE_MAX_SIZE.rawValue)
+            return
+        }
+        
         self.captureOptions.faceCaptureMaxSize = faceCaptureMaxSize
     }
     
     /**
-     Set number of frame file images to create;
+     Set number of frame file images to create.
      The time interval to create the image is 1000 milli second.
      See setFrameTimeBetweenImages to change the time interval.
      
-     - Parameter frameNumberOfImages: The number of images to create;
+     - Parameter frameNumberOfImages: The number of images to create.
      */
     @objc
     public func setFrameNumberOfImages(frameNumberOfImages: Int) {
+        if frameNumberOfImages < 0 {
+            self.cameraEventListener?.onError(error: KeyError.INVALID_FRAME_NUMBER_OF_IMAGES.rawValue)
+            return
+        }
+        
         self.captureOptions.frameNumberOfImages = frameNumberOfImages
     }
     
     /**
      Set saving frame images time interval in milli seconds.
      
-     - Parameter frameTimeBetweenImages: The time in milli seconds. Default value is `1000`;
+     - Parameter frameTimeBetweenImages: The time in milli seconds. Default value is `1000`.
      */
     @objc
     public func setFrameTimeBetweenImages(frameTimeBetweenImages: Int64) {
+        if frameTimeBetweenImages < 0 {
+            self.cameraEventListener?.onError(error: KeyError.INVALID_FRAME_TIME_BETWEEN_IMAGES.rawValue)
+            return
+        }
+        
         self.captureOptions.frameTimeBetweenImages = frameTimeBetweenImages
     }
 }

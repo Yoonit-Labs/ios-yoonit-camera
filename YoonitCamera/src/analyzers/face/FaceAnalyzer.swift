@@ -36,7 +36,7 @@ class FaceAnalyzer: NSObject {
     private var faceBoundingBoxController: FaceBoundingBoxController
     private var lastTimestamp = Date().currentTimeMillis()
     private var shouldDraw = true
-    private var faceDetected = false
+    private var hasStatus = false
     public var numberOfImages = 0
     
     public var drawings: [CAShapeLayer] = [] {
@@ -106,8 +106,8 @@ class FaceAnalyzer: NSObject {
                 if let results = request.results as? [VNFaceObservation], results.count > 0 {
                     self.handleFaceDetectionResults(faces: results, from: image)
                 } else {
-                    if self.faceDetected {
-                        self.faceDetected = false
+                    if self.hasStatus {
+                        self.hasStatus = false
                         self.cameraEventListener?.onFaceUndetected()
                         self.drawings = []
                     }
@@ -135,15 +135,22 @@ class FaceAnalyzer: NSObject {
             boundingBox: closestFaceBoundingBox,
             pixelBuffer: pixelBuffer)
         
-        if detectionBox == nil {
-            if self.faceDetected {
-                self.faceDetected = false
-                self.cameraEventListener?.onFaceUndetected()
+        // Get status if exist.
+        let status = self.getStatus(detectionBox: detectionBox)
+        
+        // Emit once if has error.
+        if status != nil {
+            if self.hasStatus {
+                self.hasStatus = false
                 self.drawings = []
+                if (status != "") {
+                    self.cameraEventListener?.onMessage(message: status!)
+                }
+                self.cameraEventListener?.onFaceUndetected()
             }
             return
         }
-        self.faceDetected = true
+        self.hasStatus = true
         
         // Draw face bounding box.
         if self.captureOptions.faceDetectionBox {
@@ -169,6 +176,34 @@ class FaceAnalyzer: NSObject {
                 captureOptions: self.captureOptions,
                 faceAnalyzer: self)
         }
+    }
+    
+    private func getStatus(detectionBox: CGRect?) -> String? {
+        if detectionBox == nil {
+            return ""
+        }
+        
+        if
+            detectionBox!.minX < 0 ||
+                detectionBox!.minY < 0 ||
+                detectionBox!.maxY > UIScreen.main.bounds.height ||
+                detectionBox!.maxX > UIScreen.main.bounds.width {
+            return ""
+        }
+                                                           
+        // This variable is the face detection box percentage in relation with the
+        // UI view. The value must be between 0 and 1.
+        let detectionBoxRelatedWithScreen = Float(detectionBox!.width) / Float(self.previewLayer.bounds.width)
+
+        if (detectionBoxRelatedWithScreen < self.captureOptions.faceCaptureMinSize) {
+            return Message.INVALID_CAPTURE_FACE_MIN_SIZE.rawValue
+        }
+        
+        if (detectionBoxRelatedWithScreen > self.captureOptions.faceCaptureMaxSize) {
+            return Message.INVALID_CAPTURE_FACE_MAX_SIZE.rawValue
+        }
+        
+        return nil
     }
     
     public func notifyCapturedImage(filePath: String) {
@@ -217,5 +252,3 @@ extension FaceAnalyzer: AVCaptureVideoDataOutputSampleBufferDelegate {
         self.faceDetect(image: frame)
     }
 }
-
-
