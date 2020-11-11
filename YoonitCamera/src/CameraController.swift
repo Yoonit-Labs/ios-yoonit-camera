@@ -72,6 +72,10 @@ class CameraController: NSObject, CameraControllerProtocol {
             return
         }
         
+        if (self.session.isRunning) {            
+            return
+        }
+        
         self.buildCameraInput(cameraLens: self.captureOptions.cameraLens)
         
         // Show camera feed.
