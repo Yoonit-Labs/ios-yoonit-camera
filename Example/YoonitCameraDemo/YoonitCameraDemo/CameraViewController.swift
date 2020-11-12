@@ -37,6 +37,22 @@ class CameraViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter
+            .default
+            .addObserver(
+                self,
+                selector: #selector(onBackground),
+                name: UIScene.willDeactivateNotification,
+                object: nil)
+
+        NotificationCenter
+            .default
+            .addObserver(
+                self,
+                selector: #selector(onActive),
+                name: UIScene.willEnterForegroundNotification,
+                object: nil)
+        
         self.showImagePreview = true
         self.qrCodeTextField.isHidden = true
         
@@ -74,6 +90,14 @@ class CameraViewController: UIViewController {
             
             self.cameraView.startCaptureType(captureType: captureType)
         }
+    }
+    
+    @objc func onBackground(_ notification: Notification) {
+        // For testing...
+    }
+    
+    @objc func onActive(_ notification: Notification) {
+        // For testing...
     }
   
     @IBAction func toggleCam(_ sender: UIButton) {

@@ -25,7 +25,7 @@ class CameraController: NSObject, CameraControllerProtocol {
     // Model to set CameraView features options.
     public var captureOptions: CaptureOptions!
     
-    // manages multiple inputs and outputs of audio and video.
+    // Manages multiple inputs and outputs of audio and video.
     private var session = AVCaptureSession()
     private lazy var previewLayer = AVCaptureVideoPreviewLayer(session: session)
     
@@ -40,6 +40,9 @@ class CameraController: NSObject, CameraControllerProtocol {
             self.frameAnalyzer?.cameraEventListener = cameraEventListener
         }
     }
+    
+    // Indicates if preview started or not.
+    public var isPreviewStarted: Bool = false
     
     init(cameraView: CameraView, captureOptions: CaptureOptions) {
         super.init()
@@ -67,15 +70,15 @@ class CameraController: NSObject, CameraControllerProtocol {
      */
     public func startPreview() {
         
+        if (self.isPreviewStarted) {
+            return
+        }
+        
         if AVCaptureDevice.authorizationStatus(for: .video) == .denied {
             self.cameraEventListener?.onPermissionDenied()
             return
         }
-        
-        if (self.session.isRunning) {            
-            return
-        }
-        
+                        
         self.buildCameraInput(cameraLens: self.captureOptions.cameraLens)
         
         // Show camera feed.
@@ -86,6 +89,7 @@ class CameraController: NSObject, CameraControllerProtocol {
         
         self.session.sessionPreset = .hd1280x720
         self.session.startRunning()
+        self.isPreviewStarted = true
     }
     
     /**
@@ -96,13 +100,7 @@ class CameraController: NSObject, CameraControllerProtocol {
      - Precondition: Must have started preview.
      */
     public func startCaptureType(captureType: CaptureType) {
-        
-        // Must have started preview.
-        if !self.session.isRunning {
-            self.cameraEventListener?.onError(error: KeyError.NOT_STARTED_PREVIEW.rawValue)
-            return
-        }
-        
+                        
         self.captureOptions.type = captureType
         self.stopAnalyzer()
         

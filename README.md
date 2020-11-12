@@ -2,7 +2,7 @@
 
 # ios-yoonit-camera
 
-![Generic badge](https://img.shields.io/badge/version-v1.3.1-<COLOR>.svg) ![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)
+![Generic badge](https://img.shields.io/badge/version-v1.3.2-<COLOR>.svg) ![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)
 
 A iOS plugin to provide:
 - Camera preview (Front & Back)
