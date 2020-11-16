@@ -17,17 +17,17 @@ import Vision
 /**
  Class responsible to handle the camera operations.
  */
-class CameraController: NSObject, CameraControllerProtocol {
+class CameraController: NSObject {
     
     // Reference to camera view used to draw bounding box.
     private var cameraView: CameraView!
     
     // Model to set CameraView features options.
     public var captureOptions: CaptureOptions!
-    
+        
     // Manages multiple inputs and outputs of audio and video.
-    private var session = AVCaptureSession()
-    private lazy var previewLayer = AVCaptureVideoPreviewLayer(session: session)
+    private var session: AVCaptureSession? = nil
+    private var previewLayer: AVCaptureVideoPreviewLayer? = nil
     
     private var faceAnalyzer: FaceAnalyzer?
     private var barcodeAnalyzer: BarcodeAnalyzer?
@@ -44,21 +44,29 @@ class CameraController: NSObject, CameraControllerProtocol {
     // Indicates if preview started or not.
     public var isPreviewStarted: Bool = false
     
-    init(cameraView: CameraView, captureOptions: CaptureOptions) {
+    init(
+        cameraView: CameraView,
+        captureOptions: CaptureOptions,
+        session: AVCaptureSession,
+        previewLayer: AVCaptureVideoPreviewLayer
+    ) {
         super.init()
         
+        self.session = session
+        self.previewLayer = previewLayer
+                    
         self.cameraView = cameraView
         self.captureOptions = captureOptions
         
         self.faceAnalyzer = FaceAnalyzer(
             captureOptions: self.captureOptions,
             cameraView: self.cameraView,
-            previewLayer: self.previewLayer,
-            session: self.session)
+            previewLayer: self.previewLayer!,
+            session: self.session!)
         
-        self.barcodeAnalyzer = BarcodeAnalyzer(session: self.session)
+        self.barcodeAnalyzer = BarcodeAnalyzer(session: self.session!)
         
-        self.frameAnalyzer = FrameAnalyzer(captureOptions: self.captureOptions, session: self.session)
+        self.frameAnalyzer = FrameAnalyzer(captureOptions: self.captureOptions, session: self.session!)
     }
     
     required init?(coder: NSCoder) {
@@ -79,16 +87,10 @@ class CameraController: NSObject, CameraControllerProtocol {
             return
         }
                         
-        self.buildCameraInput(cameraLens: self.captureOptions.cameraLens)
+        self.buildCameraInput(cameraLens: self.captureOptions.cameraLens)        
         
-        // Show camera feed.
-        self.previewLayer.videoGravity = .resizeAspectFill
-        if (self.cameraView != nil) {
-            self.cameraView.layer.addSublayer(self.previewLayer)
-        }
-        
-        self.session.sessionPreset = .hd1280x720
-        self.session.startRunning()
+        self.session!.sessionPreset = .hd1280x720
+        self.session!.startRunning()
         self.isPreviewStarted = true
     }
     
@@ -128,16 +130,7 @@ class CameraController: NSObject, CameraControllerProtocol {
         
         self.barcodeAnalyzer?.stop()
     }
-    
-    /**
-     Used by layout update event in CameraView.
-     */
-    public func layoutSubviews() {
-        if (self.cameraView != nil) {
-            self.previewLayer.frame = self.cameraView.bounds
-        }
-    }
-    
+        
     /**
      Toggle between Front and Back Camera.
      */
@@ -148,10 +141,10 @@ class CameraController: NSObject, CameraControllerProtocol {
             self.captureOptions.cameraLens = .front
         }
         
-        if self.session.isRunning {
+        if self.session!.isRunning {
             
             // Remove camera input.
-            self.session.inputs.forEach({ self.session.removeInput($0) })
+            self.session!.inputs.forEach({ self.session!.removeInput($0) })
             
             // Add camera input.
             self.buildCameraInput(cameraLens: self.captureOptions.cameraLens)
@@ -192,6 +185,6 @@ class CameraController: NSObject, CameraControllerProtocol {
         }
         
         let cameraInput = try! AVCaptureDeviceInput(device: device)
-        self.session.addInput(cameraInput)
+        self.session!.addInput(cameraInput)
     }
 }

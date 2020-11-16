@@ -14,8 +14,6 @@
 		6176EFCB252E496F00F4D4DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6176EFCA252E496F00F4D4DD /* Assets.xcassets */; };
 		6176EFCE252E496F00F4D4DD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6176EFCC252E496F00F4D4DD /* LaunchScreen.storyboard */; };
 		6176EFDE252E4A9100F4D4DD /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EFDB252E4A9100F4D4DD /* CameraViewController.swift */; };
-		6176EFDF252E4A9100F4D4DD /* PhotoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EFDC252E4A9100F4D4DD /* PhotoListViewController.swift */; };
-		6176EFE0252E4A9100F4D4DD /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EFDD252E4A9100F4D4DD /* DetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,8 +26,6 @@
 		6176EFCD252E496F00F4D4DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6176EFCF252E496F00F4D4DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6176EFDB252E4A9100F4D4DD /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
-		6176EFDC252E4A9100F4D4DD /* PhotoListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoListViewController.swift; sourceTree = "<group>"; };
-		6176EFDD252E4A9100F4D4DD /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		B002D96E501198C8EA12C8EF /* Pods-YoonitCameraDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YoonitCameraDemo.debug.xcconfig"; path = "Target Support Files/Pods-YoonitCameraDemo/Pods-YoonitCameraDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		C4166227AB15617A04DE530B /* Pods-YoonitCameraDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YoonitCameraDemo.release.xcconfig"; path = "Target Support Files/Pods-YoonitCameraDemo/Pods-YoonitCameraDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -76,8 +72,6 @@
 			isa = PBXGroup;
 			children = (
 				6176EFDB252E4A9100F4D4DD /* CameraViewController.swift */,
-				6176EFDD252E4A9100F4D4DD /* DetailsViewController.swift */,
-				6176EFDC252E4A9100F4D4DD /* PhotoListViewController.swift */,
 				6176EFC1252E496D00F4D4DD /* AppDelegate.swift */,
 				6176EFC3252E496D00F4D4DD /* SceneDelegate.swift */,
 				6176EFC7252E496D00F4D4DD /* Main.storyboard */,
@@ -212,10 +206,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6176EFC2252E496D00F4D4DD /* AppDelegate.swift in Sources */,
-				6176EFDF252E4A9100F4D4DD /* PhotoListViewController.swift in Sources */,
 				6176EFC4252E496D00F4D4DD /* SceneDelegate.swift in Sources */,
 				6176EFDE252E4A9100F4D4DD /* CameraViewController.swift in Sources */,
-				6176EFE0252E4A9100F4D4DD /* DetailsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,7 +356,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2B682PKZVS;
+				DEVELOPMENT_TEAM = SHMKZAD65G;
 				INFOPLIST_FILE = YoonitCameraDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -385,7 +377,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2B682PKZVS;
+				DEVELOPMENT_TEAM = SHMKZAD65G;
 				INFOPLIST_FILE = YoonitCameraDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

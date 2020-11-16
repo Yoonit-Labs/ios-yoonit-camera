@@ -24,7 +24,11 @@ public class CameraView: UIView {
     private var captureOptions: CaptureOptions = CaptureOptions()
     
     // Camera controller object.
-    private var cameraController: CameraControllerProtocol?
+    private var cameraController: CameraController? = nil
+    
+    // Manages multiple inputs and outputs of audio and video.
+    private var session = AVCaptureSession()
+    private lazy var previewLayer = AVCaptureVideoPreviewLayer(session: session)
     
     // Camera interface event listeners object.
     @objc
@@ -37,13 +41,28 @@ public class CameraView: UIView {
     required public init?(coder: NSCoder) {
         super.init(coder: coder)
         
-        self.cameraController = CameraController(cameraView: self, captureOptions: captureOptions)
+        self.previewLayer.videoGravity = .resizeAspectFill
+        self.previewLayer.frame = self.bounds
+        self.layer.addSublayer(self.previewLayer)
+        
+        self.cameraController = CameraController(
+            cameraView: self,
+            captureOptions: captureOptions,
+            session: self.session,
+            previewLayer: self.previewLayer)
     }
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.cameraController = CameraController(cameraView: self, captureOptions: captureOptions)
+        self.previewLayer.videoGravity = .resizeAspectFill
+        self.previewLayer.frame = self.bounds
+        
+        self.cameraController = CameraController(
+            cameraView: self,
+            captureOptions: captureOptions,
+            session: self.session,
+            previewLayer: self.previewLayer)
     }
     
     /**
@@ -52,10 +71,8 @@ public class CameraView: UIView {
      */
     override public func layoutSubviews() {
         super.layoutSubviews()
-        
-        if (self.cameraController != nil) {
-            self.cameraController?.layoutSubviews()
-        }
+                
+        self.previewLayer.frame = self.bounds
     }
     
     /**

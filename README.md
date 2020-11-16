@@ -65,7 +65,7 @@ class YourViewController: UIViewController, CameraEventListenerDelegate {
     ...
     self.cameraView.cameraEventListener = self
     ...
-    func onFaceImageCreated(count: Int, total: Int, imagePath: String) {
+    func onImageCaptured(type: String, count: Int, total: Int, imagePath: String) {
         // YOUR CODE
     }
 }
@@ -117,8 +117,7 @@ class YourViewController: UIViewController, CameraEventListenerDelegate {
 
 | Event                    | Parameters                                  | Description
 | -                        | -                                           | -
-| **`onFaceImageCreated`** | `count: Int, total: Int, imagePath: String` | Must have started capture type of face (see `startCaptureType`). Emitted when the face image file is created: <ul><li>count: current index</li><li>total: total to create</li><li>imagePath: the face image path</li><ul>
-| **`onFrameImageCreated`** | `count: Int, total: Int, imagePath: String` | Must have started capture type of frame (see `startCaptureType`). Emitted when the frame image file is created: <ul><li>count: current index</li><li>total: total to create</li><li>imagePath: the frame image path</li><ul>
+| **`onImageCaptured`** | `type: String, count: Int, total: Int, imagePath: String` | Must have started capture type of face/frame (see `startCaptureType`). Emitted when the image file is created: <ul><li>type: 'frame' | 'face'<li/><li>count: current index</li><li>total: total to create</li><li>imagePath: the image path</li><ul>
 | **`onFaceDetected`**     | `x: Int, y: Int, width: Int, height: Int`   | Must have started capture type of face. Emit the detected face bounding box.
 | **`onFaceUndetected`**   | -                                           | Must have started capture type of face. Emitted after `onFaceDetected`, when there is no more face detecting.
 | **`onEndCapture`**        | -                                           | Must have started capture type of face or frame. Emitted when the number of face or frame image files created is equal of the number of images set (see the method `setFaceNumberOfImages` for face and `setFrameNumberOfImages` for frame).   
