@@ -1,80 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="22I-FD-BPD">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="l7p-dQ-FCU">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Photo List View Controller-->
-        <scene sceneID="5ms-4Q-5gj">
-            <objects>
-                <tableViewController id="QlM-PP-une" customClass="PhotoListViewController" customModule="YoonitCameraDemo" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="StK-AU-s9c">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Picture" id="ChJ-Xe-o2n">
-                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ChJ-Xe-o2n" id="Ez8-Bl-mqK">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="QlM-PP-une" id="uLL-1c-8pL"/>
-                            <outlet property="delegate" destination="QlM-PP-une" id="nTQ-AE-uX8"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="Qwt-xj-2Q6"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Wjd-Yb-Fqr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="942" y="386"/>
-        </scene>
-        <!--Fotos-->
-        <scene sceneID="PWx-zV-RCK">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="4Sd-AH-pLc" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Fotos" id="s1U-cd-GeU"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="rXc-J8-dqo">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="QlM-PP-une" kind="relationship" relationship="rootViewController" id="g2c-EL-TDb"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="uon-Ii-z2B" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-149" y="386"/>
-        </scene>
-        <!--Tab Bar Controller-->
-        <scene sceneID="8tp-ym-pTD">
-            <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="22I-FD-BPD" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="vqq-3Q-iNJ">
-                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="4Sd-AH-pLc" kind="relationship" relationship="viewControllers" id="hQT-zh-5GL"/>
-                        <segue destination="l7p-dQ-FCU" kind="relationship" relationship="viewControllers" id="fj1-Nc-ArL"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="f0l-m1-hPd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1475" y="386"/>
-        </scene>
-        <!--Camera-->
+        <!--Camera View Controller-->
         <scene sceneID="npD-1J-q4R">
             <objects>
                 <viewController id="l7p-dQ-FCU" customClass="CameraViewController" customModule="YoonitCameraDemo" customModuleProvider="target" sceneMemberID="viewController">
@@ -82,85 +17,83 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s7c-6p-oqC" customClass="CameraView" customModule="YoonitCamera">
-                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="s7c-6p-oqC" customClass="CameraView" customModule="YoonitCamera">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cye-Bx-CYr">
-                                <rect key="frame" x="206" y="605" width="200" height="200"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="QFF-0D-96g"/>
-                                    <constraint firstAttribute="height" constant="200" id="oiR-GZ-Ku7"/>
-                                </constraints>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wJp-iv-opc">
-                                <rect key="frame" x="158" y="718" width="98" height="71"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="49"/>
-                                <state key="normal" title="Stop"/>
-                                <connections>
-                                    <action selector="stopCapture:" destination="l7p-dQ-FCU" eventType="touchUpInside" id="e3R-y4-lcT"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZQn-f6-cka">
-                                <rect key="frame" x="20" y="44" width="153" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
-                                <state key="normal" title="Front cam">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="toggleCam:" destination="l7p-dQ-FCU" eventType="touchUpInside" id="u7F-Vr-Lrv"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NTX-Bi-sU8">
-                                <rect key="frame" x="20" y="108" width="153" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
-                                <state key="normal" title="No capture">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="showDropDown:" destination="l7p-dQ-FCU" eventType="touchUpInside" id="xgW-Xh-rmv"/>
-                                </connections>
-                            </button>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="07t-4a-cSE">
-                                <rect key="frame" x="20" y="172" width="49" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="toggleFaceDetectionBox:" destination="l7p-dQ-FCU" eventType="valueChanged" id="uuG-6e-qJe"/>
-                                </connections>
-                            </switch>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="22" translatesAutoresizingMaskIntoConstraints="NO" id="v8g-XX-tYC">
-                                <rect key="frame" x="191" y="676" width="32" height="34"/>
-                                <color key="backgroundColor" red="0.46269756449999999" green="0.46309917639999998" blue="0.5" alpha="0.60493364729999999" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Face Detection Box" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wjl-wb-SKA">
-                                <rect key="frame" x="81" y="177" width="325" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CFI-Hd-ktB">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZQn-f6-cka">
+                                        <rect key="frame" x="8" y="52" width="153" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" systemColor="scrollViewTexturedBackgroundColor"/>
+                                        <state key="normal" title="Front cam">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="toggleCam:" destination="l7p-dQ-FCU" eventType="touchUpInside" id="u7F-Vr-Lrv"/>
+                                        </connections>
+                                    </button>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cye-Bx-CYr">
+                                        <rect key="frame" x="206" y="654" width="200" height="200"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wJp-iv-opc">
+                                        <rect key="frame" x="158" y="719" width="98" height="71"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="49"/>
+                                        <state key="normal" title="Stop"/>
+                                        <connections>
+                                            <action selector="stopCapture:" destination="l7p-dQ-FCU" eventType="touchUpInside" id="e3R-y4-lcT"/>
+                                        </connections>
+                                    </button>
+                                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="22" translatesAutoresizingMaskIntoConstraints="NO" id="v8g-XX-tYC">
+                                        <rect key="frame" x="191" y="612" width="32" height="34"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.46269756449999999" green="0.46309917639999998" blue="0.5" alpha="0.60493364729999999" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NTX-Bi-sU8">
+                                        <rect key="frame" x="8" y="104" width="153" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" systemColor="scrollViewTexturedBackgroundColor"/>
+                                        <state key="normal" title="No capture">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="showDropDown:" destination="l7p-dQ-FCU" eventType="touchUpInside" id="xgW-Xh-rmv"/>
+                                        </connections>
+                                    </button>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="07t-4a-cSE">
+                                        <rect key="frame" x="8" y="156" width="49" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="toggleFaceDetectionBox:" destination="l7p-dQ-FCU" eventType="valueChanged" id="uuG-6e-qJe"/>
+                                        </connections>
+                                    </switch>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Face Detection Box" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wjl-wb-SKA">
+                                        <rect key="frame" x="63" y="161" width="325" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="8WE-KQ-cXS" firstAttribute="bottom" secondItem="cye-Bx-CYr" secondAttribute="bottom" constant="8" id="JhA-8X-NdR"/>
-                            <constraint firstItem="wJp-iv-opc" firstAttribute="centerX" secondItem="8WE-KQ-cXS" secondAttribute="centerX" id="KmI-j7-d8x"/>
-                            <constraint firstItem="s7c-6p-oqC" firstAttribute="leading" secondItem="8WE-KQ-cXS" secondAttribute="leading" id="NHI-0E-liK"/>
-                            <constraint firstItem="wJp-iv-opc" firstAttribute="bottom" secondItem="8WE-KQ-cXS" secondAttribute="bottom" constant="-24" id="ON7-Qd-RHO"/>
-                            <constraint firstItem="v8g-XX-tYC" firstAttribute="centerX" secondItem="wJp-iv-opc" secondAttribute="centerX" id="QtZ-yU-ZbD"/>
-                            <constraint firstItem="8WE-KQ-cXS" firstAttribute="trailing" secondItem="cye-Bx-CYr" secondAttribute="trailing" constant="8" id="QwZ-sr-8jo"/>
-                            <constraint firstItem="s7c-6p-oqC" firstAttribute="top" secondItem="8WE-KQ-cXS" secondAttribute="top" id="fwp-aR-yxT"/>
-                            <constraint firstItem="s7c-6p-oqC" firstAttribute="bottom" secondItem="8WE-KQ-cXS" secondAttribute="bottom" id="lhw-wx-2PC"/>
-                            <constraint firstItem="wJp-iv-opc" firstAttribute="top" secondItem="v8g-XX-tYC" secondAttribute="bottom" constant="8" id="sqz-Ts-asB"/>
-                            <constraint firstItem="s7c-6p-oqC" firstAttribute="trailing" secondItem="8WE-KQ-cXS" secondAttribute="trailing" id="xMW-6W-jpf"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="8WE-KQ-cXS"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Camera" id="yzu-f1-K0F"/>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="cameraTypeDropDown" destination="NTX-Bi-sU8" id="rh9-fq-g8S"/>
                         <outlet property="cameraView" destination="s7c-6p-oqC" id="tUf-Wq-rUD"/>
@@ -173,4 +106,15 @@
             <point key="canvasLocation" x="-149.27536231884059" y="-317.41071428571428"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="scrollViewTexturedBackgroundColor">
+            <color red="0.43529411764705878" green="0.44313725490196082" blue="0.47450980392156861" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="scrollViewTexturedBackgroundColor">
+            <color red="0.43529411764705878" green="0.44313725490196082" blue="0.47450980392156861" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

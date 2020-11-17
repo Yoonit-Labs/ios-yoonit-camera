@@ -17,26 +17,24 @@ import Vision
 /**
  Class responsible to handle the camera operations.
  */
-class CameraController: NSObject, CameraControllerProtocol {
+class CameraController: NSObject {
     
     // Reference to camera view used to draw bounding box.
     private var cameraView: CameraView!
     
     // Model to set CameraView features options.
     public var captureOptions: CaptureOptions!
-    
+        
     // Manages multiple inputs and outputs of audio and video.
-    private var session = AVCaptureSession()
-    private lazy var previewLayer = AVCaptureVideoPreviewLayer(session: session)
+    private var session: AVCaptureSession
+    private var previewLayer: AVCaptureVideoPreviewLayer
     
     private var faceAnalyzer: FaceAnalyzer?
-    private var barcodeAnalyzer: BarcodeAnalyzer?
     private var frameAnalyzer: FrameAnalyzer?
     
     public var cameraEventListener: CameraEventListenerDelegate? {
         didSet {
             self.faceAnalyzer?.cameraEventListener = cameraEventListener
-            self.barcodeAnalyzer?.cameraEventListener = cameraEventListener
             self.frameAnalyzer?.cameraEventListener = cameraEventListener
         }
     }
@@ -44,21 +42,24 @@ class CameraController: NSObject, CameraControllerProtocol {
     // Indicates if preview started or not.
     public var isPreviewStarted: Bool = false
     
-    init(cameraView: CameraView, captureOptions: CaptureOptions) {
-        super.init()
+    init(
+        cameraView: CameraView,
+        captureOptions: CaptureOptions,
+        session: AVCaptureSession,
+        previewLayer: AVCaptureVideoPreviewLayer) {
         
+        self.session = session
+        self.previewLayer = previewLayer
+                    
         self.cameraView = cameraView
         self.captureOptions = captureOptions
         
         self.faceAnalyzer = FaceAnalyzer(
             captureOptions: self.captureOptions,
             cameraView: self.cameraView,
-            previewLayer: self.previewLayer,
-            session: self.session)
+            previewLayer: self.previewLayer)
         
-        self.barcodeAnalyzer = BarcodeAnalyzer(session: self.session)
-        
-        self.frameAnalyzer = FrameAnalyzer(captureOptions: self.captureOptions, session: self.session)
+        self.frameAnalyzer = FrameAnalyzer(captureOptions: self.captureOptions)
     }
     
     required init?(coder: NSCoder) {
@@ -79,15 +80,8 @@ class CameraController: NSObject, CameraControllerProtocol {
             return
         }
                         
-        self.buildCameraInput(cameraLens: self.captureOptions.cameraLens)
-        
-        // Show camera feed.
-        self.previewLayer.videoGravity = .resizeAspectFill
-        if (self.cameraView != nil) {
-            self.cameraView.layer.addSublayer(self.previewLayer)
-        }
-        
-        self.session.sessionPreset = .hd1280x720
+        self.buildCameraInput(cameraLens: self.captureOptions.cameraLens)        
+                
         self.session.startRunning()
         self.isPreviewStarted = true
     }
@@ -108,9 +102,6 @@ class CameraController: NSObject, CameraControllerProtocol {
         case CaptureType.FACE:
             self.faceAnalyzer?.start()
             
-        case CaptureType.BARCODE:
-            self.barcodeAnalyzer?.start()
-            
         case CaptureType.FRAME:
             self.frameAnalyzer?.start()
             
@@ -126,18 +117,9 @@ class CameraController: NSObject, CameraControllerProtocol {
         self.faceAnalyzer?.stop()
         self.faceAnalyzer?.numberOfImages = 0
         
-        self.barcodeAnalyzer?.stop()
+        self.frameAnalyzer?.stop()
     }
-    
-    /**
-     Used by layout update event in CameraView.
-     */
-    public func layoutSubviews() {
-        if (self.cameraView != nil) {
-            self.previewLayer.frame = self.cameraView.bounds
-        }
-    }
-    
+        
     /**
      Toggle between Front and Back Camera.
      */
@@ -150,8 +132,9 @@ class CameraController: NSObject, CameraControllerProtocol {
         
         if self.session.isRunning {
             
-            // Remove camera input.
+            // Remove camera input and output.
             self.session.inputs.forEach({ self.session.removeInput($0) })
+            self.session.outputs.forEach({ self.session.removeOutput($0) })
             
             // Add camera input.
             self.buildCameraInput(cameraLens: self.captureOptions.cameraLens)
@@ -182,6 +165,7 @@ class CameraController: NSObject, CameraControllerProtocol {
      - Parameter cameraLens: the enum of the camera lens facing;
      */
     private func buildCameraInput(cameraLens: AVCaptureDevice.Position) {
+        
         guard let device = AVCaptureDevice.DiscoverySession(
             deviceTypes: [.builtInWideAngleCamera],
             mediaType: .video,
@@ -190,8 +174,80 @@ class CameraController: NSObject, CameraControllerProtocol {
                 self.cameraEventListener?.onError(error: "You have a problem with your camera, please verify the settings of the your camera")
                 fatalError("No back camera device found, please make sure to run in an iOS device and not a simulator")
         }
-        
+                
         let cameraInput = try! AVCaptureDeviceInput(device: device)
         self.session.addInput(cameraInput)
+        
+        // Video output capture =========================================
+        let videoDataOutput = AVCaptureVideoDataOutput()
+        videoDataOutput.videoSettings =
+            [(kCVPixelBufferPixelFormatTypeKey as NSString) :
+            NSNumber(value: kCVPixelFormatType_32BGRA)] as [String : Any]
+        videoDataOutput.alwaysDiscardsLateVideoFrames = true
+        videoDataOutput.setSampleBufferDelegate(
+            self,
+            queue: DispatchQueue(label: "analyzer_queue"))
+                        
+        self.session.addOutput(videoDataOutput)
+        
+        // QrCode output capture ========================================
+        let metadataOutput = AVCaptureMetadataOutput()
+        self.session.addOutput(metadataOutput)
+        metadataOutput.setMetadataObjectsDelegate(
+            self,
+            queue: DispatchQueue.main)
+        metadataOutput.metadataObjectTypes = [.qr]
+        
+        // Connection handler.
+        guard let connection = videoDataOutput.connection(
+            with: AVMediaType.video),
+            connection.isVideoOrientationSupported else { return }
+        connection.videoOrientation = .portrait
+    }
+}
+
+extension CameraController: AVCaptureVideoDataOutputSampleBufferDelegate {
+    
+    func captureOutput(
+        _ output: AVCaptureOutput,
+        didOutput sampleBuffer: CMSampleBuffer,
+        from connection: AVCaptureConnection) {
+                        
+        guard let frame = CMSampleBufferGetImageBuffer(sampleBuffer) else {
+            self.cameraEventListener?.onError(error: "Unable to get image from sample buffer.")
+            debugPrint("Unable to get image from sample buffer.")
+            return
+        }
+                
+        switch self.captureOptions.type {
+        case CaptureType.FACE:
+            self.faceAnalyzer?.faceDetect(imageBuffer: frame)
+            
+        case CaptureType.FRAME:
+            self.frameAnalyzer?.frameCaptured(imageBuffer: frame)
+            
+        default:
+            return
+        }
+    }
+}
+
+extension CameraController: AVCaptureMetadataOutputObjectsDelegate {
+
+    func metadataOutput(
+        _ output: AVCaptureMetadataOutput,
+        didOutput metadataObjects: [AVMetadataObject],
+        from connection: AVCaptureConnection) {
+
+        if (self.captureOptions.type != CaptureType.BARCODE) {
+            return
+        }
+        
+        if let metadataObject = metadataObjects.first {
+            guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
+            guard let stringValue = readableObject.stringValue else { return }
+            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+            self.cameraEventListener?.onBarcodeScanned(content: stringValue)
+        }
     }
 }

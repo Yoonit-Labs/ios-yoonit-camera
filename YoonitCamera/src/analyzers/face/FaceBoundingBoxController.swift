@@ -47,26 +47,32 @@ class FaceBoundingBoxController: NSObject {
      - Parameter faces: The face list camera detected;
      - Returns: The closest face.
      */
-    func getClosestFaceBoundingBox(_ faces: [VNFaceObservation]) -> CGRect {
+    func getClosestFace(_ faces: [VNFaceObservation]) -> VNFaceObservation {
         
         // Get the closest face.
         let closestFace = faces.sorted {
             return $0.boundingBox.width > $1.boundingBox.width
             }[0]
+                
+        return closestFace
+    }
+    
+    /**
+     Transform the detected face bounding box coordinates in the UI graphic coordinates, based in the CameraGraphicView and InputImage dimensions.
+     
+     - Parameter face the detected face bounding box.
+     - Parameter cameraInputImage the camera image input with the face detected.
+     - Returns: the detection box rect of the detected face. null if face is null or detection box is out of the screen.
+     */
+    func getDetectionBox(boundingBox: CGRect, imageBuffer: CVPixelBuffer) -> CGRect? {
         
         // Normalize the bounding box coordinates to UI.
         let faceBoundingBox = self.previewLayer
-            .layerRectConverted(fromMetadataOutputRect: closestFace.boundingBox)
+            .layerRectConverted(fromMetadataOutputRect: boundingBox)
             .increase(by: CGFloat(self.captureOptions.facePaddingPercent))
         
-        return faceBoundingBox
-    }
-    
-    func getDetectionBox(boundingBox: CGRect, pixelBuffer: CVPixelBuffer) -> CGRect? {
-        
-        let scale = CGFloat(CVPixelBufferGetWidth(pixelBuffer)) / self.cameraView.bounds.width
-        
-        let faceBoundingBoxScaled = boundingBox.adjustedBySafeArea(height: self.topSafeHeight / scale)
+        let scale = CGFloat(CVPixelBufferGetWidth(imageBuffer)) / self.cameraView.bounds.width
+        let faceBoundingBoxScaled = faceBoundingBox.adjustedBySafeArea(height: self.topSafeHeight / scale)
         
         let left = Int(faceBoundingBoxScaled.minX)
         let top = Int(faceBoundingBoxScaled.minY)
@@ -91,7 +97,7 @@ class FaceBoundingBoxController: NSObject {
        line.strokeColor = UIColor.white.cgColor
        line.lineWidth = 6.0
        line.cornerRadius = 20
-       line.lineCap = CAShapeLayerLineCap.round // this parameter solve my problem
+       line.lineCap = CAShapeLayerLineCap.round
        layer.addSublayer(line)
     }
     

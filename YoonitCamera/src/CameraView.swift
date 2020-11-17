@@ -24,7 +24,11 @@ public class CameraView: UIView {
     private var captureOptions: CaptureOptions = CaptureOptions()
     
     // Camera controller object.
-    private var cameraController: CameraControllerProtocol?
+    private var cameraController: CameraController? = nil
+    
+    // Manages multiple inputs and outputs of audio and video.
+    private var session = AVCaptureSession()
+    private lazy var previewLayer = AVCaptureVideoPreviewLayer(session: session)
     
     // Camera interface event listeners object.
     @objc
@@ -37,27 +41,29 @@ public class CameraView: UIView {
     required public init?(coder: NSCoder) {
         super.init(coder: coder)
         
-        self.cameraController = CameraController(cameraView: self, captureOptions: captureOptions)
+        self.configure()
     }
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.cameraController = CameraController(cameraView: self, captureOptions: captureOptions)
+        self.configure()
     }
     
-    /**
-     UIView update layout and subviews.
-     Used to update camera controller subviews.
-     */
-    override public func layoutSubviews() {
-        super.layoutSubviews()
+    private func configure() {
+                
+        self.layer.addSublayer(self.previewLayer)
         
-        if (self.cameraController != nil) {
-            self.cameraController?.layoutSubviews()
-        }
+        self.previewLayer.videoGravity = .resizeAspectFill
+        self.previewLayer.frame = self.frame
+        
+        self.cameraController = CameraController(
+            cameraView: self,
+            captureOptions: captureOptions,
+            session: self.session,
+            previewLayer: self.previewLayer)
     }
-    
+        
     /**
      Start camera preview if has permission.
      */
