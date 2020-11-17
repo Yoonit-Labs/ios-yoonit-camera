@@ -50,9 +50,17 @@ public class CameraView: UIView {
         self.configure()
     }
     
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        self.previewLayer.frame = self.frame
+    }
+    
     private func configure() {
                 
         self.layer.addSublayer(self.previewLayer)
+        
+        self.session.sessionPreset = .hd1280x720
         
         self.previewLayer.videoGravity = .resizeAspectFill
         self.previewLayer.frame = self.frame
