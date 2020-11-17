@@ -45,15 +45,19 @@ class FaceCropController {
                         .boundingBox
                         .increase(by: CGFloat(captureOptions.facePaddingPercent)),
                     image: image)
-                
-                completion(imageCropped!)
+                                                
+                if (captureOptions.cameraLens.rawValue == 1) {
+                    completion(imageCropped)
+                } else {
+                    completion(imageCropped.withHorizontallyFlippedOrientation())
+                }
             }
         }
 
         try? VNImageRequestHandler(cgImage: image, options: [:]).perform([faceDetectRequest])
     }
                             
-    private func crop(boundingBox: CGRect, image: CGImage) -> UIImage? {
+    private func crop(boundingBox: CGRect, image: CGImage) -> UIImage {
         let width = boundingBox.width * CGFloat(image.width)
         let height = boundingBox.height * CGFloat(image.height)
         let x = boundingBox.origin.x * CGFloat(image.width)

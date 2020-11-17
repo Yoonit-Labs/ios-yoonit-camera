@@ -27,7 +27,6 @@ class FaceAnalyzer: NSObject {
         }
     }
     
-    private var session: AVCaptureSession!
     private var captureOptions: CaptureOptions
     private var cameraView: CameraView
     private var previewLayer: AVCaptureVideoPreviewLayer!
@@ -53,13 +52,11 @@ class FaceAnalyzer: NSObject {
     init(
         captureOptions: CaptureOptions,
         cameraView: CameraView,
-        previewLayer: AVCaptureVideoPreviewLayer,
-        session: AVCaptureSession
-    ) {
+        previewLayer: AVCaptureVideoPreviewLayer) {
+        
         self.captureOptions = captureOptions
         self.cameraView = cameraView
         self.previewLayer = previewLayer
-        self.session = session
         
         self.faceBoundingBoxController = FaceBoundingBoxController(
             captureOptions: self.captureOptions,
@@ -71,25 +68,11 @@ class FaceAnalyzer: NSObject {
      Start face analyzer to capture frame.
      */
     func start() {
-        let videoDataOutput = AVCaptureVideoDataOutput()
-        videoDataOutput.videoSettings = [(kCVPixelBufferPixelFormatTypeKey as NSString) : NSNumber(value: kCVPixelFormatType_32BGRA)] as [String : Any]
-        videoDataOutput.alwaysDiscardsLateVideoFrames = true
-        videoDataOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "face_analyzer_queue"))
-        
-        self.session?.addOutput(videoDataOutput)
-        
-        guard let connection = videoDataOutput.connection(
-            with: AVMediaType.video),
-            connection.isVideoOrientationSupported else { return }
-        connection.videoOrientation = .portrait
-        
         self.shouldDraw = true
     }
     
     func stop() {
-        self.session?.outputs.forEach({ self.session?.removeOutput($0) })
         self.drawings = []
-        
         self.shouldDraw = false
     }
     
@@ -252,26 +235,5 @@ class FaceAnalyzer: NSObject {
             total: self.captureOptions.faceNumberOfImages,
             imagePath: filePath
         )
-    }
-}
-
-extension FaceAnalyzer: AVCaptureVideoDataOutputSampleBufferDelegate {
-    
-    func captureOutput(
-        _ output: AVCaptureOutput,
-        didOutput sampleBuffer: CMSampleBuffer,
-        from connection: AVCaptureConnection) {
-        
-        if (!self.shouldDraw) {
-            return
-        }
-        
-        guard let frame = CMSampleBufferGetImageBuffer(sampleBuffer) else {
-            self.cameraEventListener?.onError(error: "Unable to get image from sample buffer.")
-            debugPrint("Unable to get image from sample buffer.")
-            return
-        }
-        
-        self.faceDetect(imageBuffer: frame)
     }
 }

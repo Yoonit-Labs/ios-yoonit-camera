@@ -41,22 +41,21 @@ public class CameraView: UIView {
     required public init?(coder: NSCoder) {
         super.init(coder: coder)
         
-        self.previewLayer.videoGravity = .resizeAspectFill
-        self.previewLayer.frame = self.bounds
-        self.layer.addSublayer(self.previewLayer)
-        
-        self.cameraController = CameraController(
-            cameraView: self,
-            captureOptions: captureOptions,
-            session: self.session,
-            previewLayer: self.previewLayer)
+        self.configure()
     }
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
         
+        self.configure()
+    }
+    
+    private func configure() {
+                
+        self.layer.addSublayer(self.previewLayer)
+        
         self.previewLayer.videoGravity = .resizeAspectFill
-        self.previewLayer.frame = self.bounds
+        self.previewLayer.frame = self.frame
         
         self.cameraController = CameraController(
             cameraView: self,
@@ -64,17 +63,7 @@ public class CameraView: UIView {
             session: self.session,
             previewLayer: self.previewLayer)
     }
-    
-    /**
-     UIView update layout and subviews.
-     Used to update camera controller subviews.
-     */
-    override public func layoutSubviews() {
-        super.layoutSubviews()
-                
-        self.previewLayer.frame = self.bounds
-    }
-    
+        
     /**
      Start camera preview if has permission.
      */

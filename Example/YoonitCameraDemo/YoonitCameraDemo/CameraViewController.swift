@@ -57,8 +57,7 @@ class CameraViewController: UIViewController {
         self.qrCodeTextField.isHidden = true
         
         self.cameraView.cameraEventListener = self
-        self.cameraView.startPreview()
-        self.cameraView.startCaptureType(captureType: "face")
+        self.cameraView.startPreview()        
         
         self.menu.anchorView = self.cameraTypeDropDown
         self.menu.selectionAction = { index, title in

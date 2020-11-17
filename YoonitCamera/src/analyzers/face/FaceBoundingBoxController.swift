@@ -97,7 +97,7 @@ class FaceBoundingBoxController: NSObject {
        line.strokeColor = UIColor.white.cgColor
        line.lineWidth = 6.0
        line.cornerRadius = 20
-       line.lineCap = CAShapeLayerLineCap.round // this parameter solve my problem
+       line.lineCap = CAShapeLayerLineCap.round
        layer.addSublayer(line)
     }
     
