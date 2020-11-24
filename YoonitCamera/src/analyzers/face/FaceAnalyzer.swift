@@ -81,8 +81,14 @@ class FaceAnalyzer: NSObject {
         self.start()
     }
     
+    /**
+     Try to detect faces in the moment the camera capture this frame.
+     
+     - Parameter imageBuffer: The camera frame capture.
+     */
     func faceDetect(imageBuffer: CVPixelBuffer) {
         
+        // Detection face using VIsion API.
         let faceDetectRequest = VNDetectFaceRectanglesRequest {
             request, error in
             
@@ -91,6 +97,7 @@ class FaceAnalyzer: NSObject {
             }
             
             DispatchQueue.main.async {
+                // Found faces...
                 if let results = request.results as? [VNFaceObservation], results.count > 0 {
                     self.handleFaceDetectionResults(
                         faces: results,
@@ -105,6 +112,7 @@ class FaceAnalyzer: NSObject {
             }
         }
          
+        // Start process detect face in the current image camera captured.
         try? VNImageRequestHandler(
             cvPixelBuffer: imageBuffer,
             orientation: .leftMirrored,
@@ -112,15 +120,23 @@ class FaceAnalyzer: NSObject {
             .perform([faceDetectRequest])
     }
     
+    /**
+     Handle face detection result from Vision API.
+     
+     - Parameter faces: The array of face detected.
+     - Parameter imageBuffer: The image buffer in the moment that detected the faces.
+     */
     private func handleFaceDetectionResults(
         faces: [VNFaceObservation],
-        imageBuffer: CVPixelBuffer)
-    {
-        let orientation = captureOptions.cameraLens.rawValue == 1 ?
+        imageBuffer: CVPixelBuffer) {
+        
+        // Convert image orientation based on device lens.
+        let orientation = captureOptions.cameraLens == AVCaptureDevice.Position.back ?
             UIImage.Orientation.up :
             UIImage.Orientation.upMirrored
                 
-        let image = imageFromPixelBuffer(
+        // Convert CVPixelBuffer to CGImage.
+        let image: CGImage? = imageFromPixelBuffer(
             imageBuffer: imageBuffer,
             scale: UIScreen.main.scale,
             orientation: orientation)
@@ -158,6 +174,7 @@ class FaceAnalyzer: NSObject {
             self.drawings = []
         }
         
+        // Emit face detected detection box coordinates.
         self.cameraEventListener?.onFaceDetected(
             x: Int(detectionBox!.minX),
             y: Int(detectionBox!.minY),
@@ -168,22 +185,28 @@ class FaceAnalyzer: NSObject {
             return
         }
         
+        // Handle crop face process by time.
         let currentTimestamp = Date().currentTimeMillis()
-        let diffTime = currentTimestamp - self.lastTimestamp            
+        let diffTime = currentTimestamp - self.lastTimestamp
         
         if diffTime > self.captureOptions.faceTimeBetweenImages {
             self.lastTimestamp = currentTimestamp
-                                    
+        
+            // Crop the face image.
             self.faceCropController.cropImage(
                 image: image!,
                 boundingBox: closestFace.boundingBox,
                 captureOptions: self.captureOptions) {
+                
+                // Result of the crop face process.
                 result in
                 
                 let fileURL = fileURLFor(index: self.numberOfImages)
                 let fileName = try! save(image: result, at: fileURL)
                 
-                self.notifyCapturedImage(filePath: fileName)
+                
+                // Emit the face image file path.
+                self.handleEmitImageCaptured(filePath: fileName)
             }
         }
     }
@@ -216,7 +239,14 @@ class FaceAnalyzer: NSObject {
         return nil
     }
     
-    public func notifyCapturedImage(filePath: String) {
+    /**
+     Handle emit face image file created.
+     
+     - Parameter imagePath: image file path.
+     */
+    public func handleEmitImageCaptured(filePath: String) {
+        
+        // process face number of images.
         if (self.captureOptions.faceNumberOfImages > 0) {
             if (self.numberOfImages < self.captureOptions.faceNumberOfImages) {
                 self.numberOfImages += 1
@@ -233,6 +263,7 @@ class FaceAnalyzer: NSObject {
             return
         }
         
+        // process face unlimited.
         self.numberOfImages = (self.numberOfImages + 1) % MAX_NUMBER_OF_IMAGES
         self.cameraEventListener?.onFaceImageCreated(
             count: self.numberOfImages,

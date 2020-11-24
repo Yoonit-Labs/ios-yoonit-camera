@@ -14,6 +14,12 @@ import AVFoundation
 import UIKit
 import Vision
 
+/**
+ This class is responsible to build closest face, detection box and draw a bounding box.
+ 
+ Closest face is based on the bounding box width size.
+ Detection box is based on the closest face bounding box coordinates normalized to UI.
+ */
 class FaceBoundingBoxController: NSObject {
     
     private var previewLayer: AVCaptureVideoPreviewLayer
@@ -34,8 +40,8 @@ class FaceBoundingBoxController: NSObject {
     init(
         captureOptions: CaptureOptions,
         cameraView: CameraView,
-        previewLayer: AVCaptureVideoPreviewLayer)
-    {
+        previewLayer: AVCaptureVideoPreviewLayer) {
+        
         self.captureOptions = captureOptions
         self.cameraView = cameraView
         self.previewLayer = previewLayer
@@ -60,9 +66,9 @@ class FaceBoundingBoxController: NSObject {
     /**
      Transform the detected face bounding box coordinates in the UI graphic coordinates, based in the CameraGraphicView and InputImage dimensions.
      
-     - Parameter face the detected face bounding box.
-     - Parameter cameraInputImage the camera image input with the face detected.
-     - Returns: the detection box rect of the detected face. null if face is null or detection box is out of the screen.
+     - Parameter boundingBox: the detected face bounding box.
+     - Parameter imageBuffer the camera image input with the face detected.
+     - Returns: the detection box rect of the detected face. Null or detection box is out of the screen.
      */
     func getDetectionBox(boundingBox: CGRect, imageBuffer: CVPixelBuffer) -> CGRect? {
         
