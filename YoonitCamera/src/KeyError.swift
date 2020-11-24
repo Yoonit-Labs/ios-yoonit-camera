@@ -42,4 +42,7 @@ public enum KeyError: String {
     
     // Tried to input invalid frame time interval to capture face.
     case INVALID_FRAME_TIME_BETWEEN_IMAGES = "INVALID_FRAME_TIME_BETWEEN_IMAGES"
+    
+    // Tried to input invalid face region of interesting offset.
+    case INVALID_FACE_ROI_OFFSET = "INVALID_FACE_ROI_OFFSET"
 }
