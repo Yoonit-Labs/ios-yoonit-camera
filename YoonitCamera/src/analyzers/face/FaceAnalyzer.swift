@@ -35,7 +35,7 @@ class FaceAnalyzer: NSObject {
     private var faceBoundingBoxController: FaceBoundingBoxController
     private var lastTimestamp = Date().currentTimeMillis()
     private var shouldDraw = true
-    private var hasStatus = false
+    private var isValid = false
     public var numberOfImages = 0
     
     public var drawings: [CAShapeLayer] = [] {
@@ -102,12 +102,10 @@ class FaceAnalyzer: NSObject {
                     self.handleFaceDetectionResults(
                         faces: results,
                         imageBuffer: imageBuffer)
-                } else {
-                    if self.hasStatus {
-                        self.hasStatus = false
-                        self.cameraEventListener?.onFaceUndetected()
-                        self.drawings = []
-                    }
+                } else if self.isValid {
+                    self.isValid = false
+                    self.cameraEventListener?.onFaceUndetected()
+                    self.drawings = []
                 }
             }
         }
@@ -150,22 +148,17 @@ class FaceAnalyzer: NSObject {
             boundingBox: closestFace.boundingBox,
             imageBuffer: imageBuffer)
         
-        // Get status if exist.
-        let status = self.getStatus(detectionBox: detectionBox)
+        // Validate detection box.
+        self.isValid = self.validate(detectionBox: detectionBox)
         
         // Emit once if has error.
-        if status != nil {
-            if self.hasStatus {
-                self.hasStatus = false
-                self.drawings = []
-                if (status != "") {
-                    self.cameraEventListener?.onMessage(message: status!)
-                }
-                self.cameraEventListener?.onFaceUndetected()
-            }
+        if !self.isValid {
+            self.isValid = false
+            self.drawings = []
+            self.cameraEventListener?.onFaceUndetected()
             return
         }
-        self.hasStatus = true
+        self.isValid = true
         
         // Draw face bounding box.
         if self.captureOptions.faceDetectionBox {
@@ -211,32 +204,60 @@ class FaceAnalyzer: NSObject {
         }
     }
     
-    private func getStatus(detectionBox: CGRect?) -> String? {
+    /**
+     Validade the face detection box coordinates based in the capture options rules.
+     
+     - Parameter detectionBox: the face detection box coordinates.
+     */
+    private func validate(detectionBox: CGRect?) -> Bool {
+        
         if detectionBox == nil {
-            return ""
+            return false
         }
         
-        if
+        let screenWidth = self.previewLayer.bounds.width
+        let screenHeight = self.previewLayer.bounds.height
+        
+        let topOffset = Float(detectionBox!.minY / screenHeight)
+        let rightOffset = Float((screenWidth - detectionBox!.maxX) / screenWidth)
+        let bottomOffset = Float((screenHeight - detectionBox!.maxY) / screenHeight)
+        let leftOffset = Float(detectionBox!.minX / screenWidth)
+                   
+        // Face is out of the screen.
+        let isOutOfTheScreen =
             detectionBox!.minX < 0 ||
-                detectionBox!.minY < 0 ||
-                detectionBox!.maxY > UIScreen.main.bounds.height ||
-                detectionBox!.maxX > UIScreen.main.bounds.width {
-            return ""
+            detectionBox!.minY < 0 ||
+            detectionBox!.maxY > screenHeight ||
+            detectionBox!.maxX > screenWidth
+        if isOutOfTheScreen {
+            return false
+        }
+        
+        // Face is out of the region of interest.
+        let isOutOfTheROI =
+            self.captureOptions.faceROI.topOffset > topOffset ||
+            self.captureOptions.faceROI.rightOffset > rightOffset ||
+            self.captureOptions.faceROI.bottomOffset > bottomOffset ||
+            self.captureOptions.faceROI.leftOffset > leftOffset
+        if isOutOfTheROI && self.captureOptions.faceROI.enable {
+            return false
         }
                                                            
         // This variable is the face detection box percentage in relation with the
         // UI view. The value must be between 0 and 1.
-        let detectionBoxRelatedWithScreen = Float(detectionBox!.width) / Float(self.previewLayer.bounds.width)
+        let detectionBoxRelatedWithScreen = Float(detectionBox!.width / screenWidth)
 
+        // Face smaller than the capture minimum size.
         if (detectionBoxRelatedWithScreen < self.captureOptions.faceCaptureMinSize) {
-            return Message.INVALID_CAPTURE_FACE_MIN_SIZE.rawValue
+            return false
         }
         
+        // Face bigger than the capture maximum size.
         if (detectionBoxRelatedWithScreen > self.captureOptions.faceCaptureMaxSize) {
-            return Message.INVALID_CAPTURE_FACE_MAX_SIZE.rawValue
+            return false
         }
         
-        return nil
+        return true
     }
     
     /**
