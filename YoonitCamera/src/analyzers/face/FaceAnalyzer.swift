@@ -164,6 +164,10 @@ class FaceAnalyzer: NSObject {
             width: Int(detectionBox!.width),
             height: Int(detectionBox!.height))
         
+        if !self.captureOptions.faceSaveImages {
+            return
+        }
+        
         let currentTimestamp = Date().currentTimeMillis()
         let diffTime = currentTimestamp - self.lastTimestamp            
         

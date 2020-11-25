@@ -164,6 +164,16 @@ public class CameraView: UIView {
     }
     
     /**
+     Set to enable/disable face save images when capturing faces.
+     
+     - Parameter faceSaveImages: The indicator to enable or disable the face save images. Default value is `false`.
+     */
+    @objc
+    public func setFaceSaveImages(faceSaveImages: Bool) {
+        self.captureOptions.faceSaveImages = faceSaveImages
+    }
+    
+    /**
      Set saving face images time interval in milli seconds.
      
      - Parameter faceTimeBetweenImages: The time in milli seconds. Default value is `1000`.
