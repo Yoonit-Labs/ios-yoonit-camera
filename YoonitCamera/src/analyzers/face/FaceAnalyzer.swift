@@ -149,13 +149,23 @@ class FaceAnalyzer: NSObject {
             imageBuffer: imageBuffer)
         
         // Validate detection box.
-        self.isValid = self.validate(detectionBox: detectionBox)
+        // - nil for no error found;
+        // - String for error found with message;
+        // - "" for error found without message;
+        let error: String? = self
+            .faceBoundingBoxController
+            .getError(detectionBox: detectionBox)
         
         // Emit once if has error.
-        if !self.isValid {
-            self.isValid = false
-            self.drawings = []
-            self.cameraEventListener?.onFaceUndetected()
+        if error != nil {
+            if self.isValid {
+                self.isValid = false
+                self.drawings = []
+                if error != "" {
+                    self.cameraEventListener?.onMessage(message: error!)
+                }
+                self.cameraEventListener?.onFaceUndetected()
+            }
             return
         }
         self.isValid = true
@@ -203,85 +213,7 @@ class FaceAnalyzer: NSObject {
             }
         }
     }
-    
-    /**
-     Validade the face detection box coordinates based in the capture options rules.
-     
-     - Parameter detectionBox: the face detection box coordinates.
-     */
-    private func validate(detectionBox: CGRect?) -> Bool {
         
-        if detectionBox == nil {
-            return false
-        }
-        
-        let screenWidth = self.previewLayer.bounds.width
-        let screenHeight = self.previewLayer.bounds.height
-                           
-        // Face is out of the screen.
-        let isOutOfTheScreen =
-            detectionBox!.minX < 0 ||
-            detectionBox!.minY < 0 ||
-            detectionBox!.maxY > screenHeight ||
-            detectionBox!.maxX > screenWidth
-        if isOutOfTheScreen {
-            return false
-        }
-        
-        // This variable is the face detection box percentage in relation with the
-        // UI view. The value must be between 0 and 1.
-        let detectionBoxRelatedWithScreen = Float(detectionBox!.width / screenWidth)
-
-        // Face smaller than the capture minimum size.
-        if (detectionBoxRelatedWithScreen < self.captureOptions.faceCaptureMinSize) {
-            self.cameraEventListener?.onMessage(message: Message.INVALID_CAPTURE_FACE_MIN_SIZE.rawValue)
-            return false
-        }
-        
-        // Face bigger than the capture maximum size.
-        if (detectionBoxRelatedWithScreen > self.captureOptions.faceCaptureMaxSize) {
-            self.cameraEventListener?.onMessage(message: Message.INVALID_CAPTURE_FACE_MAX_SIZE.rawValue)
-            return false
-        }
-        
-        if self.captureOptions.faceROI.enable {
-            // Detection box offsets.
-            let topOffset = Float(detectionBox!.minY / screenHeight)
-            let rightOffset = Float((screenWidth - detectionBox!.maxX) / screenWidth)
-            let bottomOffset = Float((screenHeight - detectionBox!.maxY) / screenHeight)
-            let leftOffset = Float(detectionBox!.minX / screenWidth)
-            
-            if self.captureOptions.faceROI.isOutOf(
-                topOffset: topOffset,
-                rightOffset: rightOffset,
-                bottomOffset: bottomOffset,
-                leftOffset: leftOffset) {
-                
-                self.cameraEventListener?.onMessage(message: Message.INVALID_CAPTURE_FACE_OUT_OF_ROI.rawValue)
-                return false
-            }
-            
-            if self.captureOptions.faceROI.hasChanges {
-                
-                // Face is inside the region of interest and faceROI is setted.
-                // Face is smaller than the defined "minimumSize".
-                let roiWidth: Float =
-                    Float(screenWidth) -
-                    ((self.captureOptions.faceROI.rightOffset + self.captureOptions.faceROI.leftOffset) *
-                        Float(screenWidth))
-                
-                let faceRelatedWithROI: Float = Float(detectionBox!.width) / roiWidth
-                                                    
-                if self.captureOptions.faceROI.minimumSize > faceRelatedWithROI {
-                    self.cameraEventListener?.onMessage(message: Message.INVALID_CAPTURE_FACE_ROI_MIN_SIZE.rawValue)
-                    return false
-                }
-            }
-        }
-        
-        return true
-    }
-    
     /**
      Handle emit face image file created.
      
