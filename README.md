@@ -111,7 +111,8 @@ class YourViewController: UIViewController, CameraEventListenerDelegate {
 | **`setFaceCaptureMinSize`**     | `faceCaptureMinSize: Float`       | void        | Value between `0` and `1`. Represents the percentage.                             | void        | Set the minimum face capture based on the screen width limit.
 | **`setFaceCaptureMaxSize`**     | `faceCaptureMaxSize: Float`       | void        | Value between `0` and `1`. Represents the percentage.                            | Set the maximum face capture based on the screen width limit.
 | **`setFrameTimeBetweenImages`** | `frameTimeBetweenImages: Int64` | void        | Any positive number that represent time in milli seconds                          | Set saving frame images time interval in milli seconds.
-| **`setFrameNumberOfImages`**    | `frameNumberOfImages: Int`     | void        | Any positive `Int` value                                                          | Default value is 0. For value 0 is saved infinity images. When saved images reached the "frame number os images", the `onEndCapture` is triggered.
+| **`setFrameNumberOfImages`** |  `frameNumberOfImages: Int` | void | Any positive `Int` value | Default value is 0. For value 0 is saved infinity images. When saved images reached the "frame number os images", the `onEndCapture` is triggered.
+| **`setFaceSaveImages`** | `faceSaveImages: Boolean` | `true` or `false` | void | Set to enable/disable face save images when capturing faces.
 
 ### Events
 

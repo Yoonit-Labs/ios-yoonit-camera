@@ -26,6 +26,9 @@ public class CaptureOptions {
     // Draw or not the face detection box.
     var faceDetectionBox: Bool = true
     
+    // Face save cropped images.
+    var faceSaveImages: Bool = false
+    
     // Face capture number of images. 0 capture unlimited.
     var faceNumberOfImages: Int = 0
     
