@@ -217,12 +217,7 @@ class FaceAnalyzer: NSObject {
         
         let screenWidth = self.previewLayer.bounds.width
         let screenHeight = self.previewLayer.bounds.height
-        
-        let topOffset = Float(detectionBox!.minY / screenHeight)
-        let rightOffset = Float((screenWidth - detectionBox!.maxX) / screenWidth)
-        let bottomOffset = Float((screenHeight - detectionBox!.maxY) / screenHeight)
-        let leftOffset = Float(detectionBox!.minX / screenWidth)
-                   
+                           
         // Face is out of the screen.
         let isOutOfTheScreen =
             detectionBox!.minX < 0 ||
@@ -233,28 +228,51 @@ class FaceAnalyzer: NSObject {
             return false
         }
         
-        // Face is out of the region of interest.
-        let isOutOfTheROI =
-            self.captureOptions.faceROI.topOffset > topOffset ||
-            self.captureOptions.faceROI.rightOffset > rightOffset ||
-            self.captureOptions.faceROI.bottomOffset > bottomOffset ||
-            self.captureOptions.faceROI.leftOffset > leftOffset
-        if isOutOfTheROI && self.captureOptions.faceROI.enable {
-            return false
-        }
-                                                           
         // This variable is the face detection box percentage in relation with the
         // UI view. The value must be between 0 and 1.
         let detectionBoxRelatedWithScreen = Float(detectionBox!.width / screenWidth)
 
         // Face smaller than the capture minimum size.
-        if (detectionBoxRelatedWithScreen < self.captureOptions.faceCaptureMinSize) {
+        if (detectionBoxRelatedWithScreen < self.captureOptions.faceCaptureMinSize) {            
             return false
         }
         
         // Face bigger than the capture maximum size.
         if (detectionBoxRelatedWithScreen > self.captureOptions.faceCaptureMaxSize) {
             return false
+        }
+        
+        if self.captureOptions.faceROI.enable {
+            // Detection box offsets.
+            let topOffset = Float(detectionBox!.minY / screenHeight)
+            let rightOffset = Float((screenWidth - detectionBox!.maxX) / screenWidth)
+            let bottomOffset = Float((screenHeight - detectionBox!.maxY) / screenHeight)
+            let leftOffset = Float(detectionBox!.minX / screenWidth)
+            
+            if self.captureOptions.faceROI.isOutOf(
+                topOffset: topOffset,
+                rightOffset: rightOffset,
+                bottomOffset: bottomOffset,
+                leftOffset: leftOffset) {
+                
+                return false
+            }
+            
+            if self.captureOptions.faceROI.hasChanges {
+                
+                // Face is inside the region of interest and faceROI is setted.
+                // Face is smaller than the defined "minimumSize".
+                let roiWidth: Float =
+                    Float(screenWidth) -
+                    ((self.captureOptions.faceROI.rightOffset + self.captureOptions.faceROI.leftOffset) *
+                        Float(screenWidth))
+                
+                let faceRelatedWithROI: Float = Float(detectionBox!.width) / roiWidth
+                                                    
+                if self.captureOptions.faceROI.minimumSize > faceRelatedWithROI {
+                    return false
+                }
+            }
         }
         
         return true

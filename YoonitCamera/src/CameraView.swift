@@ -333,4 +333,14 @@ public class CameraView: UIView {
         self.captureOptions.faceROI.bottomOffset = bottomOffset
         self.captureOptions.faceROI.leftOffset = leftOffset
     }
+    
+    /**
+     Set face minimum size in relation of the region of interest.
+     
+     - Parameter minimumSize: Represents in percentage [0, 1]. Default value is `0`.
+     */
+    @objc
+    public func setFaceROIMinSize(minimumSize: Float) {
+        self.captureOptions.faceROI.minimumSize = minimumSize
+    }
 }

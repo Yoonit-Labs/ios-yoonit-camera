@@ -27,4 +27,40 @@ public class FaceROI {
     var rightOffset: Float = 0   // "Right" of face detected.
     var bottomOffset: Float = 0  // "Bottom" face detected.
     var leftOffset: Float = 0    // "Left" face detected.
+    
+    // Minimum face size in percentage in relation of the ROI.
+    var minimumSize: Float = 0
+        
+    // Return if any attributes has modifications.
+    var hasChanges: Bool {
+        get {
+            return
+                self.topOffset != 0.0 ||
+                self.rightOffset != 0.0 ||
+                self.bottomOffset != 0.0 ||
+                self.leftOffset != 0.0
+        }
+    }
+    
+    /**
+     Current offsets is out of the offset parameters.
+     
+     - Parameter topOffset: top offset.
+     - Parameter rightOffset: right offset.
+     - Parameter bottomOffset: bottom offset.
+     - Parameter leftOffset: left offset.
+     - Returns is out of the offset parameters.
+     */
+    public func isOutOf(
+        topOffset: Float,
+        rightOffset: Float,
+        bottomOffset: Float,
+        leftOffset: Float) -> Bool {
+        
+        return
+            self.topOffset > topOffset ||
+            self.rightOffset > rightOffset ||
+            self.bottomOffset > bottomOffset ||
+            self.leftOffset > leftOffset
+    }
 }
