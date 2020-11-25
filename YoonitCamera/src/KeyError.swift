@@ -13,6 +13,7 @@
 import Foundation
 
 public enum KeyError: String {
+    
     // Tried to start a process that depends on to start the camera preview.
     case NOT_STARTED_PREVIEW = "NOT_STARTED_PREVIEW"
     

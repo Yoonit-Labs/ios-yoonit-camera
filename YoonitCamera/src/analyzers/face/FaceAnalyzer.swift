@@ -233,12 +233,14 @@ class FaceAnalyzer: NSObject {
         let detectionBoxRelatedWithScreen = Float(detectionBox!.width / screenWidth)
 
         // Face smaller than the capture minimum size.
-        if (detectionBoxRelatedWithScreen < self.captureOptions.faceCaptureMinSize) {            
+        if (detectionBoxRelatedWithScreen < self.captureOptions.faceCaptureMinSize) {
+            self.cameraEventListener?.onMessage(message: Message.INVALID_CAPTURE_FACE_MIN_SIZE.rawValue)
             return false
         }
         
         // Face bigger than the capture maximum size.
         if (detectionBoxRelatedWithScreen > self.captureOptions.faceCaptureMaxSize) {
+            self.cameraEventListener?.onMessage(message: Message.INVALID_CAPTURE_FACE_MAX_SIZE.rawValue)
             return false
         }
         
@@ -255,6 +257,7 @@ class FaceAnalyzer: NSObject {
                 bottomOffset: bottomOffset,
                 leftOffset: leftOffset) {
                 
+                self.cameraEventListener?.onMessage(message: Message.INVALID_CAPTURE_FACE_OUT_OF_ROI.rawValue)
                 return false
             }
             
@@ -270,6 +273,7 @@ class FaceAnalyzer: NSObject {
                 let faceRelatedWithROI: Float = Float(detectionBox!.width) / roiWidth
                                                     
                 if self.captureOptions.faceROI.minimumSize > faceRelatedWithROI {
+                    self.cameraEventListener?.onMessage(message: Message.INVALID_CAPTURE_FACE_ROI_MIN_SIZE.rawValue)
                     return false
                 }
             }
