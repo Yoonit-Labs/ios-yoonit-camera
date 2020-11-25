@@ -67,13 +67,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5C0AF5C8256DA06800A5DF84 /* options */ = {
+		5C0AF5C8256DA06800A5DF84 /* models */ = {
 			isa = PBXGroup;
 			children = (
 				6176EF0D252CF9F600F4D4DD /* CaptureOptions.swift */,
 				5C0AF5BB256D864400A5DF84 /* FaceROI.swift */,
 			);
-			path = options;
+			path = models;
 			sourceTree = "<group>";
 		};
 		5C0C642E2541DD1A00EDF95B /* delegates */ = {
@@ -116,7 +116,7 @@
 		5C0C6435254208E400EDF95B /* src */ = {
 			isa = PBXGroup;
 			children = (
-				5C0AF5C8256DA06800A5DF84 /* options */,
+				5C0AF5C8256DA06800A5DF84 /* models */,
 				5C0C64322541F5E500EDF95B /* analyzers */,
 				5C0C64312541F4FB00EDF95B /* utils */,
 				5C0C642E2541DD1A00EDF95B /* delegates */,
