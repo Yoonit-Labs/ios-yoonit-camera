@@ -147,7 +147,8 @@ Pre-define key error used by the `onError` event.
 | INVALID_FACE_CAPTURE_MAX_SIZE     | Tried to input invalid face capture maximum size.
 | INVALID_FRAME_NUMBER_OF_IMAGES    | Tried to input invalid frame number of images to capture.
 | INVALID_FRAME_TIME_BETWEEN_IMAGES | Tried to input invalid frame time interval to capture face.
-| INVALID_FACE_ROI_OFFSET | Tried to input invalid face region of interesting offset. 
+| INVALID_FACE_ROI_OFFSET | Tried to input invalid face region of interest offset. 
+| INVALID_FACE_ROI_MIN_SIZE         | Tried to input invalid face region of interest minimum size.
 
 ### Message
 

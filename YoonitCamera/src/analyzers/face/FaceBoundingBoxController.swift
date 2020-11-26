@@ -89,7 +89,7 @@ class FaceBoundingBoxController: NSObject {
     }
     
     /**
-     Validade the face detection box coordinates based in the capture options rules.
+     Get the error message if exist based in the capture options rules and the detection box.
      
      - Parameter detectionBox: the face detection box coordinates.
      - Returns: `nil` for no error:

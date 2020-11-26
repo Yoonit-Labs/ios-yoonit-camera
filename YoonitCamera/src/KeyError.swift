@@ -46,4 +46,7 @@ public enum KeyError: String {
     
     // Tried to input invalid face region of interesting offset.
     case INVALID_FACE_ROI_OFFSET = "INVALID_FACE_ROI_OFFSET"
+    
+    // Tried to input invalid face region of interest minimum size.
+    case INVALID_FACE_ROI_MIN_SIZE = "INVALID_FACE_ROI_MIN_SIZE"
 }

@@ -341,6 +341,11 @@ public class CameraView: UIView {
      */
     @objc
     public func setFaceROIMinSize(minimumSize: Float) {
+        if minimumSize < 0.0 || minimumSize > 1.0 {
+            self.cameraEventListener?.onError(error: KeyError.INVALID_FACE_ROI_MIN_SIZE.rawValue)
+            return
+        }
+        
         self.captureOptions.faceROI.minimumSize = minimumSize
     }
 }
