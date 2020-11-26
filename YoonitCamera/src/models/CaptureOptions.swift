@@ -17,6 +17,10 @@ import AVFoundation
  Model to set capture features options.
  */
 public class CaptureOptions {
+    
+    // Face region of interesting. Default is all the screen area.
+    var faceROI: FaceROI = FaceROI()
+    
     // Camera image capture type: NONE, FACE, BARCODE and FRAME.
     var type: CaptureType = .NONE
     

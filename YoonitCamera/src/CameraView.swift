@@ -291,4 +291,61 @@ public class CameraView: UIView {
         
         self.captureOptions.frameTimeBetweenImages = frameTimeBetweenImages
     }
+    
+    /**
+     Set to apply enable/disable face region of interest.
+     
+     - Parameter faceROIEnable: The indicator to enable/disable face region of interest. Default value is `false`.
+     */
+    @objc
+    public func setFaceROIEnable(faceROIEnable: Bool) {
+        self.captureOptions.faceROI.enable = faceROIEnable
+    }
+    
+    /**
+     Set face region of interest offset.
+     
+     - Parameter topOffset: Represents in percentage [0, 1]. Default value is `0`.
+     - Parameter rightOffset: Represents in percentage [0, 1]. Default value is `0`.
+     - Parameter bottomOffset: Represents in percentage [0, 1]. Default value is `0`.
+     - Parameter leftOffset: Represents in percentage [0, 1]. Default value is `0`.
+     */
+    @objc
+    public func setFaceROIOffset(
+        topOffset: Float,
+        rightOffset: Float,
+        bottomOffset: Float,
+        leftOffset: Float) {
+        
+        let isInvalid =
+            topOffset < 0.0 || topOffset > 1.0 ||
+            rightOffset < 0.0 || rightOffset > 1.0 ||
+            bottomOffset < 0.0 || bottomOffset > 1.0 ||
+            leftOffset < 0.0 || leftOffset > 1.0
+        
+        if isInvalid {
+            self.cameraEventListener?.onError(error: KeyError.INVALID_FACE_ROI_OFFSET.rawValue)
+            return
+        }
+    
+        self.captureOptions.faceROI.topOffset = topOffset
+        self.captureOptions.faceROI.rightOffset = rightOffset
+        self.captureOptions.faceROI.bottomOffset = bottomOffset
+        self.captureOptions.faceROI.leftOffset = leftOffset
+    }
+    
+    /**
+     Set face minimum size in relation of the region of interest.
+     
+     - Parameter minimumSize: Represents in percentage [0, 1]. Default value is `0`.
+     */
+    @objc
+    public func setFaceROIMinSize(minimumSize: Float) {
+        if minimumSize < 0.0 || minimumSize > 1.0 {
+            self.cameraEventListener?.onError(error: KeyError.INVALID_FACE_ROI_MIN_SIZE.rawValue)
+            return
+        }
+        
+        self.captureOptions.faceROI.minimumSize = minimumSize
+    }
 }

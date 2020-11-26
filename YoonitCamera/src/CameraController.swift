@@ -67,21 +67,26 @@ class CameraController: NSObject {
     }
     
     /**
-     Start process camera preview, started with selected camera.
+     Start process camera preview.
      */
     public func startPreview() {
         
+        // Do not try start preview if already exist a preview started.
+        // Can not use session.isRunning because it is not valid when application is in background.
         if (self.isPreviewStarted) {
             return
         }
         
+        // Do not try to start preview if application does not have permission.
         if AVCaptureDevice.authorizationStatus(for: .video) == .denied {
             self.cameraEventListener?.onPermissionDenied()
             return
         }
                         
+        // Build camera input based on the camera lens.
         self.buildCameraInput(cameraLens: self.captureOptions.cameraLens)        
                 
+        // Start running the session.
         self.session.startRunning()
         self.isPreviewStarted = true
     }
@@ -206,6 +211,9 @@ class CameraController: NSObject {
     }
 }
 
+/**
+ Camera frame output capture.
+ */
 extension CameraController: AVCaptureVideoDataOutputSampleBufferDelegate {
     
     func captureOutput(
@@ -232,6 +240,9 @@ extension CameraController: AVCaptureVideoDataOutputSampleBufferDelegate {
     }
 }
 
+/**
+ Camera metadata output capture.
+ */
 extension CameraController: AVCaptureMetadataOutputObjectsDelegate {
 
     func metadataOutput(

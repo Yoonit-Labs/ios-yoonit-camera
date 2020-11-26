@@ -16,36 +16,38 @@ import AVFoundation
 import Accelerate
 
 
-// MARK: Helper Methods for image conversion and manipulation
-
-func imageFromPixelBuffer(imageBuffer : CVPixelBuffer, scale: CGFloat, orientation: UIImage.Orientation) -> UIImage {
+func imageFromPixelBuffer(
+    imageBuffer: CVPixelBuffer,
+    scale: CGFloat,
+    orientation: UIImage.Orientation) -> UIImage {
+    
     // Get a CMSampleBuffer's Core Video image buffer for the media data
     // Lock the base address of the pixel buffer
     CVPixelBufferLockBaseAddress(imageBuffer, CVPixelBufferLockFlags.readOnly)
-
+    
     // Get the number of bytes per row for the pixel buffer
     let baseAddress = CVPixelBufferGetBaseAddress(imageBuffer)
-
+    
     // Get the number of bytes per row for the pixel buffer
     let bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer)
-
+    
     // Get the pixel buffer width and height
     let width = CVPixelBufferGetWidth(imageBuffer)
     let height = CVPixelBufferGetHeight(imageBuffer)
-
+    
     // Create a device-dependent RGB color space
     let colorSpace = CGColorSpaceCreateDeviceRGB()
-
+    
     // Create a bitmap graphics context with the sample buffer data
     var bitmapInfo: UInt32 = CGBitmapInfo.byteOrder32Little.rawValue
     bitmapInfo |= CGImageAlphaInfo.premultipliedFirst.rawValue & CGBitmapInfo.alphaInfoMask.rawValue
-
+    
     //let bitmapInfo: UInt32 = CGBitmapInfo.alphaInfoMask.rawValue
     let context = CGContext.init(data: baseAddress, width: width, height: height, bitsPerComponent: 8, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo)
-
+    
     // Create a Quartz image from the pixel data in the bitmap graphics context
     let quartzImage = context?.makeImage()
-
+    
     // Unlock the pixel buffer
     CVPixelBufferUnlockBaseAddress(imageBuffer, CVPixelBufferLockFlags.readOnly)
     
@@ -58,7 +60,7 @@ func imageFromPixelBuffer(imageBuffer : CVPixelBuffer, scale: CGFloat, orientati
 }
 
 
-func getYcpCbCrFullRange() -> vImage_YpCbCrPixelRange{
+func getYcpCbCrFullRange() -> vImage_YpCbCrPixelRange {
     return vImage_YpCbCrPixelRange(Yp_bias: 0,
                                    CbCr_bias: 128,
                                    YpRangeMax: 255,
@@ -86,25 +88,25 @@ let preBias: [Int16] = [0, 0, 0, 0]
 let postBias: Int32 = 0
 
 func convertToGrayScale(_ pixelBuffer: CVPixelBuffer)-> vImage_Buffer {
-
+    
     CVPixelBufferLockBaseAddress(pixelBuffer, .readOnly)
-
+    
     let baseAddress = CVPixelBufferGetBaseAddress(pixelBuffer)
     let width = CVPixelBufferGetWidth(pixelBuffer)
     let height = CVPixelBufferGetHeight(pixelBuffer)
     let rowBytes = CVPixelBufferGetBytesPerRow(pixelBuffer)
-
+    
     var sourceBuffer = vImage_Buffer(data: baseAddress!,
                                      height: vImagePixelCount(height),
                                      width: vImagePixelCount(width),
                                      rowBytes: rowBytes)
-
+    
     let lumaData = UnsafeMutablePointer<Pixel_8>.allocate(capacity: width*height)
     var destinationBuffer = vImage_Buffer(data: lumaData,
                                           height: vImagePixelCount(height),
                                           width: vImagePixelCount(width),
                                           rowBytes: width)
-
+    
     vImageMatrixMultiply_ARGB8888ToPlanar8(&sourceBuffer,
                                            &destinationBuffer,
                                            &coefficientsMatrix,
@@ -113,6 +115,6 @@ func convertToGrayScale(_ pixelBuffer: CVPixelBuffer)-> vImage_Buffer {
                                            postBias,
                                            vImage_Flags(kvImageNoFlags))
     CVPixelBufferUnlockBaseAddress(pixelBuffer, .readOnly)
-
+    
     return destinationBuffer
 }

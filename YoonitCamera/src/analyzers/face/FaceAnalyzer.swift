@@ -35,7 +35,7 @@ class FaceAnalyzer: NSObject {
     private var faceBoundingBoxController: FaceBoundingBoxController
     private var lastTimestamp = Date().currentTimeMillis()
     private var shouldDraw = true
-    private var hasStatus = false
+    private var isValid = false
     public var numberOfImages = 0
     
     public var drawings: [CAShapeLayer] = [] {
@@ -81,8 +81,14 @@ class FaceAnalyzer: NSObject {
         self.start()
     }
     
+    /**
+     Try to detect faces in the moment the camera capture this frame.
+     
+     - Parameter imageBuffer: The camera frame capture.
+     */
     func faceDetect(imageBuffer: CVPixelBuffer) {
         
+        // Detection face using VIsion API.
         let faceDetectRequest = VNDetectFaceRectanglesRequest {
             request, error in
             
@@ -91,20 +97,20 @@ class FaceAnalyzer: NSObject {
             }
             
             DispatchQueue.main.async {
+                // Found faces...
                 if let results = request.results as? [VNFaceObservation], results.count > 0 {
                     self.handleFaceDetectionResults(
                         faces: results,
                         imageBuffer: imageBuffer)
-                } else {
-                    if self.hasStatus {
-                        self.hasStatus = false
-                        self.cameraEventListener?.onFaceUndetected()
-                        self.drawings = []
-                    }
+                } else if self.isValid {
+                    self.isValid = false
+                    self.cameraEventListener?.onFaceUndetected()
+                    self.drawings = []
                 }
             }
         }
          
+        // Start process detect face in the current image camera captured.
         try? VNImageRequestHandler(
             cvPixelBuffer: imageBuffer,
             orientation: .leftMirrored,
@@ -112,15 +118,23 @@ class FaceAnalyzer: NSObject {
             .perform([faceDetectRequest])
     }
     
+    /**
+     Handle face detection result from Vision API.
+     
+     - Parameter faces: The array of face detected.
+     - Parameter imageBuffer: The image buffer in the moment that detected the faces.
+     */
     private func handleFaceDetectionResults(
         faces: [VNFaceObservation],
-        imageBuffer: CVPixelBuffer)
-    {
-        let orientation = captureOptions.cameraLens.rawValue == 1 ?
+        imageBuffer: CVPixelBuffer) {
+        
+        // Convert image orientation based on device lens.
+        let orientation = captureOptions.cameraLens == AVCaptureDevice.Position.back ?
             UIImage.Orientation.up :
             UIImage.Orientation.upMirrored
                 
-        let image = imageFromPixelBuffer(
+        // Convert CVPixelBuffer to CGImage.
+        let image: CGImage? = imageFromPixelBuffer(
             imageBuffer: imageBuffer,
             scale: UIScreen.main.scale,
             orientation: orientation)
@@ -134,22 +148,27 @@ class FaceAnalyzer: NSObject {
             boundingBox: closestFace.boundingBox,
             imageBuffer: imageBuffer)
         
-        // Get status if exist.
-        let status = self.getStatus(detectionBox: detectionBox)
+        // Validate detection box.
+        // - nil for no error found;
+        // - String for error found with message;
+        // - "" for error found without message;
+        let error: String? = self
+            .faceBoundingBoxController
+            .getError(detectionBox: detectionBox)
         
         // Emit once if has error.
-        if status != nil {
-            if self.hasStatus {
-                self.hasStatus = false
+        if error != nil {
+            if self.isValid {
+                self.isValid = false
                 self.drawings = []
-                if (status != "") {
-                    self.cameraEventListener?.onMessage(message: status!)
+                if error != "" {
+                    self.cameraEventListener?.onMessage(message: error!)
                 }
                 self.cameraEventListener?.onFaceUndetected()
             }
             return
         }
-        self.hasStatus = true
+        self.isValid = true
         
         // Draw face bounding box.
         if self.captureOptions.faceDetectionBox {
@@ -158,6 +177,7 @@ class FaceAnalyzer: NSObject {
             self.drawings = []
         }
         
+        // Emit face detected detection box coordinates.
         self.cameraEventListener?.onFaceDetected(
             x: Int(detectionBox!.minX),
             y: Int(detectionBox!.minY),
@@ -168,55 +188,40 @@ class FaceAnalyzer: NSObject {
             return
         }
         
+        // Handle crop face process by time.
         let currentTimestamp = Date().currentTimeMillis()
-        let diffTime = currentTimestamp - self.lastTimestamp            
+        let diffTime = currentTimestamp - self.lastTimestamp
         
         if diffTime > self.captureOptions.faceTimeBetweenImages {
             self.lastTimestamp = currentTimestamp
-                                    
+        
+            // Crop the face image.
             self.faceCropController.cropImage(
                 image: image!,
                 boundingBox: closestFace.boundingBox,
                 captureOptions: self.captureOptions) {
+                
+                // Result of the crop face process.
                 result in
                 
                 let fileURL = fileURLFor(index: self.numberOfImages)
                 let fileName = try! save(image: result, at: fileURL)
                 
-                self.notifyCapturedImage(filePath: fileName)
+                
+                // Emit the face image file path.
+                self.handleEmitImageCaptured(filePath: fileName)
             }
         }
     }
-    
-    private func getStatus(detectionBox: CGRect?) -> String? {
-        if detectionBox == nil {
-            return ""
-        }
         
-        if
-            detectionBox!.minX < 0 ||
-                detectionBox!.minY < 0 ||
-                detectionBox!.maxY > UIScreen.main.bounds.height ||
-                detectionBox!.maxX > UIScreen.main.bounds.width {
-            return ""
-        }
-                                                           
-        // This variable is the face detection box percentage in relation with the
-        // UI view. The value must be between 0 and 1.
-        let detectionBoxRelatedWithScreen = Float(detectionBox!.width) / Float(self.previewLayer.bounds.width)
-
-        if (detectionBoxRelatedWithScreen < self.captureOptions.faceCaptureMinSize) {
-            return Message.INVALID_CAPTURE_FACE_MIN_SIZE.rawValue
-        }
+    /**
+     Handle emit face image file created.
+     
+     - Parameter imagePath: image file path.
+     */
+    public func handleEmitImageCaptured(filePath: String) {
         
-        if (detectionBoxRelatedWithScreen > self.captureOptions.faceCaptureMaxSize) {
-            return Message.INVALID_CAPTURE_FACE_MAX_SIZE.rawValue
-        }
-        
-        return nil
-    }
-    
-    public func notifyCapturedImage(filePath: String) {
+        // process face number of images.
         if (self.captureOptions.faceNumberOfImages > 0) {
             if (self.numberOfImages < self.captureOptions.faceNumberOfImages) {
                 self.numberOfImages += 1
@@ -233,6 +238,7 @@ class FaceAnalyzer: NSObject {
             return
         }
         
+        // process face unlimited.
         self.numberOfImages = (self.numberOfImages + 1) % MAX_NUMBER_OF_IMAGES
         self.cameraEventListener?.onFaceImageCreated(
             count: self.numberOfImages,

@@ -13,6 +13,7 @@
 import Foundation
 
 public enum KeyError: String {
+    
     // Tried to start a process that depends on to start the camera preview.
     case NOT_STARTED_PREVIEW = "NOT_STARTED_PREVIEW"
     
@@ -42,4 +43,10 @@ public enum KeyError: String {
     
     // Tried to input invalid frame time interval to capture face.
     case INVALID_FRAME_TIME_BETWEEN_IMAGES = "INVALID_FRAME_TIME_BETWEEN_IMAGES"
+    
+    // Tried to input invalid face region of interesting offset.
+    case INVALID_FACE_ROI_OFFSET = "INVALID_FACE_ROI_OFFSET"
+    
+    // Tried to input invalid face region of interest minimum size.
+    case INVALID_FACE_ROI_MIN_SIZE = "INVALID_FACE_ROI_MIN_SIZE"
 }
