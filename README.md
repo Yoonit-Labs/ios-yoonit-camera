@@ -66,7 +66,7 @@ class YourViewController: UIViewController, CameraEventListenerDelegate {
     ...
     self.cameraView.cameraEventListener = self
     ...
-    func onFaceImageCreated(count: Int, total: Int, imagePath: String) {
+    func onImageCaptured(type: String, count: Int, total: Int, imagePath: String) {
         // YOUR CODE
     }
 }
@@ -108,12 +108,12 @@ class YourViewController: UIViewController, CameraEventListenerDelegate {
 | **`setTimeBetweenImages`**      | `timeBetweenImages: Int64`                                                     | Any positive number that represent time in milli seconds                          | void        | Set saving face/frame images time interval in milli seconds.
 | **`setOutputImageWidth`**       | `width: Int`                                                                  | Any positive `number` value that represents in pixels                             | void        | Set face image width to be created in pixels.
 | **`setOutputImageHeight`**      | `height: Int`                                                                 | Any positive `number` value that represents in pixels                             | void        | Set face image height to be created in pixels.
-| **`setFaceDetectionBox`**       | `faceDetectionBox: Bool`                                                      | `true` or `false`                                                                 | void        | Set to show a detection box when face detected.   
+| **`setSaveImageCaptured`**      | `enable: Bool`                                                     | `true` or `false`                                                                 | void        | Set to enable/disable save image when capturing face and frame.
+| **`setFaceDetectionBox`**       | `enable: Bool`                                                      | `true` or `false`                                                                 | void        | Set to show a detection box when face detected.   
 | **`setFacePaddingPercent`**     | `facePaddingPercent: Float`                                                   | Any positive `Float` value                                                        | void        | Set face image and bounding box padding in percent.  
 | **`setFaceCaptureMinSize`**     | `faceCaptureMinSize: Float`                                                   | Value between `0` and `1`. Represents the percentage.                             | void        | Set the minimum face capture based on the screen width limit.
 | **`setFaceCaptureMaxSize`**     | `faceCaptureMaxSize: Float`                                                   | Value between `0` and `1`. Represents the percentage.                             | void        | Set the maximum face capture based on the screen width limit.
-| **`setFaceSaveImages`**         | `faceSaveImages: Bool`                                                        | `true` or `false`                                                                 | void        | Set to enable/disable face save images when capturing faces.
-| **`setFaceROIEnable`**          | `faceROIEnable: Bool`                                                         | `true` or `false`                                                                 | void        | Enable/disable face region of interest capture.
+| **`setFaceROIEnable`**          | `enable: Bool`                                                         | `true` or `false`                                                                 | void        | Enable/disable face region of interest capture.
 | **`setFaceROIOffset`**          | `topOffset: Float, rightOffset: Float,bottomOffset: Float, leftOffset: Float` | Values between `0` and `1`. Represents the percentage.                            | void        | <ul><li>topOffset: "Above" the face detected.</li><li>rightOffset: "Right" of the face detected.</li><li>bottomOffset: "Bottom" of the face detected.</li><li>leftOffset: "Left" of the face detected.</li></ul>
 | **`setFaceROIMinSize`**         | `minimumSize: Float`                                                          | Values between `0` and `1`. Represents the percentage.                            | void        | Set the minimum face size related with the region of interest.  
 

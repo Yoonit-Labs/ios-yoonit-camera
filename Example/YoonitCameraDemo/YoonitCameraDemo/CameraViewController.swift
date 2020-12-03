@@ -151,11 +151,11 @@ class CameraViewController: UIViewController {
     }
     
     @IBAction func toggleFaceDetectionBox(_ sender: UISwitch) {
-        self.cameraView.setFaceDetectionBox(faceDetectionBox: sender.isOn)
+        self.cameraView.setFaceDetectionBox(enable: sender.isOn)
     }
     
-    @IBAction func toggleFaceSaveImage(_ sender: UISwitch) {
-        self.cameraView.setFaceSaveImages(faceSaveImages: sender.isOn)
+    @IBAction func toggleSaveImageCaptured(_ sender: UISwitch) {
+        self.cameraView.setSaveImageCaptured(enable: sender.isOn)
         
         if !sender.isOn {
             self.clearFaceImagePreview()
