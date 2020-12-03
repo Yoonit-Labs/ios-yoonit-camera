@@ -20,11 +20,11 @@ public enum KeyError: String {
     // Tried to start a non-existent capture type.
     case INVALID_CAPTURE_TYPE = "INVALID_CAPTURE_TYPE"
     
-    // Tried to input invalid face number of images to capture.
-    case INVALID_FACE_NUMBER_OF_IMAGES = "INVALID_FACE_NUMBER_OF_IMAGES"
+    // Tried to input invalid face/frame number of images to capture.
+    case INVALID_NUMBER_OF_IMAGES = "INVALID_NUMBER_OF_IMAGES"
     
-    // Tried to input invalid face time interval to capture face.
-    case INVALID_FACE_TIME_BETWEEN_IMAGES = "INVALID_FACE_TIME_BETWEEN_IMAGES"
+    // Tried to input invalid face/frame time interval to capture.
+    case INVALID_TIME_BETWEEN_IMAGES = "INVALID_TIME_BETWEEN_IMAGES"
     
     // Tried to input invalid face padding percent.
     case INVALID_FACE_PADDING_PERCENT = "INVALID_FACE_PADDING_PERCENT"

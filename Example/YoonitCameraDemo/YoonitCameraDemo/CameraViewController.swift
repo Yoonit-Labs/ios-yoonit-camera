@@ -76,7 +76,7 @@ class CameraViewController: UIViewController {
                 
             } else if (title == "Code capture") {
                 self.cameraTypeDropDown.setTitle("Code capture", for: .normal)
-                captureType = "barcode"
+                captureType = "qrcode"
                 self.qrCodeTextField.isHidden = false
                 self.clearFaceImagePreview()
                 
@@ -149,27 +149,19 @@ class CameraViewController: UIViewController {
 
 extension CameraViewController: CameraEventListenerDelegate {
     
-    func onFaceImageCreated(count: Int, total: Int, imagePath: String) {
+    func onImageCreated(
+        type: String,
+        count: Int,
+        total: Int,
+        imagePath: String) {
+        
         let subpath = imagePath.substring(from: imagePath.index(imagePath.startIndex, offsetBy: 7))
         let image = UIImage(contentsOfFile: subpath)
         
         if total == 0 {
-            print("onImageCaptured: \(count).")
+            print("onImageCaptured \(type): \(count).")
         } else {
-            print("onImageCaptured: \(count) from \(total).")
-        }
-        
-        self.savedFrame.image = self.showImagePreview ? image : nil
-    }
-    
-    func onFrameImageCreated(count: Int, total: Int, imagePath: String) {
-        let subpath = imagePath.substring(from: imagePath.index(imagePath.startIndex, offsetBy: 7))
-        let image = UIImage(contentsOfFile: subpath)
-        
-        if total == 0 {
-            print("onImageCaptured: \(count).")
-        } else {
-            print("onImageCaptured: \(count) from \(total).")
+            print("onImageCaptured \(type): \(count) from \(total).")
         }
         
         self.savedFrame.image = self.showImagePreview ? image : nil
@@ -201,8 +193,8 @@ extension CameraViewController: CameraEventListenerDelegate {
         print("onPermissionDenied")
     }
 
-    func onBarcodeScanned(content: String) {
-        print("onBarcodeScanned: \(content)")
+    func onQRCodeScanned(content: String) {
+        print("onQRCodeScanned: \(content)")
         self.qrCodeTextField.text = content
     }
 }

@@ -15,7 +15,8 @@ import Foundation
 @objc
 public protocol CameraEventListenerDelegate {
 
-    func onFaceImageCreated(
+    func onImageCreated(
+        type: String,
         count: Int,
         total: Int,
         imagePath: String)
@@ -36,10 +37,5 @@ public protocol CameraEventListenerDelegate {
 
     func onPermissionDenied()
 
-    func onBarcodeScanned(content: String)
-    
-    func onFrameImageCreated(
-        count: Int,
-        total: Int,
-        imagePath: String)
+    func onQRCodeScanned(content: String)
 }

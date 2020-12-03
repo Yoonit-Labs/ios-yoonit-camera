@@ -96,8 +96,8 @@ public class CameraView: UIView {
         case "face":
             self.cameraController?.startCaptureType(captureType: CaptureType.FACE)
             
-        case "barcode":
-            self.cameraController?.startCaptureType(captureType: CaptureType.BARCODE)
+        case "qrcode":
+            self.cameraController?.startCaptureType(captureType: CaptureType.QRCODE)
             
         case "frame":
             self.cameraController?.startCaptureType(captureType: CaptureType.FRAME)
@@ -136,20 +136,33 @@ public class CameraView: UIView {
     }
     
     /**
-     Set number of face file images to create.
-     The time interval to create the image is 1000 milli second.
-     See setFaceTimeBetweenImages to change the time interval.
+     Set number of face/frame file images to create.
      
-     - Parameter faceNumberOfImages: The number of images to create.
+     - Parameter numberOfImages: The number of images to create.
      */
     @objc
-    public func setFaceNumberOfImages(faceNumberOfImages: Int) {
-        if faceNumberOfImages < 0 {
-            self.cameraEventListener?.onError(error: KeyError.INVALID_FACE_NUMBER_OF_IMAGES.rawValue)
+    public func setNumberOfImages(numberOfImages: Int) {
+        if numberOfImages < 0 {
+            self.cameraEventListener?.onError(error: KeyError.INVALID_NUMBER_OF_IMAGES.rawValue)
             return
         }
         
-        self.captureOptions.faceNumberOfImages = faceNumberOfImages
+        self.captureOptions.numberOfImages = numberOfImages
+    }
+    
+    /**
+     Set saving face/frame images time interval in milli seconds.
+     
+     - Parameter faceTimeBetweenImages: The time in milli seconds. Default value is `1000`.
+     */
+    @objc
+    public func setTimeBetweenImages(timeBetweenImages: Int64) {
+        if timeBetweenImages < 0 {
+            self.cameraEventListener?.onError(error: KeyError.INVALID_TIME_BETWEEN_IMAGES.rawValue)
+            return
+        }
+        
+        self.captureOptions.timeBetweenImages = timeBetweenImages
     }
     
     /**
@@ -172,22 +185,7 @@ public class CameraView: UIView {
     public func setFaceSaveImages(faceSaveImages: Bool) {
         self.captureOptions.faceSaveImages = faceSaveImages
     }
-    
-    /**
-     Set saving face images time interval in milli seconds.
-     
-     - Parameter faceTimeBetweenImages: The time in milli seconds. Default value is `1000`.
-     */
-    @objc
-    public func setFaceTimeBetweenImages(faceTimeBetweenImages: Int64) {
-        if faceTimeBetweenImages < 0 {
-            self.cameraEventListener?.onError(error: KeyError.INVALID_FACE_TIME_BETWEEN_IMAGES.rawValue)
-            return
-        }
         
-        self.captureOptions.faceTimeBetweenImages = faceTimeBetweenImages
-    }
-    
     /**
      Enlarge the face bounding box by percent.
      
@@ -259,39 +257,7 @@ public class CameraView: UIView {
         
         self.captureOptions.faceCaptureMaxSize = faceCaptureMaxSize
     }
-    
-    /**
-     Set number of frame file images to create.
-     The time interval to create the image is 1000 milli second.
-     See setFrameTimeBetweenImages to change the time interval.
-     
-     - Parameter frameNumberOfImages: The number of images to create.
-     */
-    @objc
-    public func setFrameNumberOfImages(frameNumberOfImages: Int) {
-        if frameNumberOfImages < 0 {
-            self.cameraEventListener?.onError(error: KeyError.INVALID_FRAME_NUMBER_OF_IMAGES.rawValue)
-            return
-        }
         
-        self.captureOptions.frameNumberOfImages = frameNumberOfImages
-    }
-    
-    /**
-     Set saving frame images time interval in milli seconds.
-     
-     - Parameter frameTimeBetweenImages: The time in milli seconds. Default value is `1000`.
-     */
-    @objc
-    public func setFrameTimeBetweenImages(frameTimeBetweenImages: Int64) {
-        if frameTimeBetweenImages < 0 {
-            self.cameraEventListener?.onError(error: KeyError.INVALID_FRAME_TIME_BETWEEN_IMAGES.rawValue)
-            return
-        }
-        
-        self.captureOptions.frameTimeBetweenImages = frameTimeBetweenImages
-    }
-    
     /**
      Set to apply enable/disable face region of interest.
      

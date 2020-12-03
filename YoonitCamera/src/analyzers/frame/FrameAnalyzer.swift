@@ -52,7 +52,7 @@ class FrameAnalyzer: NSObject {
         let currentTimestamp = Date().currentTimeMillis()
         let diffTime = currentTimestamp - self.lastTimestamp
         
-        if diffTime > self.captureOptions.frameTimeBetweenImages {
+        if diffTime > self.captureOptions.timeBetweenImages {
             self.lastTimestamp = currentTimestamp
             
             DispatchQueue.main.async {
@@ -70,12 +70,13 @@ class FrameAnalyzer: NSObject {
         let fileURL = fileURLFor(index: self.numberOfImages)
         let filePath = try! save(image: image, at: fileURL)
         
-        if (self.captureOptions.frameNumberOfImages > 0) {
-            if (self.numberOfImages < self.captureOptions.frameNumberOfImages) {
+        if (self.captureOptions.numberOfImages > 0) {
+            if (self.numberOfImages < self.captureOptions.numberOfImages) {
                 self.numberOfImages += 1
-                self.cameraEventListener?.onFrameImageCreated(
+                self.cameraEventListener?.onImageCreated(
+                    type: "frame",
                     count: self.numberOfImages,
-                    total: self.captureOptions.frameNumberOfImages,
+                    total: self.captureOptions.numberOfImages,
                     imagePath: filePath
                 )
                 return
@@ -87,9 +88,10 @@ class FrameAnalyzer: NSObject {
         }
         
         self.numberOfImages = (self.numberOfImages + 1) % MAX_NUMBER_OF_IMAGES
-        self.cameraEventListener?.onFrameImageCreated(
+        self.cameraEventListener?.onImageCreated(
+            type: "frame",
             count: self.numberOfImages,
-            total: self.captureOptions.frameNumberOfImages,
+            total: self.captureOptions.numberOfImages,
             imagePath: filePath
         )
     }

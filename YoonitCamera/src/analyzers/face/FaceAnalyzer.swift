@@ -192,7 +192,7 @@ class FaceAnalyzer: NSObject {
         let currentTimestamp = Date().currentTimeMillis()
         let diffTime = currentTimestamp - self.lastTimestamp
         
-        if diffTime > self.captureOptions.faceTimeBetweenImages {
+        if diffTime > self.captureOptions.timeBetweenImages {
             self.lastTimestamp = currentTimestamp
         
             // Crop the face image.
@@ -222,12 +222,13 @@ class FaceAnalyzer: NSObject {
     public func handleEmitImageCaptured(filePath: String) {
         
         // process face number of images.
-        if (self.captureOptions.faceNumberOfImages > 0) {
-            if (self.numberOfImages < self.captureOptions.faceNumberOfImages) {
+        if (self.captureOptions.numberOfImages > 0) {
+            if (self.numberOfImages < self.captureOptions.numberOfImages) {
                 self.numberOfImages += 1
-                self.cameraEventListener?.onFaceImageCreated(
+                self.cameraEventListener?.onImageCreated(
+                    type: "face",
                     count: self.numberOfImages,
-                    total: self.captureOptions.faceNumberOfImages,
+                    total: self.captureOptions.numberOfImages,
                     imagePath: filePath
                 )
                 return
@@ -240,9 +241,10 @@ class FaceAnalyzer: NSObject {
         
         // process face unlimited.
         self.numberOfImages = (self.numberOfImages + 1) % MAX_NUMBER_OF_IMAGES
-        self.cameraEventListener?.onFaceImageCreated(
+        self.cameraEventListener?.onImageCreated(
+            type: "face",
             count: self.numberOfImages,
-            total: self.captureOptions.faceNumberOfImages,
+            total: self.captureOptions.numberOfImages,
             imagePath: filePath
         )
     }
