@@ -184,7 +184,7 @@ class FaceAnalyzer: NSObject {
             width: Int(detectionBox!.width),
             height: Int(detectionBox!.height))
         
-        if !self.captureOptions.faceSaveImages {
+        if !self.captureOptions.saveImageCaptured {
             return
         }
         

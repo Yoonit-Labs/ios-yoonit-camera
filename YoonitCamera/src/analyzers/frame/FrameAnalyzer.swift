@@ -56,6 +56,10 @@ class FrameAnalyzer: NSObject {
             self.lastTimestamp = currentTimestamp
             
             DispatchQueue.main.async {
+                if (!self.captureOptions.saveImageCaptured) {
+                    return
+                }
+                
                 let orientation = self.captureOptions.cameraLens.rawValue == 1 ?
                     UIImage.Orientation.up : UIImage.Orientation.upMirrored
                 
