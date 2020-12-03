@@ -174,7 +174,7 @@ class CameraViewController: UIViewController {
 
 extension CameraViewController: CameraEventListenerDelegate {
     
-    func onImageCreated(
+    func onImageCaptured(
         type: String,
         count: Int,
         total: Int,

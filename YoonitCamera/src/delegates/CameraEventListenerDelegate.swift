@@ -15,7 +15,7 @@ import Foundation
 @objc
 public protocol CameraEventListenerDelegate {
 
-    func onImageCreated(
+    func onImageCaptured(
         type: String,
         count: Int,
         total: Int,
