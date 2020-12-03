@@ -35,7 +35,7 @@ class FaceAnalyzer: NSObject {
     private var faceBoundingBoxController: FaceBoundingBoxController
     private var lastTimestamp = Date().currentTimeMillis()
     private var shouldDraw = true
-    private var isValid = false
+    private var isValid = true
     public var numberOfImages = 0
     
     public var drawings: [CAShapeLayer] = [] {
@@ -184,7 +184,7 @@ class FaceAnalyzer: NSObject {
             width: Int(detectionBox!.width),
             height: Int(detectionBox!.height))
         
-        if !self.captureOptions.faceSaveImages {
+        if !self.captureOptions.saveImageCaptured {
             return
         }
         
@@ -192,7 +192,7 @@ class FaceAnalyzer: NSObject {
         let currentTimestamp = Date().currentTimeMillis()
         let diffTime = currentTimestamp - self.lastTimestamp
         
-        if diffTime > self.captureOptions.faceTimeBetweenImages {
+        if diffTime > self.captureOptions.timeBetweenImages {
             self.lastTimestamp = currentTimestamp
         
             // Crop the face image.
@@ -204,10 +204,15 @@ class FaceAnalyzer: NSObject {
                 // Result of the crop face process.
                 result in
                 
+                let imageResized = try! result.resize(
+                    width: self.captureOptions.imageOutputWidth,
+                    height: self.captureOptions.imageOutputHeight)
+                
                 let fileURL = fileURLFor(index: self.numberOfImages)
-                let fileName = try! save(image: result, at: fileURL)
-                
-                
+                let fileName = try! save(
+                    image: imageResized,
+                    fileURL: fileURL)
+                                
                 // Emit the face image file path.
                 self.handleEmitImageCaptured(filePath: fileName)
             }
@@ -222,12 +227,13 @@ class FaceAnalyzer: NSObject {
     public func handleEmitImageCaptured(filePath: String) {
         
         // process face number of images.
-        if (self.captureOptions.faceNumberOfImages > 0) {
-            if (self.numberOfImages < self.captureOptions.faceNumberOfImages) {
+        if (self.captureOptions.numberOfImages > 0) {
+            if (self.numberOfImages < self.captureOptions.numberOfImages) {
                 self.numberOfImages += 1
-                self.cameraEventListener?.onFaceImageCreated(
+                self.cameraEventListener?.onImageCaptured(
+                    type: "face",
                     count: self.numberOfImages,
-                    total: self.captureOptions.faceNumberOfImages,
+                    total: self.captureOptions.numberOfImages,
                     imagePath: filePath
                 )
                 return
@@ -240,9 +246,10 @@ class FaceAnalyzer: NSObject {
         
         // process face unlimited.
         self.numberOfImages = (self.numberOfImages + 1) % MAX_NUMBER_OF_IMAGES
-        self.cameraEventListener?.onFaceImageCreated(
+        self.cameraEventListener?.onImageCaptured(
+            type: "face",
             count: self.numberOfImages,
-            total: self.captureOptions.faceNumberOfImages,
+            total: self.captureOptions.numberOfImages,
             imagePath: filePath
         )
     }

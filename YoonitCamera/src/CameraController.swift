@@ -95,7 +95,7 @@ class CameraController: NSObject {
      Start capture type of Image Analyzer.
      Must have started preview.
      
-     - Parameter captureType: `.NONE` | `.FACE` | `.BARCODE` | `.FRAME`;
+     - Parameter captureType: `.NONE` | `.FACE` | `.QRCODE` | `.FRAME`;
      - Precondition: Must have started preview.
      */
     public func startCaptureType(captureType: CaptureType) {
@@ -195,7 +195,7 @@ class CameraController: NSObject {
                         
         self.session.addOutput(videoDataOutput)
         
-        // QrCode output capture ========================================
+        // QRCode output capture ========================================
         let metadataOutput = AVCaptureMetadataOutput()
         self.session.addOutput(metadataOutput)
         metadataOutput.setMetadataObjectsDelegate(
@@ -250,7 +250,7 @@ extension CameraController: AVCaptureMetadataOutputObjectsDelegate {
         didOutput metadataObjects: [AVMetadataObject],
         from connection: AVCaptureConnection) {
 
-        if (self.captureOptions.type != CaptureType.BARCODE) {
+        if (self.captureOptions.type != CaptureType.QRCODE) {
             return
         }
         
@@ -258,7 +258,7 @@ extension CameraController: AVCaptureMetadataOutputObjectsDelegate {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
             guard let stringValue = readableObject.stringValue else { return }
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-            self.cameraEventListener?.onBarcodeScanned(content: stringValue)
+            self.cameraEventListener?.onQRCodeScanned(content: stringValue)
         }
     }
 }

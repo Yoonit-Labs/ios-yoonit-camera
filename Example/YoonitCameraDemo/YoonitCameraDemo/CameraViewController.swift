@@ -22,6 +22,39 @@ class CameraViewController: UIViewController {
     
     var showImagePreview = false
     
+    var captureType: String = "none" {
+        didSet {
+            switch self.captureType {
+            case "none":
+                self.cameraTypeDropDown.setTitle("No capture", for: .normal)
+                self.clearFaceImagePreview()
+                self.qrCodeTextField.isHidden = true
+                return;
+                
+            case "face":
+                self.cameraTypeDropDown.setTitle("Face capture", for: .normal)
+                self.showImagePreview = true
+                self.qrCodeTextField.isHidden = true
+                return;
+                
+            case "frame":
+                self.cameraTypeDropDown.setTitle("Frame capture", for: .normal)
+                self.showImagePreview = true
+                self.qrCodeTextField.isHidden = true
+                return;
+                
+            case "qrcode":
+                self.cameraTypeDropDown.setTitle("Code capture", for: .normal)
+                self.qrCodeTextField.isHidden = false
+                self.clearFaceImagePreview()
+                return;
+                
+            default:
+                return;
+            }
+        }
+    }
+    
     let menu: DropDown = {
         let menu = DropDown()
         menu.dataSource = [
@@ -59,49 +92,41 @@ class CameraViewController: UIViewController {
         self.cameraView.startPreview()        
         
         self.menu.anchorView = self.cameraTypeDropDown
-        self.menu.selectionAction = { index, title in
-            var captureType = "none"
-            
-            if (title == "No capture") {
-                self.cameraTypeDropDown.setTitle("No capture", for: .normal)
-                captureType = "none"
-                self.clearFaceImagePreview()
-                self.qrCodeTextField.isHidden = true
+        self.menu.selectionAction = {
+            index, title in
+                        
+            switch title {
+            case "No capture":
+                self.captureType = "none"
+                break;
                 
-            } else if (title == "Face capture") {
-                self.cameraTypeDropDown.setTitle("Face capture", for: .normal)
-                captureType = "face"
-                self.showImagePreview = true
-                self.qrCodeTextField.isHidden = true
+            case "Face capture":
+                self.captureType = "face"
+                break;
                 
-            } else if (title == "Code capture") {
-                self.cameraTypeDropDown.setTitle("Code capture", for: .normal)
-                captureType = "barcode"
-                self.qrCodeTextField.isHidden = false
-                self.clearFaceImagePreview()
+            case "Frame capture":
+                self.captureType = "frame"
+                break;
                 
-            } else if (title == "Frame capture") {
-                self.cameraTypeDropDown.setTitle("Frame capture", for: .normal)
-                captureType = "frame"
-                self.showImagePreview = true
-                self.qrCodeTextField.isHidden = true
+            case "Code capture":
+                self.captureType = "qrcode"
+                break;
+                
+            default:
+                self.captureType = "none"
+                break;
             }
             
-            self.cameraView.startCaptureType(captureType: captureType)
+            self.cameraView.startCaptureType(captureType: self.captureType)
         }
     }
         
     @objc func onBackground(_ notification: Notification) {
-        // For testing...
-        
         self.cameraView.stopCapture()
     }
     
     @objc func onActive(_ notification: Notification) {
-        // For testing...
-        
         self.cameraView.startPreview()
-//        self.cameraView.startCaptureType(captureType: "face")
     }
   
     @IBAction func toggleCam(_ sender: UIButton) {
@@ -126,11 +151,11 @@ class CameraViewController: UIViewController {
     }
     
     @IBAction func toggleFaceDetectionBox(_ sender: UISwitch) {
-        self.cameraView.setFaceDetectionBox(faceDetectionBox: sender.isOn)
+        self.cameraView.setFaceDetectionBox(enable: sender.isOn)
     }
     
-    @IBAction func toggleFaceSaveImage(_ sender: UISwitch) {
-        self.cameraView.setFaceSaveImages(faceSaveImages: sender.isOn)
+    @IBAction func toggleSaveImageCaptured(_ sender: UISwitch) {
+        self.cameraView.setSaveImageCaptured(enable: sender.isOn)
         
         if !sender.isOn {
             self.clearFaceImagePreview()
@@ -149,27 +174,19 @@ class CameraViewController: UIViewController {
 
 extension CameraViewController: CameraEventListenerDelegate {
     
-    func onFaceImageCreated(count: Int, total: Int, imagePath: String) {
+    func onImageCaptured(
+        type: String,
+        count: Int,
+        total: Int,
+        imagePath: String) {
+        
         let subpath = imagePath.substring(from: imagePath.index(imagePath.startIndex, offsetBy: 7))
         let image = UIImage(contentsOfFile: subpath)
         
         if total == 0 {
-            print("onImageCaptured: \(count).")
+            print("onImageCaptured \(type): \(count).")
         } else {
-            print("onImageCaptured: \(count) from \(total).")
-        }
-        
-        self.savedFrame.image = self.showImagePreview ? image : nil
-    }
-    
-    func onFrameImageCreated(count: Int, total: Int, imagePath: String) {
-        let subpath = imagePath.substring(from: imagePath.index(imagePath.startIndex, offsetBy: 7))
-        let image = UIImage(contentsOfFile: subpath)
-        
-        if total == 0 {
-            print("onImageCaptured: \(count).")
-        } else {
-            print("onImageCaptured: \(count) from \(total).")
+            print("onImageCaptured \(type): \(count) from \(total).")
         }
         
         self.savedFrame.image = self.showImagePreview ? image : nil
@@ -180,6 +197,8 @@ extension CameraViewController: CameraEventListenerDelegate {
     }
     
     func onFaceUndetected() {
+        print("onFaceUndetected")
+        
         DispatchQueue.main.async {
             self.savedFrame.image = nil
         }
@@ -201,8 +220,8 @@ extension CameraViewController: CameraEventListenerDelegate {
         print("onPermissionDenied")
     }
 
-    func onBarcodeScanned(content: String) {
-        print("onBarcodeScanned: \(content)")
+    func onQRCodeScanned(content: String) {
+        print("onQRCodeScanned: \(content)")
         self.qrCodeTextField.text = content
     }
 }

@@ -52,30 +52,47 @@ class FrameAnalyzer: NSObject {
         let currentTimestamp = Date().currentTimeMillis()
         let diffTime = currentTimestamp - self.lastTimestamp
         
-        if diffTime > self.captureOptions.frameTimeBetweenImages {
+        if diffTime > self.captureOptions.timeBetweenImages {
             self.lastTimestamp = currentTimestamp
             
             DispatchQueue.main.async {
-                self.handleEmitFrameCaptured(imageBuffer: imageBuffer)
+                if (!self.captureOptions.saveImageCaptured) {
+                    return
+                }
+                
+                let orientation = self.captureOptions.cameraLens.rawValue == 1 ?
+                    UIImage.Orientation.up : UIImage.Orientation.upMirrored
+                
+                let image = imageFromPixelBuffer(
+                    imageBuffer: imageBuffer,
+                    scale: UIScreen.main.scale,
+                    orientation: orientation)
+                                        
+                let fileURL = fileURLFor(index: self.numberOfImages)
+                let filePath = try! save(
+                    image: image,
+                    fileURL: fileURL)
+                
+                self.handleEmitImageCaptured(filePath: filePath)
             }
         }
     }
     
-    func handleEmitFrameCaptured(imageBuffer: CVPixelBuffer) {
-        let orientation = captureOptions.cameraLens.rawValue == 1 ? UIImage.Orientation.up : UIImage.Orientation.upMirrored
-        let image = imageFromPixelBuffer(
-            imageBuffer: imageBuffer,
-            scale: UIScreen.main.scale,
-            orientation: orientation)
-        let fileURL = fileURLFor(index: self.numberOfImages)
-        let filePath = try! save(image: image, at: fileURL)
+    /**
+     Handle emit frame image file created.
+     
+     - Parameter imagePath: image file path.
+     */
+    func handleEmitImageCaptured(filePath: String) {
         
-        if (self.captureOptions.frameNumberOfImages > 0) {
-            if (self.numberOfImages < self.captureOptions.frameNumberOfImages) {
+        // process frame number of images.
+        if (self.captureOptions.numberOfImages > 0) {
+            if (self.numberOfImages < self.captureOptions.numberOfImages) {
                 self.numberOfImages += 1
-                self.cameraEventListener?.onFrameImageCreated(
+                self.cameraEventListener?.onImageCaptured(
+                    type: "frame",
                     count: self.numberOfImages,
-                    total: self.captureOptions.frameNumberOfImages,
+                    total: self.captureOptions.numberOfImages,
                     imagePath: filePath
                 )
                 return
@@ -86,10 +103,12 @@ class FrameAnalyzer: NSObject {
             return
         }
         
+        // process frame unlimited.
         self.numberOfImages = (self.numberOfImages + 1) % MAX_NUMBER_OF_IMAGES
-        self.cameraEventListener?.onFrameImageCreated(
+        self.cameraEventListener?.onImageCaptured(
+            type: "frame",
             count: self.numberOfImages,
-            total: self.captureOptions.frameNumberOfImages,
+            total: self.captureOptions.numberOfImages,
             imagePath: filePath
         )
     }
