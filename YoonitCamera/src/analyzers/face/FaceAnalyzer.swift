@@ -204,10 +204,15 @@ class FaceAnalyzer: NSObject {
                 // Result of the crop face process.
                 result in
                 
+                let imageResized = try! result.resize(
+                    width: self.captureOptions.imageOutputWidth,
+                    height: self.captureOptions.imageOutputHeight)
+                
                 let fileURL = fileURLFor(index: self.numberOfImages)
-                let fileName = try! save(image: result, at: fileURL)
-                
-                
+                let fileName = try! save(
+                    image: imageResized,
+                    fileURL: fileURL)
+                                
                 // Emit the face image file path.
                 self.handleEmitImageCaptured(filePath: fileName)
             }

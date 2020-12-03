@@ -36,13 +36,20 @@ extension CGRect {
 }
 
 extension UIImage {
-    func resized(to newSize: CGSize) throws -> UIImage {
-        UIGraphicsBeginImageContext(newSize)
-        self.draw(in: CGRect(x: 0, y: 0,
-                              width: newSize.width,
-                              height: newSize.height))
+    
+    func resize(width: Int, height: Int) throws -> UIImage {
+        UIGraphicsBeginImageContext(CGSize(width: width, height: height))
+        
+        let newSize = CGRect(
+            x: 0,
+            y: 0,
+            width: width,
+            height: height)
+        
+        self.draw(in: newSize)
 
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        
         UIGraphicsEndImageContext()
         return newImage!
     }

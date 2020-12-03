@@ -166,6 +166,34 @@ public class CameraView: UIView {
     }
     
     /**
+      Set face image width to be created.
+     
+     - Parameter width: The file image width in pixels. Default value is 200.
+     */
+    @objc
+    public func setOutputImageWidth(width: Int) {
+        if (width <= 0) {
+            fatalError(KeyError.INVALID_OUTPUT_IMAGE_WIDTH.rawValue)
+        }
+
+        self.captureOptions.imageOutputWidth = width
+    }
+
+    /**
+      Set face image height to be created.
+     
+     - Parameter height: The file image height in pixels. Default value is 200.
+     */
+    @objc
+    public func setOutputImageHeight(height: Int) {
+        if (height <= 0) {
+            fatalError(KeyError.INVALID_OUTPUT_IMAGE_HEIGHT.rawValue)
+        }
+
+        self.captureOptions.imageOutputHeight = height
+    }
+    
+    /**
      Set to show/hide face detection box when face detected.
      The detection box is the detected face bounding box draw.
      
@@ -200,24 +228,7 @@ public class CameraView: UIView {
         
         self.captureOptions.facePaddingPercent = facePaddingPercent
     }
-    
-    /**
-     Set face image width and height to be saved.
-     
-     - Parameter width: The face image width saved in pixel. Default value is `200`.
-     - Parameter height: The face image height saved in pixel. Default value is `200`.
-     - Precondition: `width` and `height` must be greater than 0.
-     */
-    @objc
-    public func setFaceImageSize(width: Int, height: Int) {
-        if width <= 0 || height <= 0 {
-            self.cameraEventListener?.onError(error: KeyError.INVALID_FACE_IMAGE_SIZE.rawValue)
-            return
-        }
         
-        self.captureOptions.faceImageSize = CGSize(width: width, height: height)
-    }
-    
     /**
      Limit the minimum face capture size.
      This variable is the face detection box percentage in relation with the UI graphic view.

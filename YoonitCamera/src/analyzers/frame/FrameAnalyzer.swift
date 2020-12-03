@@ -56,20 +56,32 @@ class FrameAnalyzer: NSObject {
             self.lastTimestamp = currentTimestamp
             
             DispatchQueue.main.async {
-                self.handleEmitFrameCaptured(imageBuffer: imageBuffer)
+                let orientation = self.captureOptions.cameraLens.rawValue == 1 ?
+                    UIImage.Orientation.up : UIImage.Orientation.upMirrored
+                
+                let image = imageFromPixelBuffer(
+                    imageBuffer: imageBuffer,
+                    scale: UIScreen.main.scale,
+                    orientation: orientation)
+                                        
+                let fileURL = fileURLFor(index: self.numberOfImages)
+                let filePath = try! save(
+                    image: image,
+                    fileURL: fileURL)
+                
+                self.handleEmitImageCaptured(filePath: filePath)
             }
         }
     }
     
-    func handleEmitFrameCaptured(imageBuffer: CVPixelBuffer) {
-        let orientation = captureOptions.cameraLens.rawValue == 1 ? UIImage.Orientation.up : UIImage.Orientation.upMirrored
-        let image = imageFromPixelBuffer(
-            imageBuffer: imageBuffer,
-            scale: UIScreen.main.scale,
-            orientation: orientation)
-        let fileURL = fileURLFor(index: self.numberOfImages)
-        let filePath = try! save(image: image, at: fileURL)
+    /**
+     Handle emit frame image file created.
+     
+     - Parameter imagePath: image file path.
+     */
+    func handleEmitImageCaptured(filePath: String) {
         
+        // process frame number of images.
         if (self.captureOptions.numberOfImages > 0) {
             if (self.numberOfImages < self.captureOptions.numberOfImages) {
                 self.numberOfImages += 1
@@ -87,6 +99,7 @@ class FrameAnalyzer: NSObject {
             return
         }
         
+        // process frame unlimited.
         self.numberOfImages = (self.numberOfImages + 1) % MAX_NUMBER_OF_IMAGES
         self.cameraEventListener?.onImageCreated(
             type: "frame",

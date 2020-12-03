@@ -33,6 +33,12 @@ public class CaptureOptions {
     // Face/Frame capture time between images in milliseconds.
     var timeBetweenImages: Int64 = 1000
         
+    // Face/Frame capture image width to create.
+    var imageOutputWidth: Int = 200
+
+    // Face/Frame capture image height to create.
+    var imageOutputHeight: Int = 200
+    
     // Draw or not the face detection box.
     var faceDetectionBox: Bool = true
     
@@ -41,10 +47,7 @@ public class CaptureOptions {
         
     // Face capture padding percent.
     var facePaddingPercent: Float = 0.27
-    
-    // Face capture image size to save.
-    var faceImageSize = CGSize(width: 200, height: 200)
-    
+        
     /**
      Face capture min size.
      This variable is the face detection box percentage in relation with the UI graphic view.

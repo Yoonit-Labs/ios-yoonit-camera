@@ -26,7 +26,7 @@ func fileURLFor(index: Int) -> URL {
     return tempDirectory.appendingPathComponent(String(format: "yoonit-%04d.jpg", index))
 }
 
-func save(image: UIImage, at fileURL: URL) throws -> String {
+func save(image: UIImage, fileURL: URL) throws -> String {            
     let data = image.jpegData(compressionQuality: 1)
     
     if (data == nil) {
