@@ -197,6 +197,8 @@ extension CameraViewController: CameraEventListenerDelegate {
     }
     
     func onFaceUndetected() {
+        print("onFaceUndetected")
+        
         DispatchQueue.main.async {
             self.savedFrame.image = nil
         }

@@ -35,7 +35,7 @@ class FaceAnalyzer: NSObject {
     private var faceBoundingBoxController: FaceBoundingBoxController
     private var lastTimestamp = Date().currentTimeMillis()
     private var shouldDraw = true
-    private var isValid = false
+    private var isValid = true
     public var numberOfImages = 0
     
     public var drawings: [CAShapeLayer] = [] {
