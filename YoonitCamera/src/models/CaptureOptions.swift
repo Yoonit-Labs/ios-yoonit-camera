@@ -43,7 +43,7 @@ public class CaptureOptions {
     var saveImageCaptured: Bool = false
     
     // Draw or not the face detection box.
-    var faceDetectionBox: Bool = true
+    var faceDetectionBox: Bool = false
             
     // Face capture padding percent.
     var facePaddingPercent: Float = 0.27
