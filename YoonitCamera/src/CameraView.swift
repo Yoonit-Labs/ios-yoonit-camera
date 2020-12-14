@@ -290,12 +290,12 @@ public class CameraView: UIView {
      Default value is `0.0f`.
      */
     @objc
-    public func setFaceROITopOffset(percentage: Float) {
-        if (percentage < 0.0 || percentage > 1.0) {
+    public func setFaceROITopOffset(_ topOffset: Float) {
+        if (topOffset < 0.0 || topOffset > 1.0) {
             fatalError(KeyError.INVALID_FACE_ROI_TOP_OFFSET.rawValue)
         }
 
-        self.captureOptions.faceROI.topOffset = percentage
+        self.captureOptions.faceROI.topOffset = topOffset
     }
 
     /**
@@ -305,12 +305,12 @@ public class CameraView: UIView {
      Default value is `0.0`.
      */
     @objc
-    public func setFaceROIRightOffset(percentage: Float) {
-        if (percentage < 0.0 || percentage > 1.0) {
+    public func setFaceROIRightOffset(_ rightOffset: Float) {
+        if (rightOffset < 0.0 || rightOffset > 1.0) {
             fatalError(KeyError.INVALID_FACE_ROI_RIGHT_OFFSET.rawValue)
         }
 
-        self.captureOptions.faceROI.rightOffset = percentage
+        self.captureOptions.faceROI.rightOffset = rightOffset
     }
 
     /**
@@ -320,12 +320,12 @@ public class CameraView: UIView {
      Default value is `0.0`.
      */
     @objc
-    public func setFaceROIBottomOffset(percentage: Float) {
-        if (percentage < 0.0 || percentage > 1.0) {
+    public func setFaceROIBottomOffset(_ bottomOffset: Float) {
+        if (bottomOffset < 0.0 || bottomOffset > 1.0) {
             fatalError(KeyError.INVALID_FACE_ROI_BOTTOM_OFFSET.rawValue)
         }
 
-        self.captureOptions.faceROI.bottomOffset = percentage
+        self.captureOptions.faceROI.bottomOffset = bottomOffset
     }
 
     /**
@@ -335,12 +335,12 @@ public class CameraView: UIView {
      Default value is `0.0`.
      */
     @objc
-    public func setFaceROILeftOffset(percentage: Float) {
-        if (percentage < 0.0 || percentage > 1.0) {
+    public func setFaceROILeftOffset(_ leftOffset: Float) {
+        if (leftOffset < 0.0 || leftOffset > 1.0) {
             fatalError(KeyError.INVALID_FACE_ROI_LEFT_OFFSET.rawValue)
         }
 
-        self.captureOptions.faceROI.leftOffset = percentage
+        self.captureOptions.faceROI.leftOffset = leftOffset
     }
     
     /**
