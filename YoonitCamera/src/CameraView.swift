@@ -284,34 +284,63 @@ public class CameraView: UIView {
     }
     
     /**
-     Set face region of interest offset.
+     Tried to input invalid face region of interest top offset.
      
-     - Parameter topOffset: Represents in percentage [0, 1]. Default value is `0`.
-     - Parameter rightOffset: Represents in percentage [0, 1]. Default value is `0`.
-     - Parameter bottomOffset: Represents in percentage [0, 1]. Default value is `0`.
-     - Parameter leftOffset: Represents in percentage [0, 1]. Default value is `0`.
+     - Parameter percentage: The "above" area of the face bounding box in percentage.
+     Default value is `0.0f`.
      */
     @objc
-    public func setFaceROIOffset(
-        topOffset: Float,
-        rightOffset: Float,
-        bottomOffset: Float,
-        leftOffset: Float) {
-        
-        let isInvalid =
-            topOffset < 0.0 || topOffset > 1.0 ||
-            rightOffset < 0.0 || rightOffset > 1.0 ||
-            bottomOffset < 0.0 || bottomOffset > 1.0 ||
-            leftOffset < 0.0 || leftOffset > 1.0
-        
-        if isInvalid {
-            fatalError(KeyError.INVALID_FACE_ROI_OFFSET.rawValue)
+    public func setFaceROITopOffset(percentage: Float) {
+        if (percentage < 0.0 || percentage > 1.0) {
+            fatalError(KeyError.INVALID_FACE_ROI_TOP_OFFSET.rawValue)
         }
-        
-        self.captureOptions.faceROI.topOffset = topOffset
-        self.captureOptions.faceROI.rightOffset = rightOffset
-        self.captureOptions.faceROI.bottomOffset = bottomOffset
-        self.captureOptions.faceROI.leftOffset = leftOffset
+
+        self.captureOptions.faceROI.topOffset = percentage
+    }
+
+    /**
+     Tried to input invalid face region of interest right offset.
+     
+     - Parameter percentage: The "right" area of the face bounding box in percentage.
+     Default value is `0.0`.
+     */
+    @objc
+    public func setFaceROIRightOffset(percentage: Float) {
+        if (percentage < 0.0 || percentage > 1.0) {
+            fatalError(KeyError.INVALID_FACE_ROI_RIGHT_OFFSET.rawValue)
+        }
+
+        self.captureOptions.faceROI.rightOffset = percentage
+    }
+
+    /**
+     Tried to input invalid face region of interest bottom offset.
+     
+     - Parameter percentage: The "bottom" area of the face bounding box in percentage.
+     Default value is `0.0`.
+     */
+    @objc
+    public func setFaceROIBottomOffset(percentage: Float) {
+        if (percentage < 0.0 || percentage > 1.0) {
+            fatalError(KeyError.INVALID_FACE_ROI_BOTTOM_OFFSET.rawValue)
+        }
+
+        self.captureOptions.faceROI.bottomOffset = percentage
+    }
+
+    /**
+     Tried to input invalid face region of interest left offset.
+     
+     - Parameter percentage: The "left" area of the face bounding box in percentage.
+     Default value is `0.0`.
+     */
+    @objc
+    public func setFaceROILeftOffset(percentage: Float) {
+        if (percentage < 0.0 || percentage > 1.0) {
+            fatalError(KeyError.INVALID_FACE_ROI_LEFT_OFFSET.rawValue)
+        }
+
+        self.captureOptions.faceROI.leftOffset = percentage
     }
     
     /**
