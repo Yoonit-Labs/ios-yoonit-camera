@@ -41,9 +41,6 @@ public enum KeyError: String {
     // Tried to input invalid face capture maximum size.
     case INVALID_FACE_CAPTURE_MAX_SIZE = "INVALID_FACE_CAPTURE_MAX_SIZE"
         
-    // Tried to input invalid face region of interesting offset.
-    case INVALID_FACE_ROI_OFFSET = "INVALID_FACE_ROI_OFFSET"
-        
     // Tried to input invalid face region of interest top offset.
     case INVALID_FACE_ROI_TOP_OFFSET = "INVALID_FACE_ROI_TOP_OFFSET"
 
