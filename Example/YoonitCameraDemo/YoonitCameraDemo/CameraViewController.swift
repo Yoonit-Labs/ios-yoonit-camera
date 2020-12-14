@@ -117,7 +117,7 @@ class CameraViewController: UIViewController {
                 break;
             }
             
-            self.cameraView.startCaptureType(captureType: self.captureType)
+            self.cameraView.startCaptureType(self.captureType)
         }
     }
         
@@ -151,11 +151,11 @@ class CameraViewController: UIViewController {
     }
     
     @IBAction func toggleFaceDetectionBox(_ sender: UISwitch) {
-        self.cameraView.setFaceDetectionBox(enable: sender.isOn)
+        self.cameraView.setFaceDetectionBox(sender.isOn)
     }
     
     @IBAction func toggleSaveImageCaptured(_ sender: UISwitch) {
-        self.cameraView.setSaveImageCaptured(enable: sender.isOn)
+        self.cameraView.setSaveImageCaptured(sender.isOn)
         
         if !sender.isOn {
             self.clearFaceImagePreview()
@@ -175,10 +175,10 @@ class CameraViewController: UIViewController {
 extension CameraViewController: CameraEventListenerDelegate {
     
     func onImageCaptured(
-        type: String,
-        count: Int,
-        total: Int,
-        imagePath: String) {
+        _ type: String,
+        _ count: Int,
+        _ total: Int,
+        _ imagePath: String) {
         
         let subpath = imagePath.substring(from: imagePath.index(imagePath.startIndex, offsetBy: 7))
         let image = UIImage(contentsOfFile: subpath)
@@ -192,7 +192,7 @@ extension CameraViewController: CameraEventListenerDelegate {
         self.savedFrame.image = self.showImagePreview ? image : nil
     }
     
-    func onFaceDetected(x: Int, y: Int, width: Int, height: Int) {
+    func onFaceDetected(_ x: Int, _ y: Int, _ width: Int, _ height: Int) {
         print("onFaceDetected: x: \(x), y: \(y), width: \(width), height: \(height)")
     }
     
@@ -208,11 +208,11 @@ extension CameraViewController: CameraEventListenerDelegate {
         print("onEndCapture")
     }
 
-    func onError(error: String) {
+    func onError(_ error: String) {
         print("onError: \(error)")
     }
 
-    func onMessage(message: String) {
+    func onMessage(_ message: String) {
         print("onMessage: \(message)")
     }
 
@@ -220,7 +220,7 @@ extension CameraViewController: CameraEventListenerDelegate {
         print("onPermissionDenied")
     }
 
-    func onQRCodeScanned(content: String) {
+    func onQRCodeScanned(_ content: String) {
         print("onQRCodeScanned: \(content)")
         self.qrCodeTextField.text = content
     }

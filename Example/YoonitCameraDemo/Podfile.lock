@@ -1,6 +1,6 @@
 PODS:
   - DropDown (2.3.13)
-  - YoonitCamera (1.3.2)
+  - YoonitCamera (2.0.1)
 
 DEPENDENCIES:
   - DropDown
@@ -16,7 +16,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
-  YoonitCamera: 6f60101f0819f3db5766e4d3829825ea638cd8e4
+  YoonitCamera: 89d9852c3dd145550d198270c2a422a351e29e5f
 
 PODFILE CHECKSUM: 01ed718a3d6dc39881ef3b45a7aac545c7752b78
 

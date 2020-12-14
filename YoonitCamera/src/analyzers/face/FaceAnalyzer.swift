@@ -162,7 +162,7 @@ class FaceAnalyzer: NSObject {
                 self.isValid = false
                 self.drawings = []
                 if error != "" {
-                    self.cameraEventListener?.onMessage(message: error!)
+                    self.cameraEventListener?.onMessage(error!)
                 }
                 self.cameraEventListener?.onFaceUndetected()
             }
@@ -179,10 +179,10 @@ class FaceAnalyzer: NSObject {
         
         // Emit face detected detection box coordinates.
         self.cameraEventListener?.onFaceDetected(
-            x: Int(detectionBox!.minX),
-            y: Int(detectionBox!.minY),
-            width: Int(detectionBox!.width),
-            height: Int(detectionBox!.height))
+            Int(detectionBox!.minX),
+            Int(detectionBox!.minY),
+            Int(detectionBox!.width),
+            Int(detectionBox!.height))
         
         if !self.captureOptions.saveImageCaptured {
             return
@@ -230,12 +230,13 @@ class FaceAnalyzer: NSObject {
         if (self.captureOptions.numberOfImages > 0) {
             if (self.numberOfImages < self.captureOptions.numberOfImages) {
                 self.numberOfImages += 1
+                
                 self.cameraEventListener?.onImageCaptured(
-                    type: "face",
-                    count: self.numberOfImages,
-                    total: self.captureOptions.numberOfImages,
-                    imagePath: filePath
-                )
+                    "face",
+                    self.numberOfImages,
+                    self.captureOptions.numberOfImages,
+                    filePath)
+                
                 return
             }
             
@@ -247,10 +248,10 @@ class FaceAnalyzer: NSObject {
         // process face unlimited.
         self.numberOfImages = (self.numberOfImages + 1) % MAX_NUMBER_OF_IMAGES
         self.cameraEventListener?.onImageCaptured(
-            type: "face",
-            count: self.numberOfImages,
-            total: self.captureOptions.numberOfImages,
-            imagePath: filePath
+            "face",
+            self.numberOfImages,
+            self.captureOptions.numberOfImages,
+            filePath
         )
     }
 }

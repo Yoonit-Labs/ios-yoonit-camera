@@ -176,7 +176,7 @@ class CameraController: NSObject {
             mediaType: .video,
             position: cameraLens).devices.first
             else {
-                self.cameraEventListener?.onError(error: "You have a problem with your camera, please verify the settings of the your camera")
+                self.cameraEventListener?.onError("You have a problem with your camera, please verify the settings of the your camera")
                 fatalError("No back camera device found, please make sure to run in an iOS device and not a simulator")
         }
                 
@@ -222,7 +222,7 @@ extension CameraController: AVCaptureVideoDataOutputSampleBufferDelegate {
         from connection: AVCaptureConnection) {
                         
         guard let frame = CMSampleBufferGetImageBuffer(sampleBuffer) else {
-            self.cameraEventListener?.onError(error: "Unable to get image from sample buffer.")
+            self.cameraEventListener?.onError("Unable to get image from sample buffer.")
             debugPrint("Unable to get image from sample buffer.")
             return
         }
@@ -258,7 +258,7 @@ extension CameraController: AVCaptureMetadataOutputObjectsDelegate {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
             guard let stringValue = readableObject.stringValue else { return }
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-            self.cameraEventListener?.onQRCodeScanned(content: stringValue)
+            self.cameraEventListener?.onQRCodeScanned(stringValue)
         }
     }
 }
