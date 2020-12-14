@@ -56,7 +56,7 @@ self.cameraView.startPreview()
 With camera preview, we can start capture detected face and generate images:
 
 ```swift
-self.cameraView.startCaptureType(captureType: "face")
+self.cameraView.startCaptureType("face")
 ```
 
 Set camera event listener to get the result:
@@ -77,7 +77,7 @@ class YourViewController: UIViewController, CameraEventListenerDelegate {
 With camera preview, we can start scanning QR codes:
 
 ```swift
-this.cameraView.startCaptureType(captureType: "qrcode")
+self.cameraView.startCaptureType("qrcode")
 ```
 
 Set camera event listener to get the result:
