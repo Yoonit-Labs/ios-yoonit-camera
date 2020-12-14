@@ -90,10 +90,10 @@ class FrameAnalyzer: NSObject {
             if (self.numberOfImages < self.captureOptions.numberOfImages) {
                 self.numberOfImages += 1
                 self.cameraEventListener?.onImageCaptured(
-                    type: "frame",
-                    count: self.numberOfImages,
-                    total: self.captureOptions.numberOfImages,
-                    imagePath: filePath
+                    "frame",
+                    self.numberOfImages,
+                    self.captureOptions.numberOfImages,
+                    filePath
                 )
                 return
             }
@@ -106,10 +106,10 @@ class FrameAnalyzer: NSObject {
         // process frame unlimited.
         self.numberOfImages = (self.numberOfImages + 1) % MAX_NUMBER_OF_IMAGES
         self.cameraEventListener?.onImageCaptured(
-            type: "frame",
-            count: self.numberOfImages,
-            total: self.captureOptions.numberOfImages,
-            imagePath: filePath
+            "frame",
+            self.numberOfImages,
+            self.captureOptions.numberOfImages,
+            filePath
         )
     }
 }

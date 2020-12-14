@@ -88,7 +88,7 @@ public class CameraView: UIView {
      - Precondition: value string must be one of `"none"`, `"face"`, `"qrcode"`, `"frame"` and must have started preview.
      */
     @objc
-    public func startCaptureType(captureType: String) {
+    public func startCaptureType(_ captureType: String) {
         switch captureType {
         case "none":
             self.cameraController?.startCaptureType(captureType: CaptureType.NONE)
@@ -141,7 +141,7 @@ public class CameraView: UIView {
      Default value is 0.
      */
     @objc
-    public func setNumberOfImages(numberOfImages: Int) {
+    public func setNumberOfImages(_ numberOfImages: Int) {
         if numberOfImages < 0 {
             fatalError(KeyError.INVALID_NUMBER_OF_IMAGES.rawValue)
         }
@@ -156,7 +156,7 @@ public class CameraView: UIView {
      Default value is `1000`.
      */
     @objc
-    public func setTimeBetweenImages(timeBetweenImages: Int64) {
+    public func setTimeBetweenImages(_ timeBetweenImages: Int64) {
         if timeBetweenImages < 0 {
             fatalError(KeyError.INVALID_TIME_BETWEEN_IMAGES.rawValue)
         }
@@ -171,7 +171,7 @@ public class CameraView: UIView {
      Default value is `200`.
      */
     @objc
-    public func setOutputImageWidth(width: Int) {
+    public func setOutputImageWidth(_ width: Int) {
         if (width <= 0) {
             fatalError(KeyError.INVALID_OUTPUT_IMAGE_WIDTH.rawValue)
         }
@@ -186,7 +186,7 @@ public class CameraView: UIView {
      Default value is `200`.
      */
     @objc
-    public func setOutputImageHeight(height: Int) {
+    public func setOutputImageHeight(_ height: Int) {
         if (height <= 0) {
             fatalError(KeyError.INVALID_OUTPUT_IMAGE_HEIGHT.rawValue)
         }
@@ -201,7 +201,7 @@ public class CameraView: UIView {
      Default value is `false`.
      */
     @objc
-    public func setSaveImageCaptured(enable: Bool) {
+    public func setSaveImageCaptured(_ enable: Bool) {
         self.captureOptions.saveImageCaptured = enable
     }
     
@@ -213,7 +213,7 @@ public class CameraView: UIView {
      Default value is `true`.
      */
     @objc
-    public func setFaceDetectionBox(enable: Bool) {
+    public func setFaceDetectionBox(_ enable: Bool) {
         self.captureOptions.faceDetectionBox = enable
     }
     
@@ -224,7 +224,7 @@ public class CameraView: UIView {
      Default value is `0.27`.
      */
     @objc
-    public func setFacePaddingPercent(facePaddingPercent: Float) {
+    public func setFacePaddingPercent(_ facePaddingPercent: Float) {
         if facePaddingPercent < 0 {
             fatalError(KeyError.INVALID_FACE_PADDING_PERCENT.rawValue)
         }
@@ -244,7 +244,7 @@ public class CameraView: UIView {
      Default value is `0`,
      */
     @objc
-    public func setFaceCaptureMinSize(faceCaptureMinSize: Float) {
+    public func setFaceCaptureMinSize(_ faceCaptureMinSize: Float) {
         if faceCaptureMinSize < 0.0 || faceCaptureMinSize > 1.0 {
             fatalError(KeyError.INVALID_FACE_CAPTURE_MIN_SIZE.rawValue)
         }
@@ -264,7 +264,7 @@ public class CameraView: UIView {
      Default value is `1.0`.
      */
     @objc
-    public func setFaceCaptureMaxSize(faceCaptureMaxSize: Float) {
+    public func setFaceCaptureMaxSize(_ faceCaptureMaxSize: Float) {
         if faceCaptureMaxSize < 0.0 || faceCaptureMaxSize > 1.0 {
             fatalError(KeyError.INVALID_FACE_CAPTURE_MAX_SIZE.rawValue)
         }
@@ -279,7 +279,7 @@ public class CameraView: UIView {
      Default value is `false`.
      */
     @objc
-    public func setFaceROIEnable(enable: Bool) {
+    public func setFaceROIEnable(_ enable: Bool) {
         self.captureOptions.faceROI.enable = enable
     }
     
@@ -350,7 +350,7 @@ public class CameraView: UIView {
      Default value is `0`.
      */
     @objc
-    public func setFaceROIMinSize(minimumSize: Float) {
+    public func setFaceROIMinSize(_ minimumSize: Float) {
         if minimumSize < 0.0 || minimumSize > 1.0 {
             fatalError(KeyError.INVALID_FACE_ROI_MIN_SIZE.rawValue)
         }

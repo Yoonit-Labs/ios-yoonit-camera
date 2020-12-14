@@ -16,26 +16,26 @@ import Foundation
 public protocol CameraEventListenerDelegate {
 
     func onImageCaptured(
-        type: String,
-        count: Int,
-        total: Int,
-        imagePath: String)
+        _ type: String,
+        _ count: Int,
+        _ total: Int,
+        _ imagePath: String)
 
     func onFaceDetected(
-        x: Int,
-        y: Int,
-        width: Int,
-        height: Int)
+        _ x: Int,
+        _ y: Int,
+        _ width: Int,
+        _ height: Int)
     
     func onFaceUndetected()
 
     func onEndCapture()
 
-    func onError(error: String)
+    func onError(_ error: String)
 
-    func onMessage(message: String)
+    func onMessage(_ message: String)
 
     func onPermissionDenied()
 
-    func onQRCodeScanned(content: String)
+    func onQRCodeScanned(_ content: String)
 }
