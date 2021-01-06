@@ -13,12 +13,12 @@
 import Foundation
 
 public enum KeyError: String {
-    
-    // Tried to start a process that depends on to start the camera preview.
-    case NOT_STARTED_PREVIEW = "NOT_STARTED_PREVIEW"
-    
+        
     // Tried to start a non-existent capture type.
     case INVALID_CAPTURE_TYPE = "INVALID_CAPTURE_TYPE"
+    
+    // Tried to input invalid camera lens.
+    case INVALID_CAMERA_LENS = "INVALID_CAMERA_LENS"
     
     // Tried to input invalid face/frame number of images to capture.
     case INVALID_NUMBER_OF_IMAGES = "INVALID_NUMBER_OF_IMAGES"
