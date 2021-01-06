@@ -13,6 +13,7 @@
 import Foundation
 import AVFoundation
 import UIKit
+import Vision
 
 /**
  * Class responsible to handle the camera operations.
@@ -114,7 +115,7 @@ public class CameraView: UIView {
     public func stopCapture() {
         self.cameraController?.stopAnalyzer()
     }
-    
+        
     /**
      Toggle between Front and Back Camera.
      */
@@ -124,14 +125,36 @@ public class CameraView: UIView {
     }
     
     /**
-     Get current camera lens.
+     Set camera lens: "front" or "back".
      
-     - Returns: value 0 is front camera.
-     Default value 1 is back camera.
+     - Parameters: "back" || "front"
      */
     @objc
-    public func getCameraLens() -> Int {
-        return self.cameraController!.getCameraLens()
+    public func setCameraLens(_ cameraLens: String) {
+        if cameraLens != "front" && cameraLens != "back" {
+            fatalError(KeyError.INVALID_CAMERA_LENS.rawValue)
+        }
+
+        let cameraSelector = cameraLens == "front"
+            ? AVCaptureDevice.Position.front
+            : AVCaptureDevice.Position.back
+
+        self.captureOptions.cameraLens == cameraSelector
+            ? self.cameraController!.toggleCameraLens()
+            : self.cameraController!.toggleCameraLens()
+    }
+    
+    /**
+     Get current camera lens.
+     
+     - Returns: "front" || "back".
+     Default value is "front".
+     */
+    @objc
+    public func getCameraLens() -> String {
+        return self.captureOptions.cameraLens == AVCaptureDevice.Position.front
+            ? "front"
+            : "back"
     }
     
     /**
