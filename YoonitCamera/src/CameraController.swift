@@ -158,13 +158,6 @@ class CameraController: NSObject {
     }
     
     /**
-     Return selected camera.
-     */
-    public func getCameraLens() -> Int {
-        return self.captureOptions.cameraLens.rawValue
-    }
-    
-    /**
      Start camera preview with selected camera.
      
      - Parameter cameraLens: the enum of the camera lens facing;
