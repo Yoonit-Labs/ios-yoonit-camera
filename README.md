@@ -99,26 +99,27 @@ class YourViewController: UIViewController, CameraEventListenerDelegate {
 
 | Function                        | Parameters                                                                    | Valid values                                                                      | Return Type | Description
 | -                               | -                                                                             | -                                                                                 | -           | -  
-| **startPreview**              | -                                                                             | -                                                                                 | void        | Start camera preview if has permission.
-| **startCaptureType**          | `captureType: String`                                                         | <ul><li>`"none"`</li><li>`"face"`</li><li>`"qcode"`</li><li>`"frame"`</li></ul> | void        | Set capture type none, face, QR Code or frame.
-| **stopCapture**               | -                                                                             | -                                                                                 | void        | Stop any type of capture.
-| **toggleCameraLens**          | -                                                                             | -                                                                                 | void        | Set camera lens facing front or back.
-| **getCameraLens**             | -                                                                             | -                                                                                 | Int         | Return `Int` that represents lens face state: 0 for front 1 for back camera.  
-| **setNumberOfImages**         | `numberOfImages: Int`                                                         | Any positive `Int` value                                                          | void        | Default value is 0. For value 0 is saved infinity images. When saved images reached the "number os images", the `onEndCapture` is triggered.
-| **setTimeBetweenImages**      | `timeBetweenImages: Int64`                                                     | Any positive number that represent time in milli seconds                          | void        | Set saving face/frame images time interval in milli seconds.
-| **setOutputImageWidth**       | `width: Int`                                                                  | Any positive `number` value that represents in pixels                             | void        | Set face image width to be created in pixels.
-| **setOutputImageHeight**      | `height: Int`                                                                 | Any positive `number` value that represents in pixels                             | void        | Set face image height to be created in pixels.
-| **setSaveImageCaptured**      | `enable: Bool`                                                     | `true` or `false`                                                                 | void        | Set to enable/disable save image when capturing face and frame.
-| **setFaceDetectionBox**       | `enable: Bool`                                                      | `true` or `false`                                                                 | void        | Set to show a detection box when face detected.   
-| **setFacePaddingPercent** | `facePaddingPercent: Float` | Any positive `Float` value. | void | Set face image and bounding box padding in percent.  
-| **setFaceCaptureMinSize**  | `faceCaptureMinSize: Float` | Value between `0` and `1`. Represents the percentage. | void | Set the minimum face capture based on the screen width.
-| **setFaceCaptureMaxSize** | `faceCaptureMaxSize: Float` | Value between `0` and `1`. Represents the percentage. | void | Set the maximum face capture based on the screen width.
-| **setFaceROIEnable**             | `enable: Bool`               | `true` or `false`                                                              | void        | Enable/disable face region of interest capture.
-| **setFaceROITopOffset**        | `topOffset: Float`       | Values between `0` and `1`. Represents the percentage. | void | Distance in percentage of the top face bounding box with the top of the camera preview. 
-| **setFaceROIRightOffset**     | `rightOffset: Float`   | Values between `0` and `1`. Represents the percentage. | void | Distance in percentage of the right face bounding box with the right of the camera preview.
-| **setFaceROIBottomOffset** | `bottomOffset: Float` | Values between `0` and `1`. Represents the percentage. | void | Distance in percentage of the bottom face bounding box with the bottom of the camera preview.
-| **setFaceROILeftOffset**       | `leftOffset: Float`     | Values between `0` and `1`. Represents the percentage. | void | Distance in percentage of the left face bounding box with the left of the camera preview.
-| **setFaceROIMinSize**          | `minimumSize: Float`   | Values between `0` and `1`. Represents the percentage.  | void | Set the minimum face size related with the region of interest.  
+| startPreview              | -                                                                             | -                                                                                 | void        | Start camera preview if has permission.
+| startCaptureType          | `captureType: String`                                                         | <ul><li>`"none"`</li><li>`"face"`</li><li>`"qcode"`</li><li>`"frame"`</li></ul> | void        | Set capture type none, face, QR Code or frame.
+| stopCapture               | -                                                                             | -                                                                                 | void        | Stop any type of capture.
+| toggleCameraLens          | -                                                                             | -                                                                                 | void        | Toggle camera lens facing front/back.
+| setCameraLens             | `cameraLens: String`        | <ul><li>`"front"`</li><li>`"back"`</li></ul>                                      | void         | Set camera to use "front" or "back" lens. Default value is "front".
+| getCameraLens             | -                                                                             | -                                                                                 | String         | Return "front" or "back". 
+| setNumberOfImages         | `numberOfImages: Int`                                                         | Any positive `Int` value                                                          | void        | Default value is 0. For value 0 is saved infinity images. When saved images reached the "number os images", the `onEndCapture` is triggered.
+| setTimeBetweenImages      | `timeBetweenImages: Int64`                                                     | Any positive number that represent time in milli seconds                          | void        | Set saving face/frame images time interval in milli seconds.
+| setOutputImageWidth       | `width: Int`                                                                  | Any positive `number` value that represents in pixels                             | void        | Set face image width to be created in pixels.
+| setOutputImageHeight      | `height: Int`                                                                 | Any positive `number` value that represents in pixels                             | void        | Set face image height to be created in pixels.
+| setSaveImageCaptured      | `enable: Bool`                                                     | `true` or `false`                                                                 | void        | Set to enable/disable save image when capturing face and frame.
+| setFaceDetectionBox       | `enable: Bool`                                                      | `true` or `false`                                                                 | void        | Set to show a detection box when face detected.   
+| setFacePaddingPercent | `facePaddingPercent: Float` | Any positive `Float` value. | void | Set face image and bounding box padding in percent.  
+| setFaceCaptureMinSize  | `faceCaptureMinSize: Float` | Value between `0` and `1`. Represents the percentage. | void | Set the minimum face capture based on the screen width.
+| setFaceCaptureMaxSize | `faceCaptureMaxSize: Float` | Value between `0` and `1`. Represents the percentage. | void | Set the maximum face capture based on the screen width.
+| setFaceROIEnable             | `enable: Bool`               | `true` or `false`                                                              | void        | Enable/disable face region of interest capture.
+| setFaceROITopOffset        | `topOffset: Float`       | Values between `0` and `1`. Represents the percentage. | void | Distance in percentage of the top face bounding box with the top of the camera preview. 
+| setFaceROIRightOffset     | `rightOffset: Float`   | Values between `0` and `1`. Represents the percentage. | void | Distance in percentage of the right face bounding box with the right of the camera preview.
+| setFaceROIBottomOffset | `bottomOffset: Float` | Values between `0` and `1`. Represents the percentage. | void | Distance in percentage of the bottom face bounding box with the bottom of the camera preview.
+| setFaceROILeftOffset       | `leftOffset: Float`     | Values between `0` and `1`. Represents the percentage. | void | Distance in percentage of the left face bounding box with the left of the camera preview.
+| setFaceROIMinSize          | `minimumSize: Float`   | Values between `0` and `1`. Represents the percentage.  | void | Set the minimum face size related with the region of interest.
 
 ### Events
 
@@ -139,8 +140,8 @@ Pre-define key error used by the `onError` event.
 
 | KeyError                          | Description
 | -                                 | -
-| NOT_STARTED_PREVIEW               | Tried to start a process that depends on to start the camera preview.
 | INVALID_CAPTURE_TYPE              | Tried to start a non-existent capture type.
+| INVALID_CAMERA_LENS               | Tried to input invalid camera lens.
 | INVALID_NUMBER_OF_IMAGES          | Tried to input invalid face/frame number of images to capture. 
 | INVALID_TIME_BETWEEN_IMAGES       | Tried to input invalid face time interval to capture face.
 | INVALID_OUTPUT_IMAGE_WIDTH        | Tried to input invalid image width.

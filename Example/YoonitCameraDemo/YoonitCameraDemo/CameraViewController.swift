@@ -26,24 +26,28 @@ class CameraViewController: UIViewController {
         didSet {
             switch self.captureType {
             case "none":
+                self.cameraView.startCaptureType(self.captureType)
                 self.cameraTypeDropDown.setTitle("No capture", for: .normal)
                 self.clearFaceImagePreview()
                 self.qrCodeTextField.isHidden = true
                 return;
                 
             case "face":
+                self.cameraView.startCaptureType(self.captureType)
                 self.cameraTypeDropDown.setTitle("Face capture", for: .normal)
                 self.showImagePreview = true
                 self.qrCodeTextField.isHidden = true
                 return;
                 
             case "frame":
+                self.cameraView.startCaptureType(self.captureType)
                 self.cameraTypeDropDown.setTitle("Frame capture", for: .normal)
                 self.showImagePreview = true
                 self.qrCodeTextField.isHidden = true
                 return;
                 
             case "qrcode":
+                self.cameraView.startCaptureType(self.captureType)
                 self.cameraTypeDropDown.setTitle("Code capture", for: .normal)
                 self.qrCodeTextField.isHidden = false
                 self.clearFaceImagePreview()
@@ -89,6 +93,8 @@ class CameraViewController: UIViewController {
         self.qrCodeTextField.isHidden = true
         
         self.cameraView.cameraEventListener = self
+        self.cameraView.setFaceDetectionBox(true)
+        self.cameraView.setSaveImageCaptured(true)
         self.cameraView.startPreview()        
         
         self.menu.anchorView = self.cameraTypeDropDown
@@ -116,8 +122,6 @@ class CameraViewController: UIViewController {
                 self.captureType = "none"
                 break;
             }
-            
-            self.cameraView.startCaptureType(self.captureType)
         }
     }
         
@@ -131,13 +135,15 @@ class CameraViewController: UIViewController {
   
     @IBAction func toggleCam(_ sender: UIButton) {
         if sender.currentTitle == "Front cam" {
-            self.cameraView.toggleCameraLens()
+            self.cameraView.setCameraLens("front")
             sender.setTitle("Back cam", for: .normal)
             
         } else {
-            self.cameraView.toggleCameraLens()
+            self.cameraView.setCameraLens("back")
             sender.setTitle("Front cam", for: .normal)
         }
+        
+        print("camera lens \(self.cameraView.getCameraLens())")
     }
     
     @IBAction func stopCapture(_ sender: UIButton) {
