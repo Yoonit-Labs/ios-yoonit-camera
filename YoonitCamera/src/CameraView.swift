@@ -139,9 +139,9 @@ public class CameraView: UIView {
             ? AVCaptureDevice.Position.front
             : AVCaptureDevice.Position.back
 
-        self.captureOptions.cameraLens == cameraSelector
-            ? self.cameraController!.toggleCameraLens()
-            : self.cameraController!.toggleCameraLens()
+        if self.captureOptions.cameraLens != cameraSelector {
+            self.cameraController!.toggleCameraLens()
+        }
     }
     
     /**

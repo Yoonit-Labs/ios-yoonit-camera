@@ -9,7 +9,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "YoonitCamera"
-  spec.version      = "2.1.0"
+  spec.version      = "2.1.1"
   spec.summary      = "YoonitCamera module for detects human faces or scan Qrcode."
 
   # This description is used to generate tags and improve search results.
