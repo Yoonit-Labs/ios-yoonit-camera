@@ -33,6 +33,10 @@ extension CGRect {
         let adjustmentHeight = (self.height * percentage) / 2.0
         return self.insetBy(dx: -adjustmentWidth, dy: -adjustmentHeight)
     }
+    
+    func isNaN() -> Bool {
+        return self.minY.isNaN || self.maxY.isNaN || self.minX.isNaN || self.maxX.isNaN
+    }
 }
 
 extension UIImage {
