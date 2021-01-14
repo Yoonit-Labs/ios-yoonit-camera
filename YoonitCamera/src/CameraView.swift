@@ -115,6 +115,16 @@ public class CameraView: UIView {
     public func stopCapture() {
         self.cameraController?.stopAnalyzer()
     }
+    
+    /**
+     Destroy camera capturing image.
+     */
+    @objc
+    public func destroy() {
+        self.cameraEventListener = nil
+        
+        self.cameraController?.destroy()
+    }
         
     /**
      Toggle between Front and Back Camera.

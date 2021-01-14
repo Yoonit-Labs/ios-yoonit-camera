@@ -32,7 +32,7 @@ class CameraController: NSObject {
     private var faceAnalyzer: FaceAnalyzer?
     private var frameAnalyzer: FrameAnalyzer?
     
-    public var cameraEventListener: CameraEventListenerDelegate? {
+    public var cameraEventListener: CameraEventListenerDelegate? = nil {
         didSet {
             self.faceAnalyzer?.cameraEventListener = cameraEventListener
             self.frameAnalyzer?.cameraEventListener = cameraEventListener
@@ -92,6 +92,21 @@ class CameraController: NSObject {
     }
     
     /**
+     Stop analyzers, remove session inputs, remove session outputs and stop session.
+     */
+    public func destroy() {
+        self.stopAnalyzer()
+        
+        // Remove camera input and output.
+        self.session.inputs.forEach({ self.session.removeInput($0) })
+        self.session.outputs.forEach({ self.session.removeOutput($0) })
+                        
+        // Stop running the session.
+        self.session.stopRunning()
+        self.isPreviewStarted = false
+    }
+    
+    /**
      Start capture type of Image Analyzer.
      Must have started preview.
      
@@ -123,6 +138,7 @@ class CameraController: NSObject {
         self.faceAnalyzer?.numberOfImages = 0
         
         self.frameAnalyzer?.stop()
+        self.frameAnalyzer?.numberOfImages = 0
     }
         
     /**

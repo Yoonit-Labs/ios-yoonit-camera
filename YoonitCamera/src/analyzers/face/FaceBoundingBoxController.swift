@@ -77,6 +77,10 @@ class FaceBoundingBoxController: NSObject {
             .layerRectConverted(fromMetadataOutputRect: boundingBox)
             .increase(by: CGFloat(self.captureOptions.facePaddingPercent))
         
+        if faceBoundingBox.isNaN() {
+            return nil
+        }
+        
         let scale = CGFloat(CVPixelBufferGetWidth(imageBuffer)) / self.cameraView.bounds.width
         let faceBoundingBoxScaled = faceBoundingBox.adjustedBySafeArea(height: self.topSafeHeight / scale)
         
