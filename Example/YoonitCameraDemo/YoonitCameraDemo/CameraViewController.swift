@@ -93,8 +93,6 @@ class CameraViewController: UIViewController {
         self.qrCodeTextField.isHidden = true
         
         self.cameraView.cameraEventListener = self
-        self.cameraView.setFaceDetectionBox(true)
-        self.cameraView.setSaveImageCaptured(true)
         self.cameraView.startPreview()        
         
         self.menu.anchorView = self.cameraTypeDropDown
@@ -135,21 +133,14 @@ class CameraViewController: UIViewController {
   
     @IBAction func toggleCam(_ sender: UIButton) {
         if sender.currentTitle == "Front cam" {
-            self.cameraView.setCameraLens("front")
-            sender.setTitle("Back cam", for: .normal)
-            
-        } else {
             self.cameraView.setCameraLens("back")
+            sender.setTitle("Back cam", for: .normal)
+        } else {
+            self.cameraView.setCameraLens("front")
             sender.setTitle("Front cam", for: .normal)
         }
         
         print("camera lens \(self.cameraView.getCameraLens())")
-    }
-    
-    @IBAction func stopCapture(_ sender: UIButton) {
-        self.cameraView.stopCapture()
-        self.clearFaceImagePreview()
-        self.qrCodeTextField.isHidden = true
     }
     
     @IBAction func showDropDown(_ sender: UIButton) {
@@ -160,18 +151,28 @@ class CameraViewController: UIViewController {
         self.cameraView.setFaceDetectionBox(sender.isOn)
     }
     
+    @IBAction func toggleCameraOn(_ sender: UISwitch) {    
+        if sender.isOn {
+            self.cameraView.startPreview()
+            self.cameraView.cameraEventListener = self
+        } else {
+            self.cameraView.destroy()
+        }
+    }
+    
     @IBAction func toggleSaveImageCaptured(_ sender: UISwitch) {
         self.cameraView.setSaveImageCaptured(sender.isOn)
         
-        if !sender.isOn {
-            self.clearFaceImagePreview()
-        } else {
+        if sender.isOn {
             self.showImagePreview = true
+        } else {
+            self.clearFaceImagePreview()
         }
     }
     
     func clearFaceImagePreview() {
         self.showImagePreview = false
+        
         DispatchQueue.main.async {
             self.savedFrame.image = nil
         }
