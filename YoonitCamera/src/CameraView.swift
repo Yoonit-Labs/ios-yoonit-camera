@@ -117,12 +117,10 @@ public class CameraView: UIView {
     }
     
     /**
-     Destroy camera capturing image.
+     Destroy camera preview.
      */
     @objc
     public func destroy() {
-        self.cameraEventListener = nil
-        
         self.cameraController?.destroy()
     }
         

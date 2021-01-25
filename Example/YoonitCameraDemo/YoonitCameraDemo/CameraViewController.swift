@@ -154,7 +154,6 @@ class CameraViewController: UIViewController {
     @IBAction func toggleCameraOn(_ sender: UISwitch) {    
         if sender.isOn {
             self.cameraView.startPreview()
-            self.cameraView.cameraEventListener = self
         } else {
             self.cameraView.destroy()
         }

@@ -170,12 +170,9 @@ class FaceAnalyzer: NSObject {
         }
         self.isValid = true
         
-        // Draw face bounding box.
-        if self.captureOptions.faceDetectionBox {
-            self.drawings = self.faceBoundingBoxController.makeShapeFor(boundingBox: detectionBox!)
-        } else {
-            self.drawings = []
-        }
+        // Draw face detection box or clean.
+        self.drawings = self.captureOptions.faceDetectionBox ?
+            self.faceBoundingBoxController.makeShapeFor(boundingBox: detectionBox!) : []
         
         // Emit face detected detection box coordinates.
         self.cameraEventListener?.onFaceDetected(
