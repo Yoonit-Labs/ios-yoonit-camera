@@ -121,6 +121,7 @@ public class CameraView: UIView {
      */
     @objc
     public func destroy() {
+        self.captureOptions.type = .NONE
         self.cameraController?.destroy()
     }
         
