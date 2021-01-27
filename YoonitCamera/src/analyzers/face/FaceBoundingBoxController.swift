@@ -24,7 +24,6 @@ class FaceBoundingBoxController: NSObject {
     
     private var previewLayer: AVCaptureVideoPreviewLayer
     private var cameraView: CameraView!
-    private var captureOptions: CaptureOptions
     public var cameraEventListener: CameraEventListenerDelegate?
     
     private let topSafeHeight: CGFloat = {
@@ -38,11 +37,9 @@ class FaceBoundingBoxController: NSObject {
     }()
     
     init(
-        captureOptions: CaptureOptions,
         cameraView: CameraView,
-        previewLayer: AVCaptureVideoPreviewLayer) {
-        
-        self.captureOptions = captureOptions
+        previewLayer: AVCaptureVideoPreviewLayer
+    ) {                
         self.cameraView = cameraView
         self.previewLayer = previewLayer
     }
@@ -75,7 +72,7 @@ class FaceBoundingBoxController: NSObject {
         // Normalize the bounding box coordinates to UI.
         let faceBoundingBox = self.previewLayer
             .layerRectConverted(fromMetadataOutputRect: boundingBox)
-            .increase(by: CGFloat(self.captureOptions.facePaddingPercent))
+            .increase(by: CGFloat(captureOptions.facePaddingPercent))
         
         if faceBoundingBox.isNaN() {
             return nil
@@ -126,16 +123,16 @@ class FaceBoundingBoxController: NSObject {
         let detectionBoxRelatedWithScreen = Float(detectionBox!.width / screenWidth)
 
         // Face smaller than the capture minimum size.
-        if (detectionBoxRelatedWithScreen < self.captureOptions.faceCaptureMinSize) {
+        if (detectionBoxRelatedWithScreen < captureOptions.faceCaptureMinSize) {
             return Message.INVALID_CAPTURE_FACE_MIN_SIZE.rawValue
         }
         
         // Face bigger than the capture maximum size.
-        if (detectionBoxRelatedWithScreen > self.captureOptions.faceCaptureMaxSize) {
+        if (detectionBoxRelatedWithScreen > captureOptions.faceCaptureMaxSize) {
             return Message.INVALID_CAPTURE_FACE_MAX_SIZE.rawValue
         }
         
-        if self.captureOptions.faceROI.enable {
+        if captureOptions.faceROI.enable {
             
             // Detection box offsets.
             let topOffset = Float(detectionBox!.minY / screenHeight)
@@ -143,7 +140,7 @@ class FaceBoundingBoxController: NSObject {
             let bottomOffset = Float((screenHeight - detectionBox!.maxY) / screenHeight)
             let leftOffset = Float(detectionBox!.minX / screenWidth)
             
-            if self.captureOptions.faceROI.isOutOf(
+            if captureOptions.faceROI.isOutOf(
                 topOffset: topOffset,
                 rightOffset: rightOffset,
                 bottomOffset: bottomOffset,
@@ -152,18 +149,18 @@ class FaceBoundingBoxController: NSObject {
                 return Message.INVALID_CAPTURE_FACE_OUT_OF_ROI.rawValue
             }
             
-            if self.captureOptions.faceROI.hasChanges {
+            if captureOptions.faceROI.hasChanges {
                 
                 // Face is inside the region of interest and faceROI is setted.
                 // Face is smaller than the defined "minimumSize".
                 let roiWidth: Float =
                     Float(screenWidth) -
-                    ((self.captureOptions.faceROI.rightOffset + self.captureOptions.faceROI.leftOffset) *
+                    ((captureOptions.faceROI.rightOffset + captureOptions.faceROI.leftOffset) *
                         Float(screenWidth))
                 
                 let faceRelatedWithROI: Float = Float(detectionBox!.width) / roiWidth
                                                     
-                if self.captureOptions.faceROI.minimumSize > faceRelatedWithROI {
+                if captureOptions.faceROI.minimumSize > faceRelatedWithROI {
                     return Message.INVALID_CAPTURE_FACE_ROI_MIN_SIZE.rawValue
                 }
             }

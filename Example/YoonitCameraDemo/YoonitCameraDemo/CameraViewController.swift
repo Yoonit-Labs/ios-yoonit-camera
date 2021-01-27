@@ -19,6 +19,8 @@ class CameraViewController: UIViewController {
     @IBOutlet var cameraView: CameraView!
     @IBOutlet var cameraTypeDropDown: UIButton!
     @IBOutlet var qrCodeTextField: UITextField!
+    @IBOutlet var faceDetectionBoxSwitch: UISwitch!
+    @IBOutlet var imageCaptureSwitch: UISwitch!
     
     var showImagePreview = false
     
@@ -156,6 +158,10 @@ class CameraViewController: UIViewController {
             self.cameraView.startPreview()
         } else {
             self.cameraView.destroy()
+            self.clearFaceImagePreview()
+            self.captureType = "none"
+            self.faceDetectionBoxSwitch.isOn = false
+            self.imageCaptureSwitch.isOn = false
         }
     }
     

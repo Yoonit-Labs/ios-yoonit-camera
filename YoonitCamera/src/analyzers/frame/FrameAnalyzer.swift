@@ -22,16 +22,11 @@ class FrameAnalyzer: NSObject {
     private let MAX_NUMBER_OF_IMAGES = 25
     
     public var cameraEventListener: CameraEventListenerDelegate?
-    private var captureOptions: CaptureOptions
         
     private var lastTimestamp = Date().currentTimeMillis()
     private var started = false
     public var numberOfImages = 0
         
-    init(captureOptions: CaptureOptions) {
-        self.captureOptions = captureOptions
-    }
-    
     /**
      Start frame analyzer to capture frame.
      */
@@ -52,15 +47,15 @@ class FrameAnalyzer: NSObject {
         let currentTimestamp = Date().currentTimeMillis()
         let diffTime = currentTimestamp - self.lastTimestamp
         
-        if diffTime > self.captureOptions.timeBetweenImages {
+        if diffTime > captureOptions.timeBetweenImages {
             self.lastTimestamp = currentTimestamp
             
             DispatchQueue.main.async {
-                if (!self.captureOptions.saveImageCaptured) {
+                if (!captureOptions.saveImageCaptured) {
                     return
                 }
                 
-                let orientation = self.captureOptions.cameraLens.rawValue == 1 ?
+                let orientation = captureOptions.cameraLens.rawValue == 1 ?
                     UIImage.Orientation.up : UIImage.Orientation.upMirrored
                 
                 let image = imageFromPixelBuffer(
@@ -86,13 +81,13 @@ class FrameAnalyzer: NSObject {
     func handleEmitImageCaptured(filePath: String) {
         
         // process frame number of images.
-        if (self.captureOptions.numberOfImages > 0) {
-            if (self.numberOfImages < self.captureOptions.numberOfImages) {
+        if (captureOptions.numberOfImages > 0) {
+            if (self.numberOfImages < captureOptions.numberOfImages) {
                 self.numberOfImages += 1
                 self.cameraEventListener?.onImageCaptured(
                     "frame",
                     self.numberOfImages,
-                    self.captureOptions.numberOfImages,
+                    captureOptions.numberOfImages,
                     filePath
                 )
                 return
@@ -108,7 +103,7 @@ class FrameAnalyzer: NSObject {
         self.cameraEventListener?.onImageCaptured(
             "frame",
             self.numberOfImages,
-            self.captureOptions.numberOfImages,
+            captureOptions.numberOfImages,
             filePath
         )
     }

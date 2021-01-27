@@ -116,6 +116,8 @@
                     <connections>
                         <outlet property="cameraTypeDropDown" destination="NTX-Bi-sU8" id="rh9-fq-g8S"/>
                         <outlet property="cameraView" destination="s7c-6p-oqC" id="tUf-Wq-rUD"/>
+                        <outlet property="faceDetectionBoxSwitch" destination="07t-4a-cSE" id="3YP-fx-Kkq"/>
+                        <outlet property="imageCaptureSwitch" destination="0Nd-tg-26L" id="eQe-0L-E13"/>
                         <outlet property="qrCodeTextField" destination="v8g-XX-tYC" id="ODX-Wv-8me"/>
                         <outlet property="savedFrame" destination="cye-Bx-CYr" id="fa9-d9-e9O"/>
                     </connections>
