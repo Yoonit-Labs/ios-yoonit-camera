@@ -26,8 +26,7 @@ class FaceAnalyzer: NSObject {
             self.faceBoundingBoxController.cameraEventListener = cameraEventListener
         }
     }
-    
-    private var captureOptions: CaptureOptions
+        
     private var cameraView: CameraView
     private var previewLayer: AVCaptureVideoPreviewLayer!
     
@@ -50,16 +49,13 @@ class FaceAnalyzer: NSObject {
     }
     
     init(
-        captureOptions: CaptureOptions,
         cameraView: CameraView,
         previewLayer: AVCaptureVideoPreviewLayer) {
         
-        self.captureOptions = captureOptions
         self.cameraView = cameraView
         self.previewLayer = previewLayer
         
         self.faceBoundingBoxController = FaceBoundingBoxController(
-            captureOptions: self.captureOptions,
             cameraView: self.cameraView,
             previewLayer: self.previewLayer)
     }
@@ -171,7 +167,7 @@ class FaceAnalyzer: NSObject {
         self.isValid = true
         
         // Draw face detection box or clean.
-        self.drawings = self.captureOptions.faceDetectionBox ?
+        self.drawings = captureOptions.faceDetectionBox ?
             self.faceBoundingBoxController.makeShapeFor(boundingBox: detectionBox!) : []
         
         // Emit face detected detection box coordinates.
@@ -181,7 +177,7 @@ class FaceAnalyzer: NSObject {
             Int(detectionBox!.width),
             Int(detectionBox!.height))
         
-        if !self.captureOptions.saveImageCaptured {
+        if !captureOptions.saveImageCaptured {
             return
         }
         
@@ -189,21 +185,21 @@ class FaceAnalyzer: NSObject {
         let currentTimestamp = Date().currentTimeMillis()
         let diffTime = currentTimestamp - self.lastTimestamp
         
-        if diffTime > self.captureOptions.timeBetweenImages {
+        if diffTime > captureOptions.timeBetweenImages {
             self.lastTimestamp = currentTimestamp
         
             // Crop the face image.
             self.faceCropController.cropImage(
                 image: image!,
                 boundingBox: closestFace.boundingBox,
-                captureOptions: self.captureOptions) {
+                captureOptions: captureOptions) {
                 
                 // Result of the crop face process.
                 result in
                 
                 let imageResized = try! result.resize(
-                    width: self.captureOptions.imageOutputWidth,
-                    height: self.captureOptions.imageOutputHeight)
+                    width: captureOptions.imageOutputWidth,
+                    height: captureOptions.imageOutputHeight)
                 
                 let fileURL = fileURLFor(index: self.numberOfImages)
                 let fileName = try! save(
@@ -224,14 +220,14 @@ class FaceAnalyzer: NSObject {
     public func handleEmitImageCaptured(filePath: String) {
         
         // process face number of images.
-        if (self.captureOptions.numberOfImages > 0) {
-            if (self.numberOfImages < self.captureOptions.numberOfImages) {
+        if (captureOptions.numberOfImages > 0) {
+            if (self.numberOfImages < captureOptions.numberOfImages) {
                 self.numberOfImages += 1
                 
                 self.cameraEventListener?.onImageCaptured(
                     "face",
                     self.numberOfImages,
-                    self.captureOptions.numberOfImages,
+                    captureOptions.numberOfImages,
                     filePath)
                 
                 return
@@ -247,7 +243,7 @@ class FaceAnalyzer: NSObject {
         self.cameraEventListener?.onImageCaptured(
             "face",
             self.numberOfImages,
-            self.captureOptions.numberOfImages,
+            captureOptions.numberOfImages,
             filePath
         )
     }

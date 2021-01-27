@@ -15,15 +15,15 @@ import AVFoundation
 import UIKit
 import Vision
 
+// Singleton to set CameraView features options.
+var captureOptions: CaptureOptions = CaptureOptions()
+
 /**
  * Class responsible to handle the camera operations.
  */
 @objc
 public class CameraView: UIView {
-    
-    // Model to set CameraView features options.
-    private var captureOptions: CaptureOptions = CaptureOptions()
-    
+                
     // Camera controller object.
     private var cameraController: CameraController? = nil
     
@@ -67,8 +67,7 @@ public class CameraView: UIView {
         self.previewLayer.frame = self.frame
         
         self.cameraController = CameraController(
-            cameraView: self,
-            captureOptions: captureOptions,
+            cameraView: self,            
             session: self.session,
             previewLayer: self.previewLayer)
     }
@@ -121,7 +120,7 @@ public class CameraView: UIView {
      */
     @objc
     public func destroy() {
-        self.captureOptions.type = .NONE
+        captureOptions = CaptureOptions()
         self.cameraController?.destroy()
     }
         
@@ -148,7 +147,7 @@ public class CameraView: UIView {
             ? AVCaptureDevice.Position.front
             : AVCaptureDevice.Position.back
 
-        if self.captureOptions.cameraLens != cameraSelector {
+        if captureOptions.cameraLens != cameraSelector {
             self.cameraController!.toggleCameraLens()
         }
     }
@@ -161,7 +160,7 @@ public class CameraView: UIView {
      */
     @objc
     public func getCameraLens() -> String {
-        return self.captureOptions.cameraLens == AVCaptureDevice.Position.front
+        return captureOptions.cameraLens == AVCaptureDevice.Position.front
             ? "front"
             : "back"
     }
@@ -178,7 +177,7 @@ public class CameraView: UIView {
             fatalError(KeyError.INVALID_NUMBER_OF_IMAGES.rawValue)
         }
         
-        self.captureOptions.numberOfImages = numberOfImages
+        captureOptions.numberOfImages = numberOfImages
     }
     
     /**
@@ -193,7 +192,7 @@ public class CameraView: UIView {
             fatalError(KeyError.INVALID_TIME_BETWEEN_IMAGES.rawValue)
         }
         
-        self.captureOptions.timeBetweenImages = timeBetweenImages
+        captureOptions.timeBetweenImages = timeBetweenImages
     }
     
     /**
@@ -208,7 +207,7 @@ public class CameraView: UIView {
             fatalError(KeyError.INVALID_OUTPUT_IMAGE_WIDTH.rawValue)
         }
         
-        self.captureOptions.imageOutputWidth = width
+        captureOptions.imageOutputWidth = width
     }
     
     /**
@@ -223,7 +222,7 @@ public class CameraView: UIView {
             fatalError(KeyError.INVALID_OUTPUT_IMAGE_HEIGHT.rawValue)
         }
         
-        self.captureOptions.imageOutputHeight = height
+        captureOptions.imageOutputHeight = height
     }
     
     /**
@@ -234,7 +233,7 @@ public class CameraView: UIView {
      */
     @objc
     public func setSaveImageCaptured(_ enable: Bool) {
-        self.captureOptions.saveImageCaptured = enable
+        captureOptions.saveImageCaptured = enable
     }
     
     /**
@@ -246,7 +245,8 @@ public class CameraView: UIView {
      */
     @objc
     public func setFaceDetectionBox(_ enable: Bool) {
-        self.captureOptions.faceDetectionBox = enable
+        captureOptions.faceDetectionBox = enable
+//        self.captureOptions.faceDetectionBox = enable
     }
     
     /**
@@ -261,7 +261,7 @@ public class CameraView: UIView {
             fatalError(KeyError.INVALID_FACE_PADDING_PERCENT.rawValue)
         }
         
-        self.captureOptions.facePaddingPercent = facePaddingPercent
+        captureOptions.facePaddingPercent = facePaddingPercent
     }
     
     /**
@@ -281,7 +281,7 @@ public class CameraView: UIView {
             fatalError(KeyError.INVALID_FACE_CAPTURE_MIN_SIZE.rawValue)
         }
         
-        self.captureOptions.faceCaptureMinSize = faceCaptureMinSize
+        captureOptions.faceCaptureMinSize = faceCaptureMinSize
     }
     
     /**
@@ -301,7 +301,7 @@ public class CameraView: UIView {
             fatalError(KeyError.INVALID_FACE_CAPTURE_MAX_SIZE.rawValue)
         }
         
-        self.captureOptions.faceCaptureMaxSize = faceCaptureMaxSize
+        captureOptions.faceCaptureMaxSize = faceCaptureMaxSize
     }
     
     /**
@@ -312,7 +312,7 @@ public class CameraView: UIView {
      */
     @objc
     public func setFaceROIEnable(_ enable: Bool) {
-        self.captureOptions.faceROI.enable = enable
+        captureOptions.faceROI.enable = enable
     }
     
     /**
@@ -327,7 +327,7 @@ public class CameraView: UIView {
             fatalError(KeyError.INVALID_FACE_ROI_TOP_OFFSET.rawValue)
         }
 
-        self.captureOptions.faceROI.topOffset = topOffset
+        captureOptions.faceROI.topOffset = topOffset
     }
 
     /**
@@ -342,7 +342,7 @@ public class CameraView: UIView {
             fatalError(KeyError.INVALID_FACE_ROI_RIGHT_OFFSET.rawValue)
         }
 
-        self.captureOptions.faceROI.rightOffset = rightOffset
+        captureOptions.faceROI.rightOffset = rightOffset
     }
 
     /**
@@ -357,7 +357,7 @@ public class CameraView: UIView {
             fatalError(KeyError.INVALID_FACE_ROI_BOTTOM_OFFSET.rawValue)
         }
 
-        self.captureOptions.faceROI.bottomOffset = bottomOffset
+        captureOptions.faceROI.bottomOffset = bottomOffset
     }
 
     /**
@@ -372,7 +372,7 @@ public class CameraView: UIView {
             fatalError(KeyError.INVALID_FACE_ROI_LEFT_OFFSET.rawValue)
         }
 
-        self.captureOptions.faceROI.leftOffset = leftOffset
+        captureOptions.faceROI.leftOffset = leftOffset
     }
     
     /**
@@ -387,7 +387,7 @@ public class CameraView: UIView {
             fatalError(KeyError.INVALID_FACE_ROI_MIN_SIZE.rawValue)
         }
         
-        self.captureOptions.faceROI.minimumSize = minimumSize
+        captureOptions.faceROI.minimumSize = minimumSize
     }
 }
 

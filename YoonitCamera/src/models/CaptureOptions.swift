@@ -14,7 +14,7 @@ import Foundation
 import AVFoundation
 
 /**
- Model to set capture features options.
+ This class is a singleton used in the entire project to handle the features.
  */
 public class CaptureOptions {
     

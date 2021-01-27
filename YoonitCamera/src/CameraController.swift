@@ -21,10 +21,7 @@ class CameraController: NSObject {
     
     // Reference to camera view used to draw bounding box.
     private var cameraView: CameraView!
-    
-    // Model to set CameraView features options.
-    public var captureOptions: CaptureOptions!
-        
+                
     // Manages multiple inputs and outputs of audio and video.
     private var session: AVCaptureSession
     private var previewLayer: AVCaptureVideoPreviewLayer
@@ -44,22 +41,19 @@ class CameraController: NSObject {
     
     init(
         cameraView: CameraView,
-        captureOptions: CaptureOptions,
         session: AVCaptureSession,
         previewLayer: AVCaptureVideoPreviewLayer) {
         
         self.session = session
         self.previewLayer = previewLayer
-                    
         self.cameraView = cameraView
-        self.captureOptions = captureOptions
         
         self.faceAnalyzer = FaceAnalyzer(
-            captureOptions: self.captureOptions,
             cameraView: self.cameraView,
-            previewLayer: self.previewLayer)
+            previewLayer: self.previewLayer
+        )
         
-        self.frameAnalyzer = FrameAnalyzer(captureOptions: self.captureOptions)
+        self.frameAnalyzer = FrameAnalyzer()
     }
     
     required init?(coder: NSCoder) {
@@ -84,7 +78,7 @@ class CameraController: NSObject {
         }
                         
         // Build camera input based on the camera lens.
-        self.buildCameraInput(cameraLens: self.captureOptions.cameraLens)        
+        self.buildCameraInput(cameraLens: captureOptions.cameraLens)
                 
         // Start running the session.
         self.session.startRunning()
@@ -115,10 +109,10 @@ class CameraController: NSObject {
      */
     public func startCaptureType(captureType: CaptureType) {
                         
-        self.captureOptions.type = captureType
+        captureOptions.type = captureType
         self.stopAnalyzer()
         
-        switch self.captureOptions.type {
+        switch captureOptions.type {
         case CaptureType.FACE:
             self.faceAnalyzer?.start()
             
@@ -145,10 +139,10 @@ class CameraController: NSObject {
      Toggle between Front and Back Camera.
      */
     public func toggleCameraLens() {
-        if (self.captureOptions.cameraLens == .front) {
-            self.captureOptions.cameraLens = .back
+        if (captureOptions.cameraLens == .front) {
+            captureOptions.cameraLens = .back
         } else {
-            self.captureOptions.cameraLens = .front
+            captureOptions.cameraLens = .front
         }
         
         if self.session.isRunning {
@@ -158,9 +152,9 @@ class CameraController: NSObject {
             self.session.outputs.forEach({ self.session.removeOutput($0) })
             
             // Add camera input.
-            self.buildCameraInput(cameraLens: self.captureOptions.cameraLens)
+            self.buildCameraInput(cameraLens: captureOptions.cameraLens)
                                     
-            switch self.captureOptions.type {
+            switch captureOptions.type {
             case CaptureType.FACE:
                 self.faceAnalyzer?.reset()
                 
@@ -228,15 +222,15 @@ extension CameraController: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(
         _ output: AVCaptureOutput,
         didOutput sampleBuffer: CMSampleBuffer,
-        from connection: AVCaptureConnection) {
-                        
+        from connection: AVCaptureConnection
+    ) {
         guard let frame = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             self.cameraEventListener?.onError("Unable to get image from sample buffer.")
             debugPrint("Unable to get image from sample buffer.")
             return
         }
                 
-        switch self.captureOptions.type {
+        switch captureOptions.type {
         case CaptureType.FACE:
             self.faceAnalyzer?.faceDetect(imageBuffer: frame)
             
@@ -257,9 +251,9 @@ extension CameraController: AVCaptureMetadataOutputObjectsDelegate {
     func metadataOutput(
         _ output: AVCaptureMetadataOutput,
         didOutput metadataObjects: [AVMetadataObject],
-        from connection: AVCaptureConnection) {
-
-        if (self.captureOptions.type != CaptureType.QRCODE) {
+        from connection: AVCaptureConnection
+    ) {
+        if (captureOptions.type != CaptureType.QRCODE) {
             return
         }
         
