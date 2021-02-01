@@ -110,8 +110,8 @@ class FaceAnalyzer: NSObject {
         try? VNImageRequestHandler(
             cvPixelBuffer: imageBuffer,
             orientation: .leftMirrored,
-            options: [:])
-            .perform([faceDetectRequest])
+            options: [:]
+        ).perform([faceDetectRequest])
     }
     
     /**
@@ -122,8 +122,8 @@ class FaceAnalyzer: NSObject {
      */
     private func handleFaceDetectionResults(
         faces: [VNFaceObservation],
-        imageBuffer: CVPixelBuffer) {
-        
+        imageBuffer: CVPixelBuffer
+    ) {
         // Convert image orientation based on device lens.
         let orientation = captureOptions.cameraLens == AVCaptureDevice.Position.back ?
             UIImage.Orientation.up :
@@ -133,16 +133,19 @@ class FaceAnalyzer: NSObject {
         let image: CGImage? = imageFromPixelBuffer(
             imageBuffer: imageBuffer,
             scale: UIScreen.main.scale,
-            orientation: orientation)
-                .cgImage
+            orientation: orientation
+        ).cgImage
         
         // The closest face.
-        let closestFace: VNFaceObservation = self.faceBoundingBoxController.getClosestFace(faces)
+        let closestFace: VNFaceObservation = faces.sorted {
+            return $0.boundingBox.width > $1.boundingBox.width
+            }[0]
                         
         // The detection box is the face bounding box coordinates normalized.
         let detectionBox = self.faceBoundingBoxController.getDetectionBox(
             boundingBox: closestFace.boundingBox,
-            imageBuffer: imageBuffer)
+            imageBuffer: imageBuffer
+        )
         
         // Validate detection box.
         // - nil for no error found;
@@ -175,7 +178,8 @@ class FaceAnalyzer: NSObject {
             Int(detectionBox!.minX),
             Int(detectionBox!.minY),
             Int(detectionBox!.width),
-            Int(detectionBox!.height))
+            Int(detectionBox!.height)
+        )
         
         if !captureOptions.saveImageCaptured {
             return

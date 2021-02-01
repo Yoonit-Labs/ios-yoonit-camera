@@ -246,7 +246,6 @@ public class CameraView: UIView {
     @objc
     public func setFaceDetectionBox(_ enable: Bool) {
         captureOptions.faceDetectionBox = enable
-//        self.captureOptions.faceDetectionBox = enable
     }
     
     /**

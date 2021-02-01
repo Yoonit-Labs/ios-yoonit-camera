@@ -43,23 +43,7 @@ class FaceBoundingBoxController: NSObject {
         self.cameraView = cameraView
         self.previewLayer = previewLayer
     }
-    
-    /**
-     Get the closest face bounding box.
-     
-     - Parameter faces: The face list camera detected;
-     - Returns: The closest face.
-     */
-    public func getClosestFace(_ faces: [VNFaceObservation]) -> VNFaceObservation {
         
-        // Get the closest face.
-        let closestFace = faces.sorted {
-            return $0.boundingBox.width > $1.boundingBox.width
-            }[0]
-                
-        return closestFace
-    }
-    
     /**
      Transform the detected face bounding box coordinates in the UI graphic coordinates, based in the CameraGraphicView and InputImage dimensions.
      
