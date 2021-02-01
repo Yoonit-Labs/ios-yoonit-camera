@@ -29,6 +29,7 @@ public class CameraView: UIView {
     
     // Manages multiple inputs and outputs of audio and video.
     private var session = AVCaptureSession()
+    private var cameraGraphicView: CameraGraphicView? = nil
     private lazy var previewLayer = AVCaptureVideoPreviewLayer(session: session)
     
     // Camera interface event listeners object.
@@ -55,21 +56,24 @@ public class CameraView: UIView {
         super.layoutSubviews()
         
         self.previewLayer.frame = self.frame
+        self.cameraGraphicView?.frame = self.frame
     }
     
     private func configure() {
-        
-        self.layer.addSublayer(self.previewLayer)
-        
         self.session.sessionPreset = .hd1280x720
         
         self.previewLayer.videoGravity = .resizeAspectFill
         self.previewLayer.frame = self.frame
+        self.layer.addSublayer(self.previewLayer)
+                        
+        self.cameraGraphicView = CameraGraphicView(frame: self.frame)
+        self.addSubview(self.cameraGraphicView!)
         
         self.cameraController = CameraController(
-            cameraView: self,            
             session: self.session,
-            previewLayer: self.previewLayer)
+            cameraGraphicView: self.cameraGraphicView!,
+            previewLayer: self.previewLayer
+        )
     }
     
     /**
@@ -246,7 +250,6 @@ public class CameraView: UIView {
     @objc
     public func setFaceDetectionBox(_ enable: Bool) {
         captureOptions.faceDetectionBox = enable
-//        self.captureOptions.faceDetectionBox = enable
     }
     
     /**
