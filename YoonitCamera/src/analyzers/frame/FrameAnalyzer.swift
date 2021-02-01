@@ -22,28 +22,22 @@ class FrameAnalyzer: NSObject {
     private let MAX_NUMBER_OF_IMAGES = 25
     
     public var cameraEventListener: CameraEventListenerDelegate?
-        
-    private var lastTimestamp = Date().currentTimeMillis()
-    private var started = false
+    public var start = false {
+        didSet {
+            if !self.start {
+                self.numberOfImages = 0
+            }
+        }
+    }
     public var numberOfImages = 0
-        
-    /**
-     Start frame analyzer to capture frame.
-     */
-    func start() {
-        self.started = true
-    }
-        
-    func stop() {
-        self.started = false
-    }
     
-    func reset() {
-        self.stop()
-        self.start()
-    }
-    
+    private var lastTimestamp = Date().currentTimeMillis()
+            
     func frameCaptured(imageBuffer: CVPixelBuffer) {
+        if !self.start {
+            return
+        }
+        
         let currentTimestamp = Date().currentTimeMillis()
         let diffTime = currentTimestamp - self.lastTimestamp
         
@@ -61,12 +55,14 @@ class FrameAnalyzer: NSObject {
                 let image = imageFromPixelBuffer(
                     imageBuffer: imageBuffer,
                     scale: UIScreen.main.scale,
-                    orientation: orientation)
+                    orientation: orientation
+                )
                                         
                 let fileURL = fileURLFor(index: self.numberOfImages)
                 let filePath = try! save(
                     image: image,
-                    fileURL: fileURL)
+                    fileURL: fileURL
+                )
                 
                 self.handleEmitImageCaptured(filePath: filePath)
             }
@@ -93,7 +89,7 @@ class FrameAnalyzer: NSObject {
                 return
             }
             
-            self.stop()
+            self.start = false
             self.cameraEventListener?.onEndCapture()
             return
         }

@@ -114,7 +114,7 @@ class CameraController: NSObject {
             self.faceAnalyzer?.start = true
             
         case CaptureType.FRAME:
-            self.frameAnalyzer?.start()
+            self.frameAnalyzer?.start = true
             
         default:
             return
@@ -126,9 +126,7 @@ class CameraController: NSObject {
      */
     public func stopAnalyzer() {
         self.faceAnalyzer?.start = false
-            
-        self.frameAnalyzer?.stop()
-        self.frameAnalyzer?.numberOfImages = 0
+        self.frameAnalyzer?.start = false
     }
         
     /**
@@ -149,14 +147,6 @@ class CameraController: NSObject {
             
             // Add camera input.
             self.buildCameraInput(cameraLens: captureOptions.cameraLens)
-                                    
-            switch captureOptions.type {
-            case CaptureType.FRAME:
-                self.frameAnalyzer?.reset()
-                
-            default:
-                return
-            }
         }
     }
     
@@ -166,6 +156,9 @@ class CameraController: NSObject {
      - Parameter cameraLens: the enum of the camera lens facing;
      */
     private func buildCameraInput(cameraLens: AVCaptureDevice.Position) {
+        
+        self.faceAnalyzer?.numberOfImages = 0
+        self.frameAnalyzer?.numberOfImages = 0
         
         guard let device = AVCaptureDevice.DiscoverySession(
             deviceTypes: [.builtInWideAngleCamera],
