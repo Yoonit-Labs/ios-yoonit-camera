@@ -18,14 +18,11 @@ import Vision
  Class responsible to handle the camera operations.
  */
 class CameraController: NSObject {
-    
-    // Reference to camera view used to draw bounding box.
-    private var cameraView: CameraView!
-                
+                        
     // Manages multiple inputs and outputs of audio and video.
     private var session: AVCaptureSession
     private var previewLayer: AVCaptureVideoPreviewLayer
-    
+    private var cameraGraphicView: CameraGraphicView
     private var faceAnalyzer: FaceAnalyzer?
     private var frameAnalyzer: FrameAnalyzer?
     
@@ -40,16 +37,16 @@ class CameraController: NSObject {
     public var isPreviewStarted: Bool = false
     
     init(
-        cameraView: CameraView,
         session: AVCaptureSession,
-        previewLayer: AVCaptureVideoPreviewLayer) {
-        
+        cameraGraphicView: CameraGraphicView,
+        previewLayer: AVCaptureVideoPreviewLayer
+    ) {
         self.session = session
         self.previewLayer = previewLayer
-        self.cameraView = cameraView
+        self.cameraGraphicView = cameraGraphicView
         
         self.faceAnalyzer = FaceAnalyzer(
-            cameraView: self.cameraView,
+            cameraGraphicView: cameraGraphicView,
             previewLayer: self.previewLayer
         )
         
@@ -114,7 +111,7 @@ class CameraController: NSObject {
         
         switch captureOptions.type {
         case CaptureType.FACE:
-            self.faceAnalyzer?.start()
+            self.faceAnalyzer?.start = true
             
         case CaptureType.FRAME:
             self.frameAnalyzer?.start()
@@ -125,12 +122,11 @@ class CameraController: NSObject {
     }
     
     /**
-     Stop camera image analyzer and clear drawings.
+     Stop camera image analyzer and clear camera graphic view.
      */
     public func stopAnalyzer() {
-        self.faceAnalyzer?.stop()
-        self.faceAnalyzer?.numberOfImages = 0
-        
+        self.faceAnalyzer?.start = false
+            
         self.frameAnalyzer?.stop()
         self.frameAnalyzer?.numberOfImages = 0
     }
@@ -155,9 +151,6 @@ class CameraController: NSObject {
             self.buildCameraInput(cameraLens: captureOptions.cameraLens)
                                     
             switch captureOptions.type {
-            case CaptureType.FACE:
-                self.faceAnalyzer?.reset()
-                
             case CaptureType.FRAME:
                 self.frameAnalyzer?.reset()
                 

@@ -21,62 +21,42 @@ class FaceAnalyzer: NSObject {
     
     private let MAX_NUMBER_OF_IMAGES = 25
     
+    public var numberOfImages = 0
+    public var start: Bool = false {
+        didSet {
+            if !self.start {
+                self.numberOfImages = 0
+                self.cameraGraphicView.clear()
+            }
+        }
+    }
     public var cameraEventListener: CameraEventListenerDelegate? {
         didSet {
             self.faceBoundingBoxController.cameraEventListener = cameraEventListener
         }
     }
         
-    private var cameraView: CameraView
+    private var cameraGraphicView: CameraGraphicView
     private var previewLayer: AVCaptureVideoPreviewLayer!
     
     private var faceCropController = FaceCropController()
     private var faceBoundingBoxController: FaceBoundingBoxController
     private var lastTimestamp = Date().currentTimeMillis()
-    private var shouldDraw = true
     private var isValid = true
-    public var numberOfImages = 0
-    
-    public var drawings: [CAShapeLayer] = [] {
-        willSet {
-            self.drawings.forEach({ drawing in drawing.removeFromSuperlayer() })
-        }
-        didSet {
-            if !self.drawings.isEmpty && self.shouldDraw {
-                self.drawings.forEach({ shape in self.cameraView.layer.addSublayer(shape) })
-            }
-        }
-    }
-    
-    init(
-        cameraView: CameraView,
-        previewLayer: AVCaptureVideoPreviewLayer) {
         
-        self.cameraView = cameraView
+    init(
+        cameraGraphicView: CameraGraphicView,
+        previewLayer: AVCaptureVideoPreviewLayer
+    ) {
+        self.cameraGraphicView = cameraGraphicView
         self.previewLayer = previewLayer
         
         self.faceBoundingBoxController = FaceBoundingBoxController(
-            cameraView: self.cameraView,
-            previewLayer: self.previewLayer)
+            cameraGraphicView: cameraGraphicView,
+            previewLayer: self.previewLayer
+        )
     }
-    
-    /**
-     Start face analyzer to capture frame.
-     */
-    func start() {
-        self.shouldDraw = true
-    }
-    
-    func stop() {
-        self.drawings = []
-        self.shouldDraw = false
-    }
-    
-    func reset() {
-        self.stop()
-        self.start()
-    }
-    
+        
     /**
      Try to detect faces in the moment the camera capture this frame.
      
@@ -88,20 +68,21 @@ class FaceAnalyzer: NSObject {
         let faceDetectRequest = VNDetectFaceRectanglesRequest {
             request, error in
             
-            if error != nil {
+            if error != nil && !self.start {
                 return
             }
             
             DispatchQueue.main.async {
                 // Found faces...
-                if let results = request.results as? [VNFaceObservation], results.count > 0 {
+                if let results = request.results as? [VNFaceObservation], results.count > 0, self.start {
                     self.handleFaceDetectionResults(
                         faces: results,
-                        imageBuffer: imageBuffer)
+                        imageBuffer: imageBuffer
+                    )
                 } else if self.isValid {
                     self.isValid = false
+                    self.cameraGraphicView.clear()
                     self.cameraEventListener?.onFaceUndetected()
-                    self.drawings = []
                 }
             }
         }
@@ -159,7 +140,7 @@ class FaceAnalyzer: NSObject {
         if error != nil {
             if self.isValid {
                 self.isValid = false
-                self.drawings = []
+                self.cameraGraphicView.clear()
                 if error != "" {
                     self.cameraEventListener?.onMessage(error!)
                 }
@@ -170,8 +151,7 @@ class FaceAnalyzer: NSObject {
         self.isValid = true
         
         // Draw face detection box or clean.
-        self.drawings = captureOptions.faceDetectionBox ?
-            self.faceBoundingBoxController.makeShapeFor(boundingBox: detectionBox!) : []
+        self.cameraGraphicView.handleDraw(faceDetectionBox: detectionBox!)
         
         // Emit face detected detection box coordinates.
         self.cameraEventListener?.onFaceDetected(
@@ -237,7 +217,8 @@ class FaceAnalyzer: NSObject {
                 return
             }
             
-            self.stop()
+            self.numberOfImages = 0
+            self.start = false
             self.cameraEventListener?.onEndCapture()
             return
         }
