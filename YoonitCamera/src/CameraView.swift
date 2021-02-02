@@ -330,7 +330,7 @@ public class CameraView: UIView {
             fatalError(KeyError.INVALID_FACE_ROI_TOP_OFFSET.rawValue)
         }
 
-        captureOptions.faceROI.topOffset = topOffset
+        captureOptions.faceROI.topOffset = CGFloat(topOffset)
     }
 
     /**
@@ -345,7 +345,7 @@ public class CameraView: UIView {
             fatalError(KeyError.INVALID_FACE_ROI_RIGHT_OFFSET.rawValue)
         }
 
-        captureOptions.faceROI.rightOffset = rightOffset
+        captureOptions.faceROI.rightOffset = CGFloat(rightOffset)
     }
 
     /**
@@ -360,7 +360,7 @@ public class CameraView: UIView {
             fatalError(KeyError.INVALID_FACE_ROI_BOTTOM_OFFSET.rawValue)
         }
 
-        captureOptions.faceROI.bottomOffset = bottomOffset
+        captureOptions.faceROI.bottomOffset = CGFloat(bottomOffset)
     }
 
     /**
@@ -375,7 +375,7 @@ public class CameraView: UIView {
             fatalError(KeyError.INVALID_FACE_ROI_LEFT_OFFSET.rawValue)
         }
 
-        captureOptions.faceROI.leftOffset = leftOffset
+        captureOptions.faceROI.leftOffset = CGFloat(leftOffset)
     }
     
     /**
