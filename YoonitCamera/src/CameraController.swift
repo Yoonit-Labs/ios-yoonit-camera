@@ -163,10 +163,10 @@ class CameraController: NSObject {
         guard let device = AVCaptureDevice.DiscoverySession(
             deviceTypes: [.builtInWideAngleCamera],
             mediaType: .video,
-            position: cameraLens).devices.first
-            else {
-                self.cameraEventListener?.onError("You have a problem with your camera, please verify the settings of the your camera")
-                fatalError("No back camera device found, please make sure to run in an iOS device and not a simulator")
+            position: cameraLens
+        ).devices.first else {
+            self.cameraEventListener?.onError("You have a problem with your camera, please verify the settings of the your camera")
+            fatalError("No back camera device found, please make sure to run in an iOS device and not a simulator")
         }
                 
         let cameraInput = try! AVCaptureDeviceInput(device: device)

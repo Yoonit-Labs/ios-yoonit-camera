@@ -392,5 +392,49 @@ public class CameraView: UIView {
         
         captureOptions.faceROI.minimumSize = minimumSize
     }
+    
+    /**
+     Set face region of interest offset color visibility.
+     
+     - Parameter enable: The indicator to show/hide the face region of interest area offset.
+     Default value is `false`.
+     */
+    @objc
+    public func setFaceROIAreaOffset(_ enable: Bool) {
+        captureOptions.faceROI.areaOffsetEnable = enable
+    }
+
+    /**
+     Set face region of interest area offset color.
+     
+     - Parameter red: Float that represent red color.
+     - Parameter green: Float that represent green color.
+     - Parameter blue: Float that represent blue color.
+     - Parameter alpha: Float that represents the alpha.
+     Default value is 100, 255, 255, 255 (white color).
+     */
+    @objc
+    public func setFaceROIAreaOffsetColor(
+        _ alpha: Float,
+        _ red: Float,
+        _ green: Float,
+        _ blue: Float
+    ) {
+        if (
+            alpha < 0.0 || alpha > 1.0 ||
+            red < 0.0 || red > 1.0 ||
+            green < 0.0 || green > 1.0 ||
+            blue < 0.0 || blue > 1.0
+        ) {
+            fatalError(KeyError.INVALID_FACE_ROI_COLOR.rawValue)
+        }
+            
+        captureOptions.faceROI.areaOffsetColor = UIColor(
+            red: CGFloat(red),
+            green: CGFloat(green),
+            blue: CGFloat(blue),
+            alpha: CGFloat(alpha)
+        )
+    }
 }
 

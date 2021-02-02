@@ -9,7 +9,7 @@
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //
 
-
+import UIKit
 import Foundation
 import AVFoundation
 
@@ -20,6 +20,12 @@ public class FaceROI {
     
     // Enable or disable ROI.
     var enable: Bool = false
+    
+    // Enable or disable face region of interest area offset.
+    var areaOffsetEnable: Bool = false
+
+    // Face region of interest area offset color.
+    var areaOffsetColor: UIColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     
     // Region of interest in percentage.
     // Values valid [0, 1].
