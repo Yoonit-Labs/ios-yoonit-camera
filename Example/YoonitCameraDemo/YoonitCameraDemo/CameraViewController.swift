@@ -19,10 +19,16 @@ class CameraViewController: UIViewController {
     @IBOutlet var cameraView: CameraView!
     @IBOutlet var cameraTypeDropDown: UIButton!
     @IBOutlet var qrCodeTextField: UITextField!
+    @IBOutlet var imageCapturedTextField: UITextField!
     @IBOutlet var faceDetectionBoxSwitch: UISwitch!
     @IBOutlet var imageCaptureSwitch: UISwitch!
+    @IBOutlet var featuresPanel: UIView!
     
-    var showImagePreview = false
+    var showImagePreview = false {
+        didSet {
+            self.imageCapturedTextField.isHidden = !self.showImagePreview
+        }
+    }
     
     var captureType: String = "none" {
         didSet {
@@ -81,7 +87,8 @@ class CameraViewController: UIViewController {
                 self,
                 selector: #selector(onBackground),
                 name: UIScene.willDeactivateNotification,
-                object: nil)
+                object: nil
+            )
 
         NotificationCenter
             .default
@@ -89,16 +96,19 @@ class CameraViewController: UIViewController {
                 self,
                 selector: #selector(onActive),
                 name: UIScene.willEnterForegroundNotification,
-                object: nil)
+                object: nil
+            )
         
         self.showImagePreview = true
         self.qrCodeTextField.isHidden = true
         
         self.cameraView.cameraEventListener = self
         self.cameraView.startPreview()
-        
-        self.cameraView.setFaceDetectionBox(true)
-        self.cameraView.setSaveImageCaptured(true)
+                        
+        self.cameraView.setFaceROILeftOffset(0.1)
+        self.cameraView.setFaceROIRightOffset(0.1)
+        self.cameraView.setFaceROITopOffset(0.1)
+        self.cameraView.setFaceROIBottomOffset(0.1)
         
         self.menu.anchorView = self.cameraTypeDropDown
         self.menu.selectionAction = {
@@ -135,6 +145,31 @@ class CameraViewController: UIViewController {
     @objc func onActive(_ notification: Notification) {
         self.cameraView.startPreview()
     }
+    
+    @IBAction func showDropDown(_ sender: UIButton) {
+        self.menu.show()
+    }
+    
+    @IBAction func toggleFeatuesPanel(_ sender: UISwitch) {
+        self.featuresPanel.isHidden = !sender.isOn
+    }
+    
+    @IBAction func onFaceMinSwitchClick(_ sender: UISwitch) {
+        self.cameraView.setFaceCaptureMinSize(sender.isOn ? 0.7 : 0.0)
+    }
+    
+    @IBAction func onFaceMaxSwitchClick(_ sender: UISwitch) {
+        self.cameraView.setFaceCaptureMaxSize(sender.isOn ? 0.9 : 1.0)
+    }
+    
+    @IBAction func onFaceROISwitchClick(_ sender: UISwitch) {
+        self.cameraView.setFaceROIEnable(sender.isOn)
+        self.cameraView.setFaceROIAreaOffset(sender.isOn)
+    }
+    
+    @IBAction func onFaceROIMinSizeSwitchClick(_ sender: UISwitch) {
+        self.cameraView.setFaceCaptureMinSize(sender.isOn ? 0.7 : 0.0)
+    }
   
     @IBAction func toggleCam(_ sender: UIButton) {
         if sender.currentTitle == "Front cam" {
@@ -147,11 +182,7 @@ class CameraViewController: UIViewController {
         
         print("camera lens \(self.cameraView.getCameraLens())")
     }
-    
-    @IBAction func showDropDown(_ sender: UIButton) {
-        self.menu.show()
-    }
-    
+        
     @IBAction func toggleFaceDetectionBox(_ sender: UISwitch) {
         self.cameraView.setFaceDetectionBox(sender.isOn)
     }
@@ -193,15 +224,18 @@ extension CameraViewController: CameraEventListenerDelegate {
         _ type: String,
         _ count: Int,
         _ total: Int,
-        _ imagePath: String) {
+        _ imagePath: String
+    ) {
         
         let subpath = imagePath.substring(from: imagePath.index(imagePath.startIndex, offsetBy: 7))
         let image = UIImage(contentsOfFile: subpath)
         
         if total == 0 {
             print("onImageCaptured \(type): \(count).")
+            self.imageCapturedTextField.text = "\(type): \(count)"
         } else {
-            print("onImageCaptured \(type): \(count) from \(total).")
+            print("onImageCaptured \(type): \(count) / \(total).")
+            self.imageCapturedTextField.text = "\(type): \(count) / \(total)"
         }
         
         self.savedFrame.image = self.showImagePreview ? image : nil

@@ -9,7 +9,7 @@
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //
 
-
+import UIKit
 import Foundation
 import AVFoundation
 
@@ -21,12 +21,18 @@ public class FaceROI {
     // Enable or disable ROI.
     var enable: Bool = false
     
+    // Enable or disable face region of interest area offset.
+    var areaOffsetEnable: Bool = false
+
+    // Face region of interest area offset color.
+    var areaOffsetColor: UIColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.4)
+    
     // Region of interest in percentage.
     // Values valid [0, 1].
-    var topOffset: Float = 0     // "Above" the face detected.
-    var rightOffset: Float = 0   // "Right" of face detected.
-    var bottomOffset: Float = 0  // "Bottom" face detected.
-    var leftOffset: Float = 0    // "Left" face detected.
+    var topOffset: CGFloat = 0     // "Above" the face detected.
+    var rightOffset: CGFloat = 0   // "Right" of face detected.
+    var bottomOffset: CGFloat = 0  // "Bottom" face detected.
+    var leftOffset: CGFloat = 0    // "Left" face detected.
     
     // Minimum face size in percentage in relation of the ROI.
     var minimumSize: Float = 0
@@ -52,11 +58,11 @@ public class FaceROI {
      - Returns is out of the offset parameters.
      */
     public func isOutOf(
-        topOffset: Float,
-        rightOffset: Float,
-        bottomOffset: Float,
-        leftOffset: Float) -> Bool {
-        
+        topOffset: CGFloat,
+        rightOffset: CGFloat,
+        bottomOffset: CGFloat,
+        leftOffset: CGFloat
+    ) -> Bool {
         return
             self.topOffset > topOffset ||
             self.rightOffset > rightOffset ||

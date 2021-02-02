@@ -119,17 +119,17 @@ class FaceBoundingBoxController: NSObject {
         if captureOptions.faceROI.enable {
             
             // Detection box offsets.
-            let topOffset = Float(detectionBox!.minY / screenHeight)
-            let rightOffset = Float((screenWidth - detectionBox!.maxX) / screenWidth)
-            let bottomOffset = Float((screenHeight - detectionBox!.maxY) / screenHeight)
-            let leftOffset = Float(detectionBox!.minX / screenWidth)
+            let topOffset = CGFloat(detectionBox!.minY / screenHeight)
+            let rightOffset = CGFloat((screenWidth - detectionBox!.maxX) / screenWidth)
+            let bottomOffset = CGFloat((screenHeight - detectionBox!.maxY) / screenHeight)
+            let leftOffset = CGFloat(detectionBox!.minX / screenWidth)
             
             if captureOptions.faceROI.isOutOf(
                 topOffset: topOffset,
                 rightOffset: rightOffset,
                 bottomOffset: bottomOffset,
-                leftOffset: leftOffset) {
-                                
+                leftOffset: leftOffset
+            ) {
                 return Message.INVALID_CAPTURE_FACE_OUT_OF_ROI.rawValue
             }
             
@@ -139,7 +139,7 @@ class FaceBoundingBoxController: NSObject {
                 // Face is smaller than the defined "minimumSize".
                 let roiWidth: Float =
                     Float(screenWidth) -
-                    ((captureOptions.faceROI.rightOffset + captureOptions.faceROI.leftOffset) *
+                    (Float(captureOptions.faceROI.rightOffset + captureOptions.faceROI.leftOffset) *
                         Float(screenWidth))
                 
                 let faceRelatedWithROI: Float = Float(detectionBox!.width) / roiWidth

@@ -55,4 +55,7 @@ public enum KeyError: String {
 
     // Tried to input invalid face region of interest minimum size.
     case INVALID_FACE_ROI_MIN_SIZE = "INVALID_FACE_ROI_MIN_SIZE"
+    
+    // Tried to input invalid face region of interest area offset ARGB value color.
+    case INVALID_FACE_ROI_COLOR = "INVALID_FACE_ROI_COLOR"
 }

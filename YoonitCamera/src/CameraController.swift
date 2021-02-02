@@ -114,7 +114,7 @@ class CameraController: NSObject {
             self.faceAnalyzer?.start = true
             
         case CaptureType.FRAME:
-            self.frameAnalyzer?.start()
+            self.frameAnalyzer?.start = true
             
         default:
             return
@@ -126,9 +126,7 @@ class CameraController: NSObject {
      */
     public func stopAnalyzer() {
         self.faceAnalyzer?.start = false
-            
-        self.frameAnalyzer?.stop()
-        self.frameAnalyzer?.numberOfImages = 0
+        self.frameAnalyzer?.start = false
     }
         
     /**
@@ -149,14 +147,6 @@ class CameraController: NSObject {
             
             // Add camera input.
             self.buildCameraInput(cameraLens: captureOptions.cameraLens)
-                                    
-            switch captureOptions.type {
-            case CaptureType.FRAME:
-                self.frameAnalyzer?.reset()
-                
-            default:
-                return
-            }
         }
     }
     
@@ -167,13 +157,16 @@ class CameraController: NSObject {
      */
     private func buildCameraInput(cameraLens: AVCaptureDevice.Position) {
         
+        self.faceAnalyzer?.numberOfImages = 0
+        self.frameAnalyzer?.numberOfImages = 0
+        
         guard let device = AVCaptureDevice.DiscoverySession(
             deviceTypes: [.builtInWideAngleCamera],
             mediaType: .video,
-            position: cameraLens).devices.first
-            else {
-                self.cameraEventListener?.onError("You have a problem with your camera, please verify the settings of the your camera")
-                fatalError("No back camera device found, please make sure to run in an iOS device and not a simulator")
+            position: cameraLens
+        ).devices.first else {
+            self.cameraEventListener?.onError("You have a problem with your camera, please verify the settings of the your camera")
+            fatalError("No back camera device found, please make sure to run in an iOS device and not a simulator")
         }
                 
         let cameraInput = try! AVCaptureDeviceInput(device: device)
