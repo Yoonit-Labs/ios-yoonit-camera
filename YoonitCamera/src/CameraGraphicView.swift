@@ -39,6 +39,14 @@ public class CameraGraphicView: UIView {
     public override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
         
+        // Draw face region of interest area offset bitmap.
+        let isDrawFaceROIAreaOffset: Bool =
+            captureOptions.faceROI.enable &&
+            captureOptions.faceROI.areaOffsetEnable
+        if isDrawFaceROIAreaOffset {
+            self.drawFaceROIAreaOffset(context: context, rect: rect)
+        }
+        
         // Draw face detection box.
         if captureOptions.faceDetectionBox {
             self.drawFaceDetectionBox(context: context)
@@ -138,6 +146,30 @@ public class CameraGraphicView: UIView {
                 to: CGPoint(x: right - (midY * 0.5), y: bottom)
             )
         }
+    }
+    
+    /**
+     Draw the face region of interest area offset bitmap.
+     
+     - Parameter context The UI graphic view context.
+     - Parameter rect The rect abaiable to draw..
+     */
+    func drawFaceROIAreaOffset(context: CGContext, rect: CGRect) {
+        let topOffset: CGFloat = rect.height * captureOptions.faceROI.topOffset
+        let rightOffset: CGFloat = rect.width * captureOptions.faceROI.rightOffset
+        let bottomOffset: CGFloat = rect.height * captureOptions.faceROI.bottomOffset
+        let leftOffset: CGFloat = rect.width * captureOptions.faceROI.leftOffset
+        
+        let smallRect: CGRect = CGRect(
+            x: leftOffset,
+            y: topOffset,
+            width: rect.width - (rightOffset + leftOffset),
+            height: rect.height - (topOffset + bottomOffset)
+        )
+        
+        context.setFillColor(captureOptions.faceROI.areaOffsetColor.cgColor)
+        context.fill(rect)
+        context.clear(smallRect)
     }
                 
     func drawLine(
