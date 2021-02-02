@@ -25,7 +25,7 @@ public class FaceROI {
     var areaOffsetEnable: Bool = false
 
     // Face region of interest area offset color.
-    var areaOffsetColor: UIColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.5)
+    var areaOffsetColor: UIColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.4)
     
     // Region of interest in percentage.
     // Values valid [0, 1].
