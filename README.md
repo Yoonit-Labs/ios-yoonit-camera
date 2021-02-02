@@ -121,19 +121,21 @@ class YourViewController: UIViewController, CameraEventListenerDelegate {
 | setFaceROIBottomOffset | `bottomOffset: Float` | Values between `0` and `1`. Represents the percentage. | void | Distance in percentage of the bottom face bounding box with the bottom of the camera preview.
 | setFaceROILeftOffset       | `leftOffset: Float`     | Values between `0` and `1`. Represents the percentage. | void | Distance in percentage of the left face bounding box with the left of the camera preview.
 | setFaceROIMinSize          | `minimumSize: Float`   | Values between `0` and `1`. Represents the percentage.  | void | Set the minimum face size related with the region of interest.
+| setFaceROIAreaOffset         | `enable: Bool`                                  | `true` or `false`                                                               | void        | Set face region of interest offset color visibility.
+| setFaceROIAreaOffsetColor    | `alpha: Float, red: Float, green: Float, blue: Float`   | Any positive float between 0.0 and 1.0                                          | void        | Set face region of interest area offset color. Default value is (0.4, 1.0, 1.0, 1.0).
 
 ### Events
 
 | Event                     | Parameters                                                | Description
 | -                         | -                                                         | -
-| **`onImageCaptured`**     | `type: String, count: Int, total: Int, imagePath: String` | Must have started capture type of face/frame (see `startCaptureType`). Emitted when the face image file is created: <ul><li>type: 'face' | 'frame'</li><li>count: current index</li><li>total: total to create</li><li>imagePath: the image path</li><ul>  
-| **`onFaceDetected`**      | `x: Int, y: Int, width: Int, height: Int`                 | Must have started capture type of face. Emit the detected face bounding box.
-| **`onFaceUndetected`**    | -                                                         | Must have started capture type of face. Emitted after `onFaceDetected`, when there is no more face detecting.
-| **`onEndCapture`**        | -                                                         | Must have started capture type of face/frame. Emitted when the number of image files created is equal of the number of images set (see the method `setNumberOfImages`).   
-| **`onQRCodeScanned`**     | `content: String`                                         | Must have started capture type of qrcode (see `startCaptureType`). Emitted when the camera scan a QR Code.   
-| **`onError`**             | `error: String`                                           | Emit message error.
-| **`onMessage`**           | `message: String`                                         | Emit message.
-| **`onPermissionDenied`**  | -                                                         | Emit when try to `startPreview` but there is not camera permission.
+| onImageCaptured | `type: String, count: Int, total: Int, imagePath: String` | Must have started capture type of face/frame (see `startCaptureType`). Emitted when the face image file is created: <ul><li>type: 'face' | 'frame'</li><li>count: current index</li><li>total: total to create</li><li>imagePath: the image path</li><ul>  
+| onFaceDetected | `x: Int, y: Int, width: Int, height: Int`                 | Must have started capture type of face. Emit the detected face bounding box.
+| onFaceUndetected | -                                                         | Must have started capture type of face. Emitted after `onFaceDetected`, when there is no more face detecting.
+| onEndCapture | -                                                         | Must have started capture type of face/frame. Emitted when the number of image files created is equal of the number of images set (see the method `setNumberOfImages`).   
+| onQRCodeScanned | `content: String`                                         | Must have started capture type of qrcode (see `startCaptureType`). Emitted when the camera scan a QR Code.   
+| onError | `error: String`                                           | Emit message error.
+| onMessage | `message: String`                                         | Emit message.
+| onPermissionDenied | -                                                         | Emit when try to `startPreview` but there is not camera permission.
 
 ### KeyError
 
@@ -155,6 +157,7 @@ Pre-define key error used by the `onError` event.
 | INVALID_FACE_ROI_BOTTOM_OFFSET    | Tried to input invalid face region of interest bottom offset.
 | INVALID_FACE_ROI_LEFT_OFFSET      | Tried to input invalid face region of interest left offset.
 | INVALID_FACE_ROI_MIN_SIZE         | Tried to input invalid face region of interest minimum size.
+| INVALID_FACE_ROI_COLOR               | Tried to input invalid face region of interest area offset ARGB value color.
 
 ### Message
 

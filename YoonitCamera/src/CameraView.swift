@@ -411,7 +411,7 @@ public class CameraView: UIView {
      - Parameter green: Float that represent green color.
      - Parameter blue: Float that represent blue color.
      - Parameter alpha: Float that represents the alpha.
-     Default value is 100, 255, 255, 255 (white color).
+     Default value is 0.4, 1.0, 1.0, 1.0 (white color).
      */
     @objc
     public func setFaceROIAreaOffsetColor(
