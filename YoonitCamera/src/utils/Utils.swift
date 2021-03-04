@@ -9,12 +9,10 @@
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //
 
-
 import Foundation
 import UIKit
 import AVFoundation
 import Accelerate
-
 
 func imageFromPixelBuffer(
     imageBuffer: CVPixelBuffer,

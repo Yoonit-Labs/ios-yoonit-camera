@@ -9,10 +9,10 @@
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //
 
-
 import AVFoundation
 import UIKit
 import Vision
+import YoonitFacefy
 
 /**
  This class is responsible to handle the operations related with the face capture.
@@ -39,8 +39,9 @@ class FaceAnalyzer: NSObject {
     private var cameraGraphicView: CameraGraphicView
     private var previewLayer: AVCaptureVideoPreviewLayer!
     
-    private var faceCropController = FaceCropController()
     private var faceBoundingBoxController: FaceBoundingBoxController
+    private let facefy: Facefy = Facefy()
+    private var cameraTimestamp = Date().currentTimeMillis()
     private var lastTimestamp = Date().currentTimeMillis()
     private var isValid = true
         
@@ -64,101 +65,91 @@ class FaceAnalyzer: NSObject {
      */
     func faceDetect(imageBuffer: CVPixelBuffer) {
         
-        // Detection face using VIsion API.
-        let faceDetectRequest = VNDetectFaceRectanglesRequest {
-            request, error in
-            
-            if error != nil && !self.start {
-                return
-            }
-            
-            DispatchQueue.main.async {
-                // Found faces...
-                if let results = request.results as? [VNFaceObservation], results.count > 0, self.start {
-                    self.handleFaceDetectionResults(
-                        faces: results,
-                        imageBuffer: imageBuffer
-                    )
-                } else if self.isValid {
-                    self.isValid = false
-                    self.cameraGraphicView.clear()
-                    self.cameraEventListener?.onFaceUndetected()
-                }
-            }
-        }
-         
-        // Start process detect face in the current image camera captured.
-        try? VNImageRequestHandler(
-            cvPixelBuffer: imageBuffer,
-            orientation: .leftMirrored,
-            options: [:]
-        ).perform([faceDetectRequest])
-    }
-    
-    /**
-     Handle face detection result from Vision API.
-     
-     - Parameter faces: The array of face detected.
-     - Parameter imageBuffer: The image buffer in the moment that detected the faces.
-     */
-    private func handleFaceDetectionResults(
-        faces: [VNFaceObservation],
-        imageBuffer: CVPixelBuffer
-    ) {
-        // Convert image orientation based on device lens.
-        let orientation = captureOptions.cameraLens == AVCaptureDevice.Position.back ?
-            UIImage.Orientation.up :
-            UIImage.Orientation.upMirrored
+        // Handle crop face process by time.
+        let currentTimestamp = Date().currentTimeMillis()
+        let diffTime = currentTimestamp - self.cameraTimestamp
+        
+        if diffTime > 150 {
+            self.cameraTimestamp = currentTimestamp
                 
-        // Convert CVPixelBuffer to CGImage.
-        let image: CGImage? = imageFromPixelBuffer(
-            imageBuffer: imageBuffer,
-            scale: UIScreen.main.scale,
-            orientation: orientation
-        ).cgImage
-        
-        // The closest face.
-        let closestFace: VNFaceObservation = faces.sorted {
-            return $0.boundingBox.width > $1.boundingBox.width
-            }[0]
-                        
-        // The detection box is the face bounding box coordinates normalized.
-        let detectionBox = self.faceBoundingBoxController.getDetectionBox(
-            boundingBox: closestFace.boundingBox,
-            imageBuffer: imageBuffer
-        )
-        
-        // Validate detection box.
-        // - nil for no error found;
-        // - String for error found with message;
-        // - "" for error found without message;
-        let error: String? = self
-            .faceBoundingBoxController
-            .getError(detectionBox: detectionBox)
-        
-        // Emit once if has error.
-        if error != nil {
-            if self.isValid {
-                self.isValid = false
-                self.cameraGraphicView.clear()
-                if error != "" {
-                    self.cameraEventListener?.onMessage(error!)
-                }
-                self.cameraEventListener?.onFaceUndetected()
+            // TODO
+            let image: UIImage = imageBuffer.toUIImage(orientation: captureOptions.cameraLens)
+                            
+            self.facefy.detect(image) {
+                faceDetected in
+                
+                let leftEyeOpenProbability: CGFloat? = faceDetected.leftEyeOpenProbability
+                let rightEyeOpenProbability: CGFloat? = faceDetected.rightEyeOpenProbability
+                let smilingProbability: CGFloat? = faceDetected.smilingProbability
+                let headEulerAngleX: CGFloat? = faceDetected.headEulerAngleX
+                let headEulerAngleY: CGFloat? = faceDetected.headEulerAngleY
+                let headEulerAngleZ: CGFloat? = faceDetected.headEulerAngleZ
+                let contours: [CGPoint] = faceDetected.contours
+                let boundingBox: CGRect = faceDetected.boundingBox
+                
+                let error: String? = self
+                    .faceBoundingBoxController
+                    .getError(boundingBox: boundingBox)
+                
+                print(error)
+                
+//                if error != nil {
+//                    if self.isValid {
+//                        self.isValid = false
+//                        self.cameraGraphicView.clear()
+//                        if error != "" {
+//                            self.cameraEventListener?.onMessage(error!)
+//                        }
+//                        self.cameraEventListener?.onFaceUndetected()
+//                    }
+//                    return
+//                }
+//                self.isValid = true
+                                                    
+                self.handleFaceDetected(
+                    image: image ,
+                    leftEyeOpenProbability: faceDetected.leftEyeOpenProbability,
+                    rightEyeOpenProbability: faceDetected.rightEyeOpenProbability,
+                    smilingProbability: faceDetected.smilingProbability,
+                    headEulerAngleX: faceDetected.headEulerAngleX,
+                    headEulerAngleY: faceDetected.headEulerAngleY,
+                    headEulerAngleZ: faceDetected.headEulerAngleZ,
+                    contours: faceDetected.contours,
+                    boundingBox: faceDetected.boundingBox
+                )
+            } onMessage: {
+                message in
+                                
             }
-            return
         }
-        self.isValid = true
+    }
         
-        // Draw face detection box or clean.
-        self.cameraGraphicView.handleDraw(faceDetectionBox: detectionBox!)
-        
+    private func handleFaceDetected(
+        image: UIImage,
+        leftEyeOpenProbability: CGFloat?,
+        rightEyeOpenProbability: CGFloat?,
+        smilingProbability: CGFloat?,
+        headEulerAngleX: CGFloat?,
+        headEulerAngleY: CGFloat?,
+        headEulerAngleZ: CGFloat?,
+        contours: [CGPoint],
+        boundingBox: CGRect
+    ) {
+        if let cgImage = image.cgImage {
+            DispatchQueue.main.async {
+                self.cameraGraphicView.handleDraw(
+                    image: cgImage,
+                    boundingBox: boundingBox
+                )
+            }
+        }
+                
         // Emit face detected detection box coordinates.
         self.cameraEventListener?.onFaceDetected(
-            Int(detectionBox!.minX),
-            Int(detectionBox!.minY),
-            Int(detectionBox!.width),
-            Int(detectionBox!.height)
+            Int(boundingBox.minX),
+            Int(boundingBox.minY),
+            Int(boundingBox.width),
+            Int(boundingBox.height)
         )
         
         if !captureOptions.saveImageCaptured {
@@ -171,26 +162,27 @@ class FaceAnalyzer: NSObject {
         
         if diffTime > captureOptions.timeBetweenImages {
             self.lastTimestamp = currentTimestamp
-        
-            // Crop the face image.
-            self.faceCropController.cropImage(
-                image: image!,
-                boundingBox: closestFace.boundingBox,
-                captureOptions: captureOptions) {
+                                
+            if let cgImage = image.cgImage {
+                var croppedImage: UIImage = UIImage(
+                    cgImage: cgImage.cropping(to: boundingBox)!
+                )
+                                
+                if captureOptions.cameraLens == AVCaptureDevice.Position.front {
+                    croppedImage = croppedImage.withHorizontallyFlippedOrientation()
+                }
                 
-                // Result of the crop face process.
-                result in
-                
-                let imageResized = try! result.resize(
+                let imageResized: UIImage = try! croppedImage.resize(
                     width: captureOptions.imageOutputWidth,
-                    height: captureOptions.imageOutputHeight)
-                
+                    height: captureOptions.imageOutputHeight
+                )
+                                                
                 let fileURL = fileURLFor(index: self.numberOfImages)
                 let fileName = try! save(
                     image: imageResized,
-                    fileURL: fileURL)
-                                
-                // Emit the face image file path.
+                    fileURL: fileURL
+                )
+                
                 self.handleEmitImageCaptured(filePath: fileName)
             }
         }

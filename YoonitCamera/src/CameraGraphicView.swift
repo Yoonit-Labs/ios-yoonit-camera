@@ -21,8 +21,9 @@ import UIKit
  */
 public class CameraGraphicView: UIView {
         
-    // The face detection box.
-    private var faceDetectionBox: CGRect? = nil
+    private var image: CGImage? = nil
+    private var boundingBox: CGRect? = nil
+    private var lastTimestamp = Date().currentTimeMillis()
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -36,7 +37,7 @@ public class CameraGraphicView: UIView {
         self.isOpaque = false
     }
     
-    public override func draw(_ rect: CGRect) {
+    public override func draw(_ rect: CGRect) {        
         guard let context = UIGraphicsGetCurrentContext() else { return }
         
         // Draw face region of interest area offset bitmap.
@@ -48,7 +49,7 @@ public class CameraGraphicView: UIView {
         }
         
         // Draw face detection box.
-        if captureOptions.faceDetectionBox {
+        if captureOptions.faceDetectionBox && self.image != nil && self.boundingBox != nil {
             self.drawFaceDetectionBox(context: context)
         }
     }
@@ -56,10 +57,15 @@ public class CameraGraphicView: UIView {
     /**
      Draw face bitmap blurred above the face detection box.
      
+     - Parameter image The image where the face was detected.
      - Parameter faceDetectionBox The face coordinates within the UI graphic view.
      */
-    func handleDraw(faceDetectionBox: CGRect) {
-        self.faceDetectionBox = faceDetectionBox
+    func handleDraw(
+        image: CGImage,
+        boundingBox: CGRect
+    ) {
+        self.image = image
+        self.boundingBox = boundingBox
         
         self.setNeedsDisplay()
     }
@@ -68,92 +74,12 @@ public class CameraGraphicView: UIView {
      Erase anything draw.
      */
     func clear() {
-        self.faceDetectionBox = nil
+        self.image = nil
+        self.boundingBox = nil
         
         self.setNeedsDisplay()
     }
     
-    /**
-     Draw the face detection box.
-     
-     - Parameter context The UI graphic view context.
-     */
-    func drawFaceDetectionBox(context: CGContext) {
-        if let faceDetectionBox = self.faceDetectionBox {
-            context.setLineWidth(2)
-            context.setStrokeColor(UIColor.white.cgColor)
-            context.stroke(faceDetectionBox)
-            
-            let left = faceDetectionBox.minX
-            let top = faceDetectionBox.minY
-            let right = faceDetectionBox.maxX
-            let bottom = faceDetectionBox.maxY
-            let midY = (bottom - top) / 2.0
-            
-            // edge - top-left > bottom-left
-            self.drawLine(
-                context: context,
-                from: CGPoint(x: left, y: top),
-                to: CGPoint(x: left, y: bottom - (midY * 1.5))
-            )
-                                
-            // edge - top-right > bottom-right
-            drawLine(
-                context: context,
-                from: CGPoint(x: right, y: top),
-                to: CGPoint(x: right, y: bottom - (midY * 1.5))
-            )
-            
-            // edge - bottom-left > top-left
-            drawLine(
-                context: context,
-                from: CGPoint(x: left, y: bottom),
-                to: CGPoint(x: left, y: bottom - (midY * 0.5))
-            )
-
-            // edge - bottom-right > top-right
-            drawLine(
-                context: context,
-                from: CGPoint(x: right, y: bottom),
-                to: CGPoint(x: right, y: bottom - (midY * 0.5))
-            )
-
-            // edge - top-left > top-right
-            drawLine(
-                context: context,
-                from: CGPoint(x: left, y: top),
-                to: CGPoint(x: left + (midY * 0.5), y: top)
-            )
-
-            // edge - top-right > left-right
-            drawLine(
-                context: context,
-                from: CGPoint(x: right, y: top),
-                to: CGPoint(x: right - (midY * 0.5), y: top)
-            )
-
-            // edge - bottom-left > right-left
-            drawLine(
-                context: context,
-                from: CGPoint(x: left, y: bottom),
-                to: CGPoint(x: left + (midY * 0.5), y: bottom)
-            )
-
-            // edge - bottom-right > right-left
-            drawLine(
-                context: context,
-                from: CGPoint(x: right, y: bottom),
-                to: CGPoint(x: right - (midY * 0.5), y: bottom)
-            )
-        }
-    }
-    
-    /**
-     Draw the face region of interest area offset bitmap.
-     
-     - Parameter context The UI graphic view context.
-     - Parameter rect The rect abaiable to draw..
-     */
     func drawFaceROIAreaOffset(context: CGContext, rect: CGRect) {
         let topOffset: CGFloat = rect.height * captureOptions.faceROI.topOffset
         let rightOffset: CGFloat = rect.width * captureOptions.faceROI.rightOffset
@@ -171,7 +97,80 @@ public class CameraGraphicView: UIView {
         context.fill(rect)
         context.clear(smallRect)
     }
-                
+            
+    func drawFaceDetectionBox(context: CGContext) {
+        let faceDetectionBox: CGRect = self.getFaceDetectionBox(
+            cameraInputImage: self.image!,
+            boundingBox: self.boundingBox!
+        )
+        
+        context.setLineWidth(2)
+        context.setStrokeColor(UIColor.white.cgColor)
+        context.stroke(faceDetectionBox)
+        
+        let left = faceDetectionBox.minX
+        let top = faceDetectionBox.minY
+        let right = faceDetectionBox.maxX
+        let bottom = faceDetectionBox.maxY
+        let midY = (bottom - top) / 2.0
+        
+        // edge - top-left > bottom-left
+        self.drawLine(
+            context: context,
+            from: CGPoint(x: left, y: top),
+            to: CGPoint(x: left, y: bottom - (midY * 1.5))
+        )
+                            
+        // edge - top-right > bottom-right
+        self.drawLine(
+            context: context,
+            from: CGPoint(x: right, y: top),
+            to: CGPoint(x: right, y: bottom - (midY * 1.5))
+        )
+        
+        // edge - bottom-left > top-left
+        self.drawLine(
+            context: context,
+            from: CGPoint(x: left, y: bottom),
+            to: CGPoint(x: left, y: bottom - (midY * 0.5))
+        )
+
+        // edge - bottom-right > top-right
+        self.drawLine(
+            context: context,
+            from: CGPoint(x: right, y: bottom),
+            to: CGPoint(x: right, y: bottom - (midY * 0.5))
+        )
+
+        // edge - top-left > top-right
+        self.drawLine(
+            context: context,
+            from: CGPoint(x: left, y: top),
+            to: CGPoint(x: left + (midY * 0.5), y: top)
+        )
+
+        // edge - top-right > left-right
+        self.drawLine(
+            context: context,
+            from: CGPoint(x: right, y: top),
+            to: CGPoint(x: right - (midY * 0.5), y: top)
+        )
+
+        // edge - bottom-left > right-left
+        self.drawLine(
+            context: context,
+            from: CGPoint(x: left, y: bottom),
+            to: CGPoint(x: left + (midY * 0.5), y: bottom)
+        )
+
+        // edge - bottom-right > right-left
+        self.drawLine(
+            context: context,
+            from: CGPoint(x: right, y: bottom),
+            to: CGPoint(x: right - (midY * 0.5), y: bottom)
+        )
+    }
+    
     func drawLine(
         context: CGContext,
         from: CGPoint,
@@ -183,5 +182,44 @@ public class CameraGraphicView: UIView {
         context.move(to: from)
         context.addLine(to: to)
         context.strokePath()
+    }
+    
+    func getFaceDetectionBox(
+        cameraInputImage: CGImage,
+        boundingBox: CGRect
+    ) -> CGRect {
+        let viewWidth: CGFloat = self.frame.width
+        
+        let scaledXY: CGPoint = self.getScale(
+            imageWidth: CGFloat(cameraInputImage.width),
+            imageHeight: CGFloat(cameraInputImage.height)
+        )
+        
+        let top: CGFloat = boundingBox.minY * scaledXY.y
+        let right: CGFloat = viewWidth - (boundingBox.maxX * scaledXY.x)
+        let bottom: CGFloat = boundingBox.maxY * scaledXY.y
+        let left: CGFloat = viewWidth - (boundingBox.minX * scaledXY.x)
+        
+        return CGRect(
+            x: left,
+            y: top,
+            width: right - left,
+            height: bottom - top
+        )
+    }
+    
+    func getScale(
+        imageWidth: CGFloat,
+        imageHeight: CGFloat
+    ) -> CGPoint {
+        let viewWidth: CGFloat = self.frame.width
+        let viewHeight: CGFloat = self.frame.height
+        var scaleX: CGFloat
+        var scaleY: CGFloat
+        
+        scaleX = viewHeight / imageHeight
+        scaleY = viewWidth / imageWidth
+        
+        return CGPoint(x: scaleX, y: scaleY)
     }
 }
