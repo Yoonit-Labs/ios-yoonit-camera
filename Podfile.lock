@@ -52,11 +52,11 @@ PODS:
   - nanopb/encode (2.30907.0)
   - PromisesObjC (1.2.12)
   - Protobuf (3.14.0)
-  - YoonitFacefy (1.0.0):
+  - YoonitFacefy (1.0.1):
     - GoogleMLKit/FaceDetection
 
 DEPENDENCIES:
-  - YoonitFacefy (from `https://github.com/Yoonit-Labs/ios-yoonit-facefy.git`, tag `1.0.0`)
+  - YoonitFacefy (from `https://github.com/Yoonit-Labs/ios-yoonit-facefy.git`, tag `1.0.1`)
 
 SPEC REPOS:
   trunk:
@@ -76,12 +76,12 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   YoonitFacefy:
     :git: https://github.com/Yoonit-Labs/ios-yoonit-facefy.git
-    :tag: 1.0.0
+    :tag: 1.0.1
 
 CHECKOUT OPTIONS:
   YoonitFacefy:
     :git: https://github.com/Yoonit-Labs/ios-yoonit-facefy.git
-    :tag: 1.0.0
+    :tag: 1.0.1
 
 SPEC CHECKSUMS:
   GoogleDataTransport: 1024b1a4dfbd7a0e92cb20d7e0a6f1fb66b449a4
@@ -96,8 +96,8 @@ SPEC CHECKSUMS:
   nanopb: 59221d7f958fb711001e6a449489542d92ae113e
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   Protobuf: 0cde852566359049847168e51bd1c690e0f70056
-  YoonitFacefy: 53142f50bfb556daf8c0873a0a611fc6a083aa20
+  YoonitFacefy: 5e94085ea511a3e6f8ec091bf2ea7e34bdecc75a
 
-PODFILE CHECKSUM: a990343183b5ce1b3dd76c1e359a5fbbde1a9ce9
+PODFILE CHECKSUM: ef75b867592a9bc0d09772deeda39c753bcda898
 
 COCOAPODS: 1.10.1

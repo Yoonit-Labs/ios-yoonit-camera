@@ -6,5 +6,5 @@ target 'YoonitCamera' do
   # use_frameworks!
 
   # Pods for YoonitCamera
-  pod 'YoonitFacefy', :git => "https://github.com/Yoonit-Labs/ios-yoonit-facefy.git", :tag => '1.0.0'
+  pod 'YoonitFacefy', :git => "https://github.com/Yoonit-Labs/ios-yoonit-facefy.git", :tag => '1.0.1'
 end

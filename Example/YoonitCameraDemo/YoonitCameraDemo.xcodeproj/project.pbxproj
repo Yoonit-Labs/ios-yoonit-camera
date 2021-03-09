@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		28A7D03DE814C45DED73DB79 /* Pods_YoonitCameraDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49FAFBFF75D919065F33E8DC /* Pods_YoonitCameraDemo.framework */; };
+		3DBBE09ECC6BE979FD01015E /* Pods_YoonitCameraDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79DC87717F685FBB5F8C961E /* Pods_YoonitCameraDemo.framework */; };
 		6176EFC2252E496D00F4D4DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EFC1252E496D00F4D4DD /* AppDelegate.swift */; };
 		6176EFC4252E496D00F4D4DD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EFC3252E496D00F4D4DD /* SceneDelegate.swift */; };
 		6176EFC9252E496D00F4D4DD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6176EFC7252E496D00F4D4DD /* Main.storyboard */; };
@@ -17,7 +17,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		49FAFBFF75D919065F33E8DC /* Pods_YoonitCameraDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YoonitCameraDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6176EFBE252E496D00F4D4DD /* YoonitCameraDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YoonitCameraDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6176EFC1252E496D00F4D4DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6176EFC3252E496D00F4D4DD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -26,8 +25,9 @@
 		6176EFCD252E496F00F4D4DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6176EFCF252E496F00F4D4DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6176EFDB252E4A9100F4D4DD /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
-		B002D96E501198C8EA12C8EF /* Pods-YoonitCameraDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YoonitCameraDemo.debug.xcconfig"; path = "Target Support Files/Pods-YoonitCameraDemo/Pods-YoonitCameraDemo.debug.xcconfig"; sourceTree = "<group>"; };
-		C4166227AB15617A04DE530B /* Pods-YoonitCameraDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YoonitCameraDemo.release.xcconfig"; path = "Target Support Files/Pods-YoonitCameraDemo/Pods-YoonitCameraDemo.release.xcconfig"; sourceTree = "<group>"; };
+		79DC87717F685FBB5F8C961E /* Pods_YoonitCameraDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YoonitCameraDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A56A7FA8DC7ACA8DC07ACB90 /* Pods-YoonitCameraDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YoonitCameraDemo.release.xcconfig"; path = "Target Support Files/Pods-YoonitCameraDemo/Pods-YoonitCameraDemo.release.xcconfig"; sourceTree = "<group>"; };
+		FBB813A09CAAAFB028BF69E1 /* Pods-YoonitCameraDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YoonitCameraDemo.debug.xcconfig"; path = "Target Support Files/Pods-YoonitCameraDemo/Pods-YoonitCameraDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,28 +35,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28A7D03DE814C45DED73DB79 /* Pods_YoonitCameraDemo.framework in Frameworks */,
+				3DBBE09ECC6BE979FD01015E /* Pods_YoonitCameraDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5A524E84CCE7C90F9E399C4E /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				49FAFBFF75D919065F33E8DC /* Pods_YoonitCameraDemo.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		6176EFB5252E496C00F4D4DD = {
 			isa = PBXGroup;
 			children = (
 				6176EFC0252E496D00F4D4DD /* YoonitCameraDemo */,
 				6176EFBF252E496D00F4D4DD /* Products */,
 				E43515AC47E0279330A1606A /* Pods */,
-				5A524E84CCE7C90F9E399C4E /* Frameworks */,
+				EC3607F7D84544A13AFA68B6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -85,10 +77,18 @@
 		E43515AC47E0279330A1606A /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				B002D96E501198C8EA12C8EF /* Pods-YoonitCameraDemo.debug.xcconfig */,
-				C4166227AB15617A04DE530B /* Pods-YoonitCameraDemo.release.xcconfig */,
+				FBB813A09CAAAFB028BF69E1 /* Pods-YoonitCameraDemo.debug.xcconfig */,
+				A56A7FA8DC7ACA8DC07ACB90 /* Pods-YoonitCameraDemo.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		EC3607F7D84544A13AFA68B6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				79DC87717F685FBB5F8C961E /* Pods_YoonitCameraDemo.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -98,12 +98,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6176EFD2252E496F00F4D4DD /* Build configuration list for PBXNativeTarget "YoonitCameraDemo" */;
 			buildPhases = (
-				DEDCDC6C885402CF15604C68 /* [CP] Check Pods Manifest.lock */,
+				72EE64DDAB3AE5A336D89651 /* [CP] Check Pods Manifest.lock */,
 				6176EFBA252E496D00F4D4DD /* Sources */,
 				6176EFBB252E496D00F4D4DD /* Frameworks */,
 				6176EFBC252E496D00F4D4DD /* Resources */,
-				1D9F0E84398AC9C8CA9D3235 /* [CP] Embed Pods Frameworks */,
-				BE247F9B29A8330F7CDCBDC3 /* [CP] Copy Pods Resources */,
+				7A14138847B44BCE486B8F6D /* [CP] Embed Pods Frameworks */,
+				11391FAF725DBBDD74841289 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -160,24 +160,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1D9F0E84398AC9C8CA9D3235 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-YoonitCameraDemo/Pods-YoonitCameraDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-YoonitCameraDemo/Pods-YoonitCameraDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-YoonitCameraDemo/Pods-YoonitCameraDemo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BE247F9B29A8330F7CDCBDC3 /* [CP] Copy Pods Resources */ = {
+		11391FAF725DBBDD74841289 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -194,7 +177,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-YoonitCameraDemo/Pods-YoonitCameraDemo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DEDCDC6C885402CF15604C68 /* [CP] Check Pods Manifest.lock */ = {
+		72EE64DDAB3AE5A336D89651 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -214,6 +197,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7A14138847B44BCE486B8F6D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-YoonitCameraDemo/Pods-YoonitCameraDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-YoonitCameraDemo/Pods-YoonitCameraDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-YoonitCameraDemo/Pods-YoonitCameraDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -369,7 +369,7 @@
 		};
 		6176EFD3252E496F00F4D4DD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B002D96E501198C8EA12C8EF /* Pods-YoonitCameraDemo.debug.xcconfig */;
+			baseConfigurationReference = FBB813A09CAAAFB028BF69E1 /* Pods-YoonitCameraDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -390,7 +390,7 @@
 		};
 		6176EFD4252E496F00F4D4DD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C4166227AB15617A04DE530B /* Pods-YoonitCameraDemo.release.xcconfig */;
+			baseConfigurationReference = A56A7FA8DC7ACA8DC07ACB90 /* Pods-YoonitCameraDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

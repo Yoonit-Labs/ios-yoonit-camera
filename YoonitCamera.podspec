@@ -78,7 +78,7 @@ Pod::Spec.new do |spec|
   spec.exclude_files = "Classes/Exclude"
   spec.swift_version = "5.0"
   spec.static_framework = true
-  spec.dependency 'YoonitFacefy'
+  spec.dependency 'YoonitFacefy', '~> 1.0.1'
   spec.pod_target_xcconfig = {
     'LIBRARY_SEARCH_PATHS' => '${SRCROOT}/**',
     'FRAMEWORK_SEARCH_PATHS' => '${SRCROOT}/**',
