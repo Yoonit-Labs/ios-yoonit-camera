@@ -12,57 +12,56 @@
 import AVFoundation
 import UIKit
 import Vision
+import YoonitFacefy
 
 class FaceBoundingBoxController: NSObject {
-    
-    private var previewLayer: AVCaptureVideoPreviewLayer
-    private var cameraGraphicView: CameraGraphicView
-    public var cameraEventListener: CameraEventListenerDelegate?
         
-    init(
-        cameraGraphicView: CameraGraphicView,
-        previewLayer: AVCaptureVideoPreviewLayer
-    ) {                
+    private var cameraGraphicView: CameraGraphicView
+        
+    init(cameraGraphicView: CameraGraphicView) {
         self.cameraGraphicView = cameraGraphicView
-        self.previewLayer = previewLayer
     }
             
-    public func getError(boundingBox: CGRect) -> String? {
+    public func hasFaceDetectedError(faceDetectionBox: CGRect?) -> String? {
                 
-        let screenWidth = self.previewLayer.bounds.width
-        let screenHeight = self.previewLayer.bounds.height
+        guard let faceDetectionBox: CGRect = faceDetectionBox else {
+            return ""
+        }
+        
+        let screenWidth = self.cameraGraphicView.bounds.width
+        let screenHeight = self.cameraGraphicView.bounds.height
                            
         // Face is out of the screen.
         let isOutOfTheScreen =
-            boundingBox.minX < 0 ||
-            boundingBox.minY < 0 ||
-            boundingBox.maxY > screenHeight ||
-            boundingBox.maxX > screenWidth
+            faceDetectionBox.minX < 0 ||
+            faceDetectionBox.minY < 0 ||
+            faceDetectionBox.maxY > screenHeight ||
+            faceDetectionBox.maxX > screenWidth
         if isOutOfTheScreen {
             return ""
         }
         
         // This variable is the face detection box percentage in relation with the
         // UI view. The value must be between 0 and 1.
-        let boundingBoxRelatedWithScreen = Float(boundingBox.width / screenWidth)
+        let faceDetectionBoxRelatedWithScreen = Float(faceDetectionBox.width / screenWidth)
 
         // Face smaller than the capture minimum size.
-        if (boundingBoxRelatedWithScreen < captureOptions.faceCaptureMinSize) {
+        if (faceDetectionBoxRelatedWithScreen < captureOptions.faceCaptureMinSize) {
             return Message.INVALID_CAPTURE_FACE_MIN_SIZE.rawValue
         }
         
         // Face bigger than the capture maximum size.
-        if (boundingBoxRelatedWithScreen > captureOptions.faceCaptureMaxSize) {
+        if (faceDetectionBoxRelatedWithScreen > captureOptions.faceCaptureMaxSize) {
             return Message.INVALID_CAPTURE_FACE_MAX_SIZE.rawValue
         }
         
         if captureOptions.faceROI.enable {
             
             // Detection box offsets.
-            let topOffset = CGFloat(boundingBox.minY / screenHeight)
-            let rightOffset = CGFloat((screenWidth - boundingBox.maxX) / screenWidth)
-            let bottomOffset = CGFloat((screenHeight - boundingBox.maxY) / screenHeight)
-            let leftOffset = CGFloat(boundingBox.minX / screenWidth)
+            let topOffset = CGFloat(faceDetectionBox.minY / screenHeight)
+            let rightOffset = CGFloat((screenWidth - faceDetectionBox.maxX) / screenWidth)
+            let bottomOffset = CGFloat((screenHeight - faceDetectionBox.maxY) / screenHeight)
+            let leftOffset = CGFloat(faceDetectionBox.minX / screenWidth)
             
             if captureOptions.faceROI.isOutOf(
                 topOffset: topOffset,
@@ -82,7 +81,7 @@ class FaceBoundingBoxController: NSObject {
                     (Float(captureOptions.faceROI.rightOffset + captureOptions.faceROI.leftOffset) *
                         Float(screenWidth))
                 
-                let faceRelatedWithROI: Float = Float(boundingBox.width) / roiWidth
+                let faceRelatedWithROI: Float = Float(faceDetectionBox.width) / roiWidth
                                                     
                 if captureOptions.faceROI.minimumSize > faceRelatedWithROI {
                     return Message.INVALID_CAPTURE_FACE_ROI_MIN_SIZE.rawValue
@@ -91,5 +90,58 @@ class FaceBoundingBoxController: NSObject {
         }
         
         return nil
+    }
+    
+    public func getDetectionBox(
+        cameraInputImage: UIImage,        
+        faceDetected: FaceDetected?
+    ) -> CGRect? {
+        guard let cgImage: CGImage = cameraInputImage.cgImage else {
+            return nil
+        }
+        
+        guard let faceDetected: FaceDetected = faceDetected else {
+            return nil
+        }
+        
+        let boundingBox: CGRect = faceDetected.boundingBox
+        let viewWidth: CGFloat = self.cameraGraphicView.frame.width
+        let scaledXY: CGPoint = self.getScale(
+            imageWidth: CGFloat(cgImage.width),
+            imageHeight: CGFloat(cgImage.height)
+        )
+                        
+        let top: CGFloat = boundingBox.minY * scaledXY.y
+        var right: CGFloat = boundingBox.maxX * scaledXY.x
+        if captureOptions.cameraLens == AVCaptureDevice.Position.front {
+            right = viewWidth - right
+        }
+        let bottom: CGFloat = boundingBox.maxY * scaledXY.y
+        var left: CGFloat = boundingBox.minX * scaledXY.x
+        if captureOptions.cameraLens == AVCaptureDevice.Position.front {
+            left = viewWidth - left
+        }
+        
+        return CGRect(
+            x: left,
+            y: top,
+            width: right - left,
+            height: bottom - top
+        )
+    }
+    
+    private func getScale(
+        imageWidth: CGFloat,
+        imageHeight: CGFloat
+    ) -> CGPoint {
+        let viewWidth: CGFloat = self.cameraGraphicView.frame.width
+        let viewHeight: CGFloat = self.cameraGraphicView.frame.height
+        var scaleX: CGFloat
+        var scaleY: CGFloat
+        
+        scaleX = viewHeight / imageHeight
+        scaleY = viewWidth / imageWidth
+        
+        return CGPoint(x: scaleX, y: scaleY)
     }
 }
