@@ -71,9 +71,6 @@ class FaceAnalyzer: NSObject {
         
         if diffTime > 150 {
             self.cameraTimestamp = currentTimestamp
-                
-            // TODO
-            let image: UIImage = imageBuffer.toUIImage(orientation: captureOptions.cameraLens)
                             
             self.facefy.detect(image) {
                 faceDetected in
