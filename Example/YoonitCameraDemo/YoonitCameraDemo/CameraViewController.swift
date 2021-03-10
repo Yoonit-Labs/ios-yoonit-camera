@@ -14,13 +14,14 @@ import YoonitCamera
 import DropDown
 
 class CameraViewController: UIViewController {
-
+    
     @IBOutlet var savedFrame: UIImageView!
     @IBOutlet var cameraView: CameraView!
     @IBOutlet var cameraTypeDropDown: UIButton!
     @IBOutlet var qrCodeTextField: UITextField!
     @IBOutlet var imageCapturedTextField: UITextField!
     @IBOutlet var faceDetectionBoxSwitch: UISwitch!
+    @IBOutlet var faceContoursSwitch: UISwitch!
     @IBOutlet var imageCaptureSwitch: UISwitch!
     @IBOutlet var featuresPanel: UIView!
     
@@ -187,7 +188,11 @@ class CameraViewController: UIViewController {
         self.cameraView.setFaceDetectionBox(sender.isOn)
     }
     
-    @IBAction func toggleCameraOn(_ sender: UISwitch) {    
+    @IBAction func toggleFaceContours(_ sender: UISwitch) {
+        self.cameraView.setFaceContours(sender.isOn)
+    }
+    
+    @IBAction func toggleCameraOn(_ sender: UISwitch) {
         if sender.isOn {
             self.cameraView.startPreview()
         } else {
