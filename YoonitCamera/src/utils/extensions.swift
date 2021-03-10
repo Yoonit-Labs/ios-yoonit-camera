@@ -9,9 +9,20 @@
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //
 
-
-import Foundation
+import AVFoundation
 import UIKit
+import Vision
+
+extension CVPixelBuffer {
+    func toUIImage() -> UIImage {
+        let ciImage: CIImage = CIImage(cvPixelBuffer: self)
+        let context: CIContext = CIContext.init(options: nil)
+        let cgImage: CGImage = context.createCGImage(ciImage, from: ciImage.extent)!
+        let image: UIImage = UIImage.init(cgImage: cgImage)
+        
+        return image.withHorizontallyFlippedOrientation()
+    }
+}
 
 extension Date {
     func currentTimeMillis() -> Int64 {

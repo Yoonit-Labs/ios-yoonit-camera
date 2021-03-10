@@ -43,8 +43,6 @@ Pod::Spec.new do |spec|
   #  profile URL.
   #
 
-  spec.author             = { "CyberLabs.AI" => "luigui.delyer@cyberlabs.com.br" }
-  
   spec.authors = { 'CyberLabs.AI'   => 'contato@cyberlabs.ai',
                    'Luigui Delyer'  => 'luigui.delyer@cyberlabs.com.br',
                    'Haroldo Teruya' => 'haroldo.teruya@cyberlabs.com.br' }
@@ -56,7 +54,7 @@ Pod::Spec.new do |spec|
   #
 
   # spec.platform     = :ios
-  spec.platform     = :ios, "12.0"
+  spec.platform     = :ios, "14.1"
 
 
   # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -79,5 +77,12 @@ Pod::Spec.new do |spec|
   spec.source_files  = "YoonitCamera/src/**/*", "Classes", "Classes/**/*.{h,m,swift}"
   spec.exclude_files = "Classes/Exclude"
   spec.swift_version = "5.0"
+  spec.static_framework = true
+  spec.dependency 'YoonitFacefy', '~> 1.0.1'
+  spec.pod_target_xcconfig = {
+    'LIBRARY_SEARCH_PATHS' => '${SRCROOT}/**',
+    'FRAMEWORK_SEARCH_PATHS' => '${SRCROOT}/**',
+    'HEADER_SEARCH_PATHS' => '${SRCROOT}/**'
+  }
 end
 

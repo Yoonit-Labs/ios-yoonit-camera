@@ -9,12 +9,10 @@
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //
 
-
 import Foundation
 import UIKit
 import AVFoundation
 import Accelerate
-
 
 func imageFromPixelBuffer(
     imageBuffer: CVPixelBuffer,
@@ -87,7 +85,7 @@ var coefficientsMatrix = [
 let preBias: [Int16] = [0, 0, 0, 0]
 let postBias: Int32 = 0
 
-func convertToGrayScale(_ pixelBuffer: CVPixelBuffer)-> vImage_Buffer {
+func convertToGrayScale(_ pixelBuffer: CVPixelBuffer) -> vImage_Buffer {
     
     CVPixelBufferLockBaseAddress(pixelBuffer, .readOnly)
     
