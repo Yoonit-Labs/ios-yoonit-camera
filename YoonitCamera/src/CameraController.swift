@@ -20,8 +20,7 @@ import Vision
 class CameraController: NSObject {
                         
     // Manages multiple inputs and outputs of audio and video.
-    private var session: AVCaptureSession
-    private var previewLayer: AVCaptureVideoPreviewLayer
+    private var session: AVCaptureSession    
     private var cameraGraphicView: CameraGraphicView
     private var faceAnalyzer: FaceAnalyzer?
     private var frameAnalyzer: FrameAnalyzer?
@@ -38,16 +37,13 @@ class CameraController: NSObject {
     
     init(
         session: AVCaptureSession,
-        cameraGraphicView: CameraGraphicView,
-        previewLayer: AVCaptureVideoPreviewLayer
+        cameraGraphicView: CameraGraphicView
     ) {
         self.session = session
-        self.previewLayer = previewLayer
         self.cameraGraphicView = cameraGraphicView
         
         self.faceAnalyzer = FaceAnalyzer(
-            cameraGraphicView: cameraGraphicView,
-            previewLayer: self.previewLayer
+            cameraGraphicView: cameraGraphicView
         )
         
         self.frameAnalyzer = FrameAnalyzer()
@@ -211,8 +207,6 @@ extension CameraController: AVCaptureVideoDataOutputSampleBufferDelegate {
         from connection: AVCaptureConnection
     ) {
         guard let frame = CMSampleBufferGetImageBuffer(sampleBuffer) else {
-            self.cameraEventListener?.onError("Unable to get image from sample buffer.")
-            debugPrint("Unable to get image from sample buffer.")
             return
         }
                 
@@ -247,6 +241,7 @@ extension CameraController: AVCaptureMetadataOutputObjectsDelegate {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
             guard let stringValue = readableObject.stringValue else { return }
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+                        
             self.cameraEventListener?.onQRCodeScanned(stringValue)
         }
     }

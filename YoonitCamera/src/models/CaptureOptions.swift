@@ -9,7 +9,7 @@
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //
 
-
+import UIKit
 import Foundation
 import AVFoundation
 
@@ -45,6 +45,17 @@ public class CaptureOptions {
     // Draw or not the face detection box.
     var faceDetectionBox: Bool = false
             
+    // Face contours.
+    var faceContours: Bool = false
+
+    // Face contours color.
+    var faceContoursColor: UIColor = UIColor(
+        red: 1.0,
+        green: 1.0,
+        blue: 1.0,
+        alpha: 1.0
+    )
+    
     // Face capture padding percent.
     var facePaddingPercent: Float = 0.27
         

@@ -21,34 +21,30 @@ class FaceAnalyzer: NSObject {
     
     private let MAX_NUMBER_OF_IMAGES = 25
     
-    public var numberOfImages = 0
-    public var start: Bool = false {
-        didSet {
-            if !self.start {
-                self.numberOfImages = 0
-                self.cameraGraphicView.clear()
-            }
-        }
-    }
-    public var cameraEventListener: CameraEventListenerDelegate?
-    
     private var cameraGraphicView: CameraGraphicView
-    private var previewLayer: AVCaptureVideoPreviewLayer!
-    
     private var faceBoundingBoxController: FaceBoundingBoxController
     private let facefy: Facefy = Facefy()
     private var cameraTimestamp = Date().currentTimeMillis()
     private var lastTimestamp = Date().currentTimeMillis()
     private var isValid = true
+    
+    public var numberOfImages = 0
+    public var start: Bool = false {
+        didSet {
+            if !self.start {
+                self.numberOfImages = 0
+            }
+            self.cameraGraphicView.draw = self.start
+        }
+    }
+    public var cameraEventListener: CameraEventListenerDelegate?
         
-    init(
-        cameraGraphicView: CameraGraphicView,
-        previewLayer: AVCaptureVideoPreviewLayer
-    ) {
+    init(cameraGraphicView: CameraGraphicView) {
         self.cameraGraphicView = cameraGraphicView
-        self.previewLayer = previewLayer
         
-        self.faceBoundingBoxController = FaceBoundingBoxController(cameraGraphicView: cameraGraphicView)
+        self.faceBoundingBoxController = FaceBoundingBoxController(
+            cameraGraphicView: cameraGraphicView
+        )
     }
         
     /**
@@ -57,6 +53,9 @@ class FaceAnalyzer: NSObject {
      - Parameter imageBuffer: The camera frame capture.
      */
     func faceDetect(imageBuffer: CVPixelBuffer) {
+        if !self.start {
+            return
+        }
         
         // Handle crop face process by time.
         let currentTimestamp = Date().currentTimeMillis()
@@ -76,7 +75,7 @@ class FaceAnalyzer: NSObject {
                 
                 let error: String? = self
                     .faceBoundingBoxController
-                    .hasFaceDetectedError(detectionBox: detectionBox)
+                    .hasFaceDetectedError(faceDetectionBox: detectionBox)
                 
                 if error != nil {
                     if self.isValid {
@@ -125,7 +124,15 @@ class FaceAnalyzer: NSObject {
         boundingBox: CGRect,
         detectionBox: CGRect
     ) {
-        self.cameraGraphicView.handleDraw(boundingBox: detectionBox)
+        let faceContours: [CGPoint] = self.faceBoundingBoxController.getFaceContours(
+            cameraInputImage: image,
+            contours: contours
+        )
+        
+        self.cameraGraphicView.handleDraw(
+            faceDetectionBox: detectionBox,
+            faceContours: faceContours
+        )
                     
         // Emit face detected detection box coordinates.
         self.cameraEventListener?.onFaceDetected(
