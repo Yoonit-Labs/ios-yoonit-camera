@@ -11,6 +11,7 @@
 		5C0AF5BC256D864400A5DF84 /* FaceROI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0AF5BB256D864400A5DF84 /* FaceROI.swift */; };
 		5C0C64392542108B00EDF95B /* logo_cyberlabs.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C0C64382542108B00EDF95B /* logo_cyberlabs.png */; };
 		5C1E318925C1E2F8002D2DB6 /* CameraGraphicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1E318825C1E2F8002D2DB6 /* CameraGraphicView.swift */; };
+		5C6A82A225F926BF005D489C /* tutorial.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5C6A82A125F926BF005D489C /* tutorial.gif */; };
 		5CB645582549935E0019BD43 /* KeyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB645572549935E0019BD43 /* KeyError.swift */; };
 		5CB6455B2549EB2A0019BD43 /* FrameAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB6455A2549EB2A0019BD43 /* FrameAnalyzer.swift */; };
 		5CDBECFE256EF5AC00BF09A4 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDBECFD256EF5AC00BF09A4 /* Message.swift */; };
@@ -37,6 +38,7 @@
 		5C0AF5BB256D864400A5DF84 /* FaceROI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceROI.swift; sourceTree = "<group>"; };
 		5C0C64382542108B00EDF95B /* logo_cyberlabs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_cyberlabs.png; sourceTree = "<group>"; };
 		5C1E318825C1E2F8002D2DB6 /* CameraGraphicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraGraphicView.swift; sourceTree = "<group>"; };
+		5C6A82A125F926BF005D489C /* tutorial.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = tutorial.gif; sourceTree = "<group>"; };
 		5CB645572549935E0019BD43 /* KeyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyError.swift; sourceTree = "<group>"; };
 		5CB6455A2549EB2A0019BD43 /* FrameAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameAnalyzer.swift; sourceTree = "<group>"; };
 		5CDBECFD256EF5AC00BF09A4 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 			children = (
 				6176EFA7252E476000F4D4DD /* Example */,
 				5C0C64382542108B00EDF95B /* logo_cyberlabs.png */,
+				5C6A82A125F926BF005D489C /* tutorial.gif */,
 				6176EF25252CFEE000F4D4DD /* README.md */,
 				6176EF22252CFC9500F4D4DD /* LICENSE */,
 				6176EF1F252CFA4300F4D4DD /* YoonitCamera.podspec */,
@@ -265,6 +268,7 @@
 			files = (
 				6176EF26252CFEE000F4D4DD /* README.md in Resources */,
 				6176EF23252CFC9500F4D4DD /* LICENSE in Resources */,
+				5C6A82A225F926BF005D489C /* tutorial.gif in Resources */,
 				6176EF20252CFA4300F4D4DD /* YoonitCamera.podspec in Resources */,
 				5C0C64392542108B00EDF95B /* logo_cyberlabs.png in Resources */,
 				6176EFA8252E476000F4D4DD /* Example in Resources */,
