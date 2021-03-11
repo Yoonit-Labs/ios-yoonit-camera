@@ -246,8 +246,28 @@ extension CameraViewController: CameraEventListenerDelegate {
         self.savedFrame.image = self.showImagePreview ? image : nil
     }
     
-    func onFaceDetected(_ x: Int, _ y: Int, _ width: Int, _ height: Int) {
-        print("onFaceDetected: x: \(x), y: \(y), width: \(width), height: \(height)")
+    func onFaceDetected(
+        _ x: Int,
+        _ y: Int,
+        _ width: Int,
+        _ height: Int,
+        _ leftEyeOpenProbability: NSNumber?,
+        _ rightEyeOpenProbability: NSNumber?,
+        _ smilingProbability: NSNumber?,
+        _ headEulerAngleX: NSNumber?,
+        _ headEulerAngleY: NSNumber?,
+        _ headEulerAngleZ: NSNumber?
+    ) {
+        print(
+            "onFaceDetected" +
+            "\n x: \(x), y: \(y), width: \(width), height: \(height)" +
+            "\n leftEyeOpenProbability: \(leftEyeOpenProbability)" +
+            "\n rightEyeOpenProbability: \(rightEyeOpenProbability)" +
+            "\n smilingProbability: \(smilingProbability)" +
+            "\n headEulerAngleX: \(headEulerAngleX)" +
+            "\n headEulerAngleY: \(headEulerAngleY)" +
+            "\n headEulerAngleZ: \(headEulerAngleZ)"
+        )
     }
     
     func onFaceUndetected() {
