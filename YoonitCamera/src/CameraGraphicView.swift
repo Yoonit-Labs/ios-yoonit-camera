@@ -16,13 +16,20 @@ import UIKit
  This view is responsible to draw:
  
  - face detection box;
- - face blur;
  - face contours;
  */
 public class CameraGraphicView: UIView {
         
-    private var boundingBox: CGRect? = nil
-    private var lastTimestamp = Date().currentTimeMillis()
+    public var draw: Bool = false {
+        didSet {
+            if !self.draw {
+                self.clear()
+            }
+        }
+    }
+    
+    private var faceDetectionBox: CGRect? = nil
+    private var faceContours: [CGPoint] = []
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -36,7 +43,11 @@ public class CameraGraphicView: UIView {
         self.isOpaque = false
     }
     
-    public override func draw(_ rect: CGRect) {        
+    public override func draw(_ rect: CGRect) {
+        if !self.draw {
+            return
+        }
+        
         guard let context = UIGraphicsGetCurrentContext() else { return }
         
         // Draw face region of interest area offset bitmap.
@@ -50,21 +61,29 @@ public class CameraGraphicView: UIView {
         // Draw face detection box.
         let isDrawFaceDetectionBox: Bool =
             captureOptions.faceDetectionBox &&
-            self.boundingBox != nil
+            self.faceDetectionBox != nil
         if isDrawFaceDetectionBox {
             self.drawFaceDetectionBox(context: context)
+        }
+                
+        // Draw face contours.
+        if !self.faceContours.isEmpty && captureOptions.faceContours {
+            self.drawFaceContours(context: context)
         }
     }
     
     /**
      Draw face bitmap blurred above the face detection box.
           
-     - Parameter faceDetectionBox The face coordinates within the UI graphic view.
+     - Parameter faceDetectionBox: The face coordinates within the UI graphic view.
+     - Parameter faceContours: List of points that represents the shape of the face detected .
      */
     func handleDraw(
-        boundingBox: CGRect
+        faceDetectionBox: CGRect,
+        faceContours: [CGPoint]
     ) {
-        self.boundingBox = boundingBox
+        self.faceDetectionBox = faceDetectionBox
+        self.faceContours = faceContours
         
         DispatchQueue.main.async {
             self.setNeedsDisplay()
@@ -75,9 +94,12 @@ public class CameraGraphicView: UIView {
      Erase anything draw.
      */
     func clear() {
-        self.boundingBox = nil
-        
-        self.setNeedsDisplay()
+        self.faceDetectionBox = nil
+        self.faceContours = []
+
+        DispatchQueue.main.async {
+            self.setNeedsDisplay()
+        }
     }
     
     func drawFaceROIAreaOffset(context: CGContext, rect: CGRect) {
@@ -99,7 +121,7 @@ public class CameraGraphicView: UIView {
     }
             
     func drawFaceDetectionBox(context: CGContext) {
-        guard let faceDetectionBox: CGRect = self.boundingBox else {
+        guard let faceDetectionBox: CGRect = self.faceDetectionBox else {
             return
         }
         
@@ -170,7 +192,21 @@ public class CameraGraphicView: UIView {
         )
     }
     
-    func drawLine(
+    func drawFaceContours(context: CGContext) {
+        let size = CGSize(width: 4, height: 4)
+        captureOptions.faceContoursColor.set()
+        
+        for point in self.faceContours {
+            let dot: CGRect = CGRect(
+                origin: CGPoint(x: point.x, y: point.y),
+                size: size
+            )
+            let dotPath = UIBezierPath(ovalIn: dot)
+            dotPath.fill()
+        }
+    }
+    
+    private func drawLine(
         context: CGContext,
         from: CGPoint,
         to: CGPoint

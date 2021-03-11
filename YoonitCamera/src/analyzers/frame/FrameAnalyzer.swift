@@ -18,21 +18,20 @@ import Vision
  This class is responsible to handle the operations related with the frame capture.
  */
 class FrameAnalyzer: NSObject {
-    
-    private let MAX_NUMBER_OF_IMAGES = 25
-    
+            
+    public var numberOfImages = 0
     public var cameraEventListener: CameraEventListenerDelegate?
     public var start = false {
         didSet {
             if !self.start {
-                self.numberOfImages = 0
-            }
+                self.numberOfImages = 0                
+            }            
         }
     }
-    public var numberOfImages = 0
     
+    private let MAX_NUMBER_OF_IMAGES = 25
     private var lastTimestamp = Date().currentTimeMillis()
-            
+                
     func frameCaptured(imageBuffer: CVPixelBuffer) {
         if !self.start {
             return

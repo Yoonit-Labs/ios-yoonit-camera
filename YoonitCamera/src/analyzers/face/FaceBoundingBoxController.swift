@@ -92,6 +92,32 @@ class FaceBoundingBoxController: NSObject {
         return nil
     }
     
+    public func getFaceContours(
+        cameraInputImage: UIImage,
+        contours: [CGPoint]
+    ) -> [CGPoint] {
+        guard let cgImage: CGImage = cameraInputImage.cgImage else {
+            return []
+        }
+        let viewWidth: CGFloat = self.cameraGraphicView.frame.width
+        var faceContours: [CGPoint] = []
+        
+        for point in contours {
+            let scaledXY: CGPoint = self.getScale(
+                imageWidth: CGFloat(cgImage.width),
+                imageHeight: CGFloat(cgImage.height)
+            )
+            var x: CGFloat = point.x * scaledXY.x
+            if captureOptions.cameraLens == AVCaptureDevice.Position.front {
+                x = viewWidth - x
+            }
+            let y: CGFloat = point.y * scaledXY.y
+            faceContours.append(CGPoint(x: x, y: y))
+        }
+        
+        return faceContours
+    }
+    
     public func getDetectionBox(
         cameraInputImage: UIImage,        
         faceDetected: FaceDetected?

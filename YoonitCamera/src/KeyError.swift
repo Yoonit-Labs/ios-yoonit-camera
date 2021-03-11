@@ -58,4 +58,7 @@ public enum KeyError: String {
     
     // Tried to input invalid face region of interest area offset ARGB value color.
     case INVALID_FACE_ROI_COLOR = "INVALID_FACE_ROI_COLOR"
+    
+    // Tried to input invalid face contour ARGB value color.
+    case INVALID_FACE_CONTOURS_COLOR = "INVALID_FACE_CONTOURS_COLOR"
 }

@@ -71,8 +71,7 @@ public class CameraView: UIView {
         
         self.cameraController = CameraController(
             session: self.session,
-            cameraGraphicView: self.cameraGraphicView!,
-            previewLayer: self.previewLayer
+            cameraGraphicView: self.cameraGraphicView!
         )
     }
     
@@ -241,15 +240,59 @@ public class CameraView: UIView {
     }
     
     /**
-     Set to show/hide face detection box when face detected.
+     Set to enable/disable face detection box when face detected.
      The detection box is the detected face bounding box draw.
      
-     - Parameter enable: The indicator to show or hide the face detection box.
-     Default value is `true`.
+     - Parameter enable: The indicator to enable/disable face detection box.
+     Default value is `false`.
      */
     @objc
     public func setFaceDetectionBox(_ enable: Bool) {
         captureOptions.faceDetectionBox = enable
+    }
+    
+    /**
+     Set to enable/disable face contours when face detected.
+     
+     - Parameter enable: The indicator to enable/disable face contours.
+     Default value is `false`.
+     */
+    @objc
+    public func setFaceContours(_ enable: Bool) {
+        captureOptions.faceContours = enable
+    }
+
+    /**
+     Set face contours ARGB color.
+     
+     - Parameter alpha: The alpha value.
+     - Parameter red: The red value.
+     - Parameter green: The green value.
+     - Parameter blue: The blue value.
+     Default value is `(1.0, 1.0, 1.0, 1.0)`.
+     */
+    @objc
+    public func setFaceContoursColor(
+        alpha: Float,
+        red: Float,
+        green: Float,
+        blue: Float
+    ) {
+        let isColorValid: Bool =
+            alpha < 0.0 || alpha > 1.0 ||
+            red < 0.0 || red > 1.0 ||
+            green < 0.0 || green > 1.0 ||
+            blue < 0.0 || blue > 1.0
+        if isColorValid {
+            fatalError(KeyError.INVALID_FACE_CONTOURS_COLOR.rawValue)
+        }
+        
+        captureOptions.faceContoursColor = UIColor(
+            red: CGFloat(red),
+            green: CGFloat(green),
+            blue: CGFloat(blue),
+            alpha: CGFloat(alpha)
+        )
     }
     
     /**
