@@ -9,7 +9,6 @@
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //
 
-
 import Foundation
 
 @objc
@@ -19,13 +18,21 @@ public protocol CameraEventListenerDelegate {
         _ type: String,
         _ count: Int,
         _ total: Int,
-        _ imagePath: String)
+        _ imagePath: String
+    )
 
     func onFaceDetected(
         _ x: Int,
         _ y: Int,
         _ width: Int,
-        _ height: Int)
+        _ height: Int,
+        _ leftEyeOpenProbability: NSNumber?,
+        _ rightEyeOpenProbability: NSNumber?,
+        _ smilingProbability: NSNumber?,
+        _ headEulerAngleX: NSNumber?,
+        _ headEulerAngleY: NSNumber?,
+        _ headEulerAngleZ: NSNumber?
+    )
     
     func onFaceUndetected()
 

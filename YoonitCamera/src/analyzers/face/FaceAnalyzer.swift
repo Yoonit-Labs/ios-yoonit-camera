@@ -93,15 +93,15 @@ class FaceAnalyzer: NSObject {
                 guard let faceDetected: FaceDetected = faceDetected else {
                     return
                 }
-                                
+                               
                 self.handleFaceDetected(
-                    image: image ,
-                    leftEyeOpenProbability: faceDetected.leftEyeOpenProbability,
-                    rightEyeOpenProbability: faceDetected.rightEyeOpenProbability,
-                    smilingProbability: faceDetected.smilingProbability,
-                    headEulerAngleX: faceDetected.headEulerAngleX,
-                    headEulerAngleY: faceDetected.headEulerAngleY,
-                    headEulerAngleZ: faceDetected.headEulerAngleZ,
+                    image: image,
+                    leftEyeOpenProbability: faceDetected.leftEyeOpenProbability as NSNumber?,
+                    rightEyeOpenProbability: faceDetected.rightEyeOpenProbability as NSNumber?,
+                    smilingProbability: faceDetected.smilingProbability as NSNumber?,
+                    headEulerAngleX: faceDetected.headEulerAngleX as NSNumber?,
+                    headEulerAngleY: faceDetected.headEulerAngleY as NSNumber?,
+                    headEulerAngleZ: faceDetected.headEulerAngleZ as NSNumber?,
                     contours: faceDetected.contours,
                     boundingBox: faceDetected.boundingBox,
                     detectionBox: detectionBox!
@@ -114,12 +114,12 @@ class FaceAnalyzer: NSObject {
         
     private func handleFaceDetected(
         image: UIImage,
-        leftEyeOpenProbability: CGFloat?,
-        rightEyeOpenProbability: CGFloat?,
-        smilingProbability: CGFloat?,
-        headEulerAngleX: CGFloat?,
-        headEulerAngleY: CGFloat?,
-        headEulerAngleZ: CGFloat?,
+        leftEyeOpenProbability: NSNumber?,
+        rightEyeOpenProbability: NSNumber?,
+        smilingProbability: NSNumber?,
+        headEulerAngleX: NSNumber?,
+        headEulerAngleY: NSNumber?,
+        headEulerAngleZ: NSNumber?,
         contours: [CGPoint],
         boundingBox: CGRect,
         detectionBox: CGRect
@@ -139,7 +139,13 @@ class FaceAnalyzer: NSObject {
             Int(boundingBox.minX),
             Int(boundingBox.minY),
             Int(boundingBox.width),
-            Int(boundingBox.height)
+            Int(boundingBox.height),
+            leftEyeOpenProbability,
+            rightEyeOpenProbability,
+            smilingProbability,
+            headEulerAngleX,
+            headEulerAngleY,
+            headEulerAngleZ
         )
         
         if !captureOptions.saveImageCaptured {

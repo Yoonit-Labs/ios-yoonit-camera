@@ -59,7 +59,8 @@ extension UIImage {
             x: 0,
             y: 0,
             width: width,
-            height: height)
+            height: height
+        )
         
         self.draw(in: newSize)
 
