@@ -89,12 +89,12 @@ class YourViewController: UIViewController, CameraEventListenerDelegate {
         y: Int, 
         width: Int, 
         height: Int, 
-        leftEyeOpenProbability: CGFloat?, 
-        rightEyeOpenProbability: CGFloat?, 
-        smilingProbability: CGFloat?, 
-        headEulerAngleX: CGFloat?, 
-        headEulerAngleY: CGFloat?, 
-        headEulerAngleZ: CGFloat?
+        leftEyeOpenProbability: NSNumber?, 
+        rightEyeOpenProbability: NSNumber?, 
+        smilingProbability: NSNumber?, 
+        headEulerAngleX: NSNumber?, 
+        headEulerAngleY: NSNumber?, 
+        headEulerAngleZ: NSNumber?
     ) {
         // YOUR CODE
     }
@@ -161,7 +161,7 @@ class YourViewController: UIViewController, CameraEventListenerDelegate {
 | Event                     | Parameters                                                | Description
 | -                         | -                                                         | -
 | onImageCaptured | `type: String, count: Int, total: Int, imagePath: String` | Must have started capture type of face/frame (see `startCaptureType`). Emitted when the face image file is created: <ul><li>type: '"face"' or '"frame"'</li><li>count: current index</li><li>total: total to create</li><li>imagePath: the image path</li><ul>  
-| onFaceDetected | `x: Int, y: Int, width: Int, height: Int, leftEyeOpenProbability: Float?, rightEyeOpenProbability: Float?, smilingProbability: Float?, headEulerAngleX: Float?, headEulerAngleY: Float?, headEulerAngleZ: Float?` | Must have started capture type of face. Emit the [face analysis](#face-analysis)
+| onFaceDetected | `x: Int, y: Int, width: Int, height: Int, leftEyeOpenProbability: NSNumber?, rightEyeOpenProbability: NSNumber?, smilingProbability: NSNumber?, headEulerAngleX: NSNumber?, headEulerAngleY: NSNumber?, headEulerAngleZ: NSNumber?` | Must have started capture type of face. Emit the [face analysis](#face-analysis)
 | onFaceUndetected | -                                                         | Must have started capture type of face. Emitted after `onFaceDetected`, when there is no more face detecting.
 | onEndCapture | -                                                         | Must have started capture type of face/frame. Emitted when the number of image files created is equal of the number of images set (see the method `setNumberOfImages`).   
 | onQRCodeScanned | `content: String`                                         | Must have started capture type of qrcode (see `startCaptureType`). Emitted when the camera scan a QR Code.   
@@ -179,12 +179,12 @@ The face analysis is the response send by the `onFaceDetected`. Here we specify 
 | y                       | `Int`    | The `y` position of the face in the screen. |
 | width                   | `Int`    | The `width` position of the face in the screen. |
 | height                  | `Int`    | The `height` position of the face in the screen. |
-| leftEyeOpenProbability  | `Float?` | The left eye open probability. |
-| rightEyeOpenProbability | `Float?` | The right eye open probability. |
-| smilingProbability      | `Float?` | The smiling probability. |
-| headEulerAngleX         | `Float?`  | The angle in degrees that indicate the vertical head direction. See [Head Movements](#headmovements) |
-| headEulerAngleY         | `Float?`  | The angle in degrees that indicate the horizontal head direction. See [Head Movements](#headmovements) |
-| headEulerAngleZ         | `Float?`  | The angle in degrees that indicate the tilt head direction. See [Head Movements](#headmovements) |
+| leftEyeOpenProbability  | `NSNumber?` | The left eye open probability. |
+| rightEyeOpenProbability | `NSNumber?` | The right eye open probability. |
+| smilingProbability      | `NSNumber?` | The smiling probability. |
+| headEulerAngleX         | `NSNumber?`  | The angle in degrees that indicate the vertical head direction. See [Head Movements](#headmovements) |
+| headEulerAngleY         | `NSNumber?`  | The angle in degrees that indicate the horizontal head direction. See [Head Movements](#headmovements) |
+| headEulerAngleZ         | `NSNumber?`  | The angle in degrees that indicate the tilt head direction. See [Head Movements](#headmovements) |
 
 #### Head Movements
 
