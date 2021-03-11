@@ -165,8 +165,8 @@
 			isa = PBXGroup;
 			children = (
 				6176EFA7252E476000F4D4DD /* Example */,
-				5C0C64382542108B00EDF95B /* logo_cyberlabs.png */,
 				5C6A82A125F926BF005D489C /* tutorial.gif */,
+				5C0C64382542108B00EDF95B /* logo_cyberlabs.png */,
 				6176EF25252CFEE000F4D4DD /* README.md */,
 				6176EF22252CFC9500F4D4DD /* LICENSE */,
 				6176EF1F252CFA4300F4D4DD /* YoonitCamera.podspec */,
@@ -486,7 +486,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ai.cyberlabs.YoonitCamera;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -515,7 +515,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ai.cyberlabs.YoonitCamera;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

@@ -9,8 +9,8 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "YoonitCamera"
-  spec.version      = "2.3.0"
-  spec.summary      = "YoonitCamera module for detects human faces or scan Qrcode."
+  spec.version      = "2.4.0"
+  spec.summary      = "The most advanced and modern Camera module for iOS with a lot of awesome features"
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,7 +18,7 @@ Pod::Spec.new do |spec|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   spec.description  = <<-DESC
-  "This module contains a custom view that shows a preview layer of the back and front camera and detects human faces in it. And is possible scan Qrcode"
+  "The most advanced and modern Camera module for iOS with a lot of awesome features"
                    DESC
 
   spec.homepage     = "https://github.com/Yoonit-Labs/ios-yoonit-camera"
