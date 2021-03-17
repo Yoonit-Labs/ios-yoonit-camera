@@ -5,7 +5,7 @@
 //
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 // | Yoonit Camera lib for iOS applications                          |
-// | Haroldo Teruya & Marcio Brufatto @ Cyberlabs AI 2020            |
+// | Haroldo Teruya & Marcio Brufatto @ Cyberlabs AI 2020-2021       |
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //
 
@@ -31,14 +31,6 @@ extension Date {
 }
 
 extension CGRect {
-    func adjustedBySafeArea(height: CGFloat) -> CGRect {
-        return height < 0.1 ? self : CGRect(
-            x: self.minX,
-            y: self.minY - height,
-            width: self.width,
-            height: self.height)
-    }
-    
     func increase(by percentage: CGFloat) -> CGRect {
         let adjustmentWidth = (self.width * percentage) / 2.0
         let adjustmentHeight = (self.height * percentage) / 2.0

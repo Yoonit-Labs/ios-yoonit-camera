@@ -5,7 +5,7 @@
 //
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 // | Yoonit Camera lib for iOS applications                          |
-// | Haroldo Teruya & Marcio Brufatto @ Cyberlabs AI 2020 - 2021     |
+// | Haroldo Teruya & Marcio Brufatto @ Cyberlabs AI 2020-2021       |
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //
 
@@ -60,7 +60,7 @@ class FaceAnalyzer {
         let currentTimestamp = Date().currentTimeMillis()
         let diffTime = currentTimestamp - self.cameraTimestamp
         
-        if diffTime > 150 {
+        if diffTime > 200 {
             self.cameraTimestamp = currentTimestamp
                                         
             let cameraInputImage: UIImage = imageBuffer.toUIImage()

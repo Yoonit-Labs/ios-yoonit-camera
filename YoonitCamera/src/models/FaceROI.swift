@@ -5,7 +5,7 @@
 //
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 // | Yoonit Camera lib for iOS applications                          |
-// | Haroldo Teruya @ Cyberlabs AI 2020                              |
+// | Haroldo Teruya & Marcio Brufatto @ Cyberlabs AI 2020-2021       |
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //
 
