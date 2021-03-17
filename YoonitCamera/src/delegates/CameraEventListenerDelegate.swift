@@ -5,7 +5,7 @@
 //
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 // | Yoonit Camera lib for iOS applications                          |
-// | Haroldo Teruya & Marcio Brufatto @ Cyberlabs AI 2020            |
+// | Haroldo Teruya & Marcio Brufatto @ Cyberlabs AI 2020-2021       |
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //
 
@@ -31,7 +31,7 @@ public protocol CameraEventListenerDelegate {
         _ smilingProbability: NSNumber?,
         _ headEulerAngleX: NSNumber?,
         _ headEulerAngleY: NSNumber?,
-        _ headEulerAngleZ: NSNumber?
+        _ headEulerAngleZ: NSNumber?        
     )
     
     func onFaceUndetected()

@@ -5,16 +5,15 @@
 //
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 // | Yoonit Camera lib for iOS applications                          |
-// | Haroldo Teruya & Marcio Brufatto @ Cyberlabs AI 2020            |
+// | Haroldo Teruya & Marcio Brufatto @ Cyberlabs AI 2020-2021       |
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //
 
 import AVFoundation
 import UIKit
-import Vision
 import YoonitFacefy
 
-class FaceBoundingBoxController: NSObject {
+class FaceCoordinatesController {
         
     private var cameraGraphicView: CameraGraphicView
         
@@ -22,7 +21,7 @@ class FaceBoundingBoxController: NSObject {
         self.cameraGraphicView = cameraGraphicView
     }
             
-    public func hasFaceDetectedError(faceDetectionBox: CGRect?) -> String? {
+    public func hasFaceDetectionBoxError(faceDetectionBox: CGRect?) -> String? {
                 
         guard let faceDetectionBox: CGRect = faceDetectionBox else {
             return ""
@@ -117,37 +116,36 @@ class FaceBoundingBoxController: NSObject {
         
         return faceContours
     }
-    
+        
     public func getDetectionBox(
-        cameraInputImage: UIImage,        
+        cameraInputImage: UIImage,
         faceDetected: FaceDetected?
     ) -> CGRect? {
         guard let cgImage: CGImage = cameraInputImage.cgImage else {
             return nil
         }
-        
+
         guard let faceDetected: FaceDetected = faceDetected else {
             return nil
         }
-        
-        let boundingBox: CGRect = faceDetected.boundingBox
+
         let viewWidth: CGFloat = self.cameraGraphicView.frame.width
         let scaledXY: CGPoint = self.getScale(
             imageWidth: CGFloat(cgImage.width),
             imageHeight: CGFloat(cgImage.height)
         )
-                        
-        let top: CGFloat = boundingBox.minY * scaledXY.y
-        var right: CGFloat = boundingBox.maxX * scaledXY.x
+
+        let top: CGFloat = faceDetected.boundingBox.minY * scaledXY.y
+        var right: CGFloat = faceDetected.boundingBox.maxX * scaledXY.x
         if captureOptions.cameraLens == AVCaptureDevice.Position.front {
             right = viewWidth - right
         }
-        let bottom: CGFloat = boundingBox.maxY * scaledXY.y
-        var left: CGFloat = boundingBox.minX * scaledXY.x
+        let bottom: CGFloat = faceDetected.boundingBox.maxY * scaledXY.y
+        var left: CGFloat = faceDetected.boundingBox.minX * scaledXY.x
         if captureOptions.cameraLens == AVCaptureDevice.Position.front {
             left = viewWidth - left
         }
-        
+
         return CGRect(
             x: left,
             y: top,
