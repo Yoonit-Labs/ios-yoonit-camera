@@ -26,12 +26,18 @@ public protocol CameraEventListenerDelegate {
         _ y: Int,
         _ width: Int,
         _ height: Int,
-        _ leftEyeOpenProbability: NSNumber?,
-        _ rightEyeOpenProbability: NSNumber?,
-        _ smilingProbability: NSNumber?,
-        _ headEulerAngleX: NSNumber?,
-        _ headEulerAngleY: NSNumber?,
-        _ headEulerAngleZ: NSNumber?
+        _ leftEyeOpenProbability: Float,
+        _ hasLeftEyeOpenProbability: Bool,
+        _ rightEyeOpenProbability: Float,
+        _ hasRightEyeOpenProbability: Bool,
+        _ smilingProbability: Float,
+        _ hasSmilingProbability: Bool,
+        _ headEulerAngleX: Float,
+        _ hasHeadEulerAngleX: Bool,
+        _ headEulerAngleY: Float,
+        _ hasHeadEulerAngleY: Bool,
+        _ headEulerAngleZ: Float,
+        _ hasHeadEulerAngleZ: Bool
     )
     
     func onFaceUndetected()
