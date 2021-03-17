@@ -96,6 +96,13 @@ class FaceAnalyzer {
                         faceDetectionBox: detectionBox!,
                         faceContours: faceContours
                     )
+                                                                                
+                    let leftEyeOpenProbability = faceDetected.leftEyeOpenProbability != nil ? NSNumber(value: Float(faceDetected.leftEyeOpenProbability!)) : nil
+                    let rightEyeOpenProbability = faceDetected.rightEyeOpenProbability != nil ? NSNumber(value: Float(faceDetected.rightEyeOpenProbability!)) : nil
+                    let smilingProbability = faceDetected.smilingProbability != nil ? NSNumber(value: Float(faceDetected.smilingProbability!)) : nil
+                    let headEulerAngleX = faceDetected.headEulerAngleX != nil ? NSNumber(value: Float(faceDetected.headEulerAngleX!)) : nil
+                    let headEulerAngleY = faceDetected.headEulerAngleY != nil ? NSNumber(value: Float(faceDetected.headEulerAngleY!)) : nil
+                    let headEulerAngleZ = faceDetected.headEulerAngleZ != nil ? NSNumber(value: Float(faceDetected.headEulerAngleZ!)) : nil
                     
                     // Emit the faceDetected results.
                     self.cameraEventListener?.onFaceDetected(
@@ -103,18 +110,12 @@ class FaceAnalyzer {
                         Int(faceDetected.boundingBox.minY),
                         Int(faceDetected.boundingBox.width),
                         Int(faceDetected.boundingBox.height),
-                        faceDetected.leftEyeOpenProbability,
-                        faceDetected.hasLeftEyeOpenProbability,
-                        faceDetected.rightEyeOpenProbability,
-                        faceDetected.hasRightEyeOpenProbability,
-                        faceDetected.smilingProbability,
-                        faceDetected.hasSmilingProbability,
-                        faceDetected.headEulerAngleX,
-                        faceDetected.hasHeadEulerAngleX,
-                        faceDetected.headEulerAngleY,
-                        faceDetected.hasHeadEulerAngleY,
-                        faceDetected.headEulerAngleZ,
-                        faceDetected.hasHeadEulerAngleZ
+                        leftEyeOpenProbability,
+                        rightEyeOpenProbability,
+                        smilingProbability,
+                        headEulerAngleX,
+                        headEulerAngleY,
+                        headEulerAngleZ
                     )
                     
                     // Handle save the face detected image from the camera input image.

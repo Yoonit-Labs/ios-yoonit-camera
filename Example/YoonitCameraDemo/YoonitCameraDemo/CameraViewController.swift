@@ -251,28 +251,22 @@ extension CameraViewController: CameraEventListenerDelegate {
         _ y: Int,
         _ width: Int,
         _ height: Int,
-        _ leftEyeOpenProbability: Float,
-        _ hasLeftEyeOpenProbability: Bool,
-        _ rightEyeOpenProbability: Float,
-        _ hasRightEyeOpenProbability: Bool,
-        _ smilingProbability: Float,
-        _ hasSmilingProbability: Bool,
-        _ headEulerAngleX: Float,
-        _ hasHeadEulerAngleX: Bool,
-        _ headEulerAngleY: Float,
-        _ hasHeadEulerAngleY: Bool,
-        _ headEulerAngleZ: Float,
-        _ hasHeadEulerAngleZ: Bool
+        _ leftEyeOpenProbability: NSNumber?,
+        _ rightEyeOpenProbability: NSNumber?,
+        _ smilingProbability: NSNumber?,
+        _ headEulerAngleX: NSNumber?,
+        _ headEulerAngleY: NSNumber?,
+        _ headEulerAngleZ: NSNumber?
     ) {
         print(
             "onFaceDetected" +
             "\n x: \(x), y: \(y), width: \(width), height: \(height)" +
-            "\n leftEyeOpenProbability: \(hasLeftEyeOpenProbability) \(leftEyeOpenProbability)" +
-            "\n rightEyeOpenProbability: \(hasRightEyeOpenProbability) \(rightEyeOpenProbability)" +
-            "\n smilingProbability: \(hasSmilingProbability) \(smilingProbability)" +
-            "\n headEulerAngleX: \(hasHeadEulerAngleX) \(headEulerAngleX)" +
-            "\n headEulerAngleY: \(hasHeadEulerAngleY) \(headEulerAngleY)" +
-            "\n headEulerAngleZ: \(hasHeadEulerAngleZ) \(headEulerAngleZ)"
+            "\n leftEyeOpenProbability: \(leftEyeOpenProbability)" +
+            "\n rightEyeOpenProbability: \(rightEyeOpenProbability)" +
+            "\n smilingProbability: \(smilingProbability)" +
+            "\n headEulerAngleX: \(headEulerAngleX)" +
+            "\n headEulerAngleY: \(headEulerAngleY)" +
+            "\n headEulerAngleZ: \(headEulerAngleZ)"
         )
     }
     
