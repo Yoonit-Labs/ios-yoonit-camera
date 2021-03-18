@@ -5,15 +5,17 @@
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Yoonit-Labs/ios-yoonit-camera?color=lightgrey&label=version&style=for-the-badge) ![GitHub](https://img.shields.io/github/license/Yoonit-Labs/ios-yoonit-camera?color=lightgrey&style=for-the-badge)
 
 A iOS plugin to provide:
-- Camera preview (Front & Back)
-- [Google MLKit](https://developers.google.com/ml-kit) integration
-- [PyTorch](https://pytorch.org/mobile/home/) integration (Soon)
-- Computer vision pipeline (Soon)
-- Face detection, capture and image crop
-- Understanding of the human face
-- Frame capture
-- Capture timed images
-- QR Code scanning
+* Camera preview (Front & Back)
+* Yoonit Facefy integration:
+  * Android: [android-yoonit-facefy](https://github.com/Yoonit-Labs/android-yoonit-facefy)
+  * iOS: [ios-yoonit-facefy](https://github.com/Yoonit-Labs/ios-yoonit-facefy)
+* [PyTorch](https://pytorch.org/mobile/home/) integration (Soon)
+* Computer vision pipeline (Soon)
+* Face detection, capture and image crop
+* Understanding of the human face
+* Frame capture
+* Capture timed images
+* QR Code scanning
 
 ## Table of Contents
 
