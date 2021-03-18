@@ -68,7 +68,7 @@ class FaceAnalyzer {
             self.facefy.detect(cameraInputImage) { faceDetected in
                 
                 // Get from faceDetected the graphic face bounding box.
-                let detectionBox: CGRect? = self.faceCoordinatesController
+                let detectionBox: CGRect = self.faceCoordinatesController
                     .getDetectionBox(
                         cameraInputImage: cameraInputImage,
                         faceDetected: faceDetected
@@ -93,7 +93,7 @@ class FaceAnalyzer {
                     
                     // Handle draw face detection box and face contours.
                     self.cameraGraphicView.handleDraw(
-                        faceDetectionBox: detectionBox!,
+                        faceDetectionBox: detectionBox,
                         faceContours: faceContours
                     )
                                                                                 
@@ -106,10 +106,10 @@ class FaceAnalyzer {
                     
                     // Emit the faceDetected results.
                     self.cameraEventListener?.onFaceDetected(
-                        Int(faceDetected.boundingBox.minX),
-                        Int(faceDetected.boundingBox.minY),
-                        Int(faceDetected.boundingBox.width),
-                        Int(faceDetected.boundingBox.height),
+                        Int(detectionBox.minX),
+                        Int(detectionBox.minY),
+                        Int(detectionBox.width),
+                        Int(detectionBox.height),
                         leftEyeOpenProbability,
                         rightEyeOpenProbability,
                         smilingProbability,
@@ -138,7 +138,7 @@ class FaceAnalyzer {
      */
     private func hasError(
         cameraInputImage: UIImage,
-        detectionBox: CGRect?
+        detectionBox: CGRect
     ) -> Bool {
         // Get error, if exists, from the face detection box.
         let error: String? = self.faceCoordinatesController

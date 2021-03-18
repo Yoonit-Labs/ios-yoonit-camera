@@ -21,9 +21,9 @@ class FaceCoordinatesController {
         self.cameraGraphicView = cameraGraphicView
     }
             
-    public func hasFaceDetectionBoxError(faceDetectionBox: CGRect?) -> String? {
-                
-        guard let faceDetectionBox: CGRect = faceDetectionBox else {
+    public func hasFaceDetectionBoxError(faceDetectionBox: CGRect) -> String? {
+                            
+        if faceDetectionBox.isEmpty {
             return ""
         }
         
@@ -120,13 +120,13 @@ class FaceCoordinatesController {
     public func getDetectionBox(
         cameraInputImage: UIImage,
         faceDetected: FaceDetected?
-    ) -> CGRect? {
+    ) -> CGRect {
         guard let cgImage: CGImage = cameraInputImage.cgImage else {
-            return nil
+            return CGRect()
         }
 
         guard let faceDetected: FaceDetected = faceDetected else {
-            return nil
+            return CGRect()
         }
 
         let viewWidth: CGFloat = self.cameraGraphicView.frame.width
