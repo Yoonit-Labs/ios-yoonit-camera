@@ -17,6 +17,8 @@ import Vision
 // Singleton to set CameraView features options.
 var captureOptions: CaptureOptions = CaptureOptions()
 
+var previewLayer: AVCaptureVideoPreviewLayer!
+
 /**
  * Class responsible to handle the camera operations.
  */
@@ -28,8 +30,7 @@ public class CameraView: UIView {
     
     // Manages multiple inputs and outputs of audio and video.
     private var session = AVCaptureSession()
-    private var cameraGraphicView: CameraGraphicView? = nil
-    private lazy var previewLayer = AVCaptureVideoPreviewLayer(session: session)
+    private var cameraGraphicView: CameraGraphicView!
     
     // Camera interface event listeners object.
     @objc
@@ -43,6 +44,7 @@ public class CameraView: UIView {
         super.init(coder: coder)
         
         self.configure()
+        
     }
     
     override public init(frame: CGRect) {
@@ -54,24 +56,24 @@ public class CameraView: UIView {
     public override func layoutSubviews() {
         super.layoutSubviews()
         
-        self.previewLayer.frame = self.frame
-        self.cameraGraphicView?.frame = self.frame
+        previewLayer.frame = self.frame
+        self.cameraGraphicView.frame = self.frame
     }
     
     private func configure() {
         self.session.sessionPreset = .hd1280x720
+        previewLayer = AVCaptureVideoPreviewLayer(session: self.session)
         
-        self.previewLayer.videoGravity = .resizeAspectFill
-        self.previewLayer.frame = self.frame
-        self.layer.addSublayer(self.previewLayer)
+        previewLayer.videoGravity = .resizeAspectFill
+        previewLayer.frame = self.frame
+        self.layer.addSublayer(previewLayer!)
                         
         self.cameraGraphicView = CameraGraphicView(frame: self.frame)
-        self.addSubview(self.cameraGraphicView!)
+        self.addSubview(self.cameraGraphicView)
         
         self.cameraController = CameraController(
             session: self.session,
-            cameraGraphicView: self.cameraGraphicView!,
-            previewLayer: self.previewLayer
+            cameraGraphicView: self.cameraGraphicView
         )
     }
     

@@ -106,7 +106,8 @@ class CameraViewController: UIViewController {
         self.cameraView.cameraEventListener = self
         self.cameraView.startPreview()
         self.cameraView.setDetectionBox(true)
-        self.captureType = "face"
+        self.cameraView.setCameraLens("back")
+        self.captureType = "qrcode"
                         
         self.cameraView.setROILeftOffset(0.1)
         self.cameraView.setROIRightOffset(0.1)

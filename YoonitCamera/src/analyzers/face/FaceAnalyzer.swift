@@ -40,15 +40,11 @@ class FaceAnalyzer {
     }
     public var cameraEventListener: CameraEventListenerDelegate?
         
-    init(
-        cameraGraphicView: CameraGraphicView,
-        previewLayer: AVCaptureVideoPreviewLayer
-    ) {
+    init(cameraGraphicView: CameraGraphicView) {
         self.cameraGraphicView = cameraGraphicView
         
         self.faceCoordinatesController = FaceCoordinatesController(
-            cameraGraphicView: cameraGraphicView,
-            previewLayer: previewLayer
+            cameraGraphicView: cameraGraphicView
         )
     }
         
@@ -77,7 +73,8 @@ class FaceAnalyzer {
             DispatchQueue.main.async {
                 // Found faces...
                 if let faces = request.results as? [VNFaceObservation], faces.count > 0, self.start {
-                    // Convert image orientation based on device lens.
+                    
+                    // Get image orientation.
                     let orientation = captureOptions.cameraLens == AVCaptureDevice.Position.back ?
                         UIImage.Orientation.up :
                         UIImage.Orientation.upMirrored
@@ -124,7 +121,7 @@ class FaceAnalyzer {
                     
                     // Draw face detection box or clean.
                     self.cameraGraphicView.handleDraw(
-                        faceDetectionBox: detectionBox,
+                        detectionBox: detectionBox,
                         faceContours: []
                     )
                     
@@ -229,7 +226,7 @@ class FaceAnalyzer {
                     
                     // Handle draw face detection box and face contours.
                     self.cameraGraphicView.handleDraw(
-                        faceDetectionBox: detectionBox,
+                        detectionBox: detectionBox,
                         faceContours: faceContours
                     )
                                                                                 

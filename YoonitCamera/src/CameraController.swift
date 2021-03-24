@@ -23,11 +23,13 @@ class CameraController: NSObject {
     private var cameraGraphicView: CameraGraphicView
     private var faceAnalyzer: FaceAnalyzer?
     private var frameAnalyzer: FrameAnalyzer?
+    private var qrcodeAnalyzer: QRCodeAnalyzer?
     
     public var cameraEventListener: CameraEventListenerDelegate? = nil {
         didSet {
             self.faceAnalyzer?.cameraEventListener = cameraEventListener
             self.frameAnalyzer?.cameraEventListener = cameraEventListener
+            self.qrcodeAnalyzer?.cameraEventListener = cameraEventListener
         }
     }
     
@@ -36,18 +38,14 @@ class CameraController: NSObject {
     
     init(
         session: AVCaptureSession,
-        cameraGraphicView: CameraGraphicView,
-        previewLayer: AVCaptureVideoPreviewLayer
+        cameraGraphicView: CameraGraphicView
     ) {
         self.session = session
         self.cameraGraphicView = cameraGraphicView
         
-        self.faceAnalyzer = FaceAnalyzer(
-            cameraGraphicView: cameraGraphicView,
-            previewLayer: previewLayer
-        )
-        
+        self.faceAnalyzer = FaceAnalyzer(cameraGraphicView: cameraGraphicView)
         self.frameAnalyzer = FrameAnalyzer()
+        self.qrcodeAnalyzer = QRCodeAnalyzer(cameraGraphicView: cameraGraphicView)
     }
     
     required init?(coder: NSCoder) {
@@ -113,6 +111,9 @@ class CameraController: NSObject {
         case CaptureType.FRAME:
             self.frameAnalyzer?.start = true
             
+        case CaptureType.QRCODE:
+            self.qrcodeAnalyzer?.start = true
+            
         default:
             return
         }
@@ -124,6 +125,7 @@ class CameraController: NSObject {
     public func stopAnalyzer() {
         self.faceAnalyzer?.start = false
         self.frameAnalyzer?.start = false
+        self.qrcodeAnalyzer?.start = false
     }
         
     /**
@@ -238,12 +240,6 @@ extension CameraController: AVCaptureMetadataOutputObjectsDelegate {
             return
         }
         
-        if let metadataObject = metadataObjects.first {
-            guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
-            guard let stringValue = readableObject.stringValue else { return }
-            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-                        
-            self.cameraEventListener?.onQRCodeScanned(stringValue)
-        }
+        self.qrcodeAnalyzer?.qrcodeDetect(metadataObjects: metadataObjects)
     }
 }

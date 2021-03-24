@@ -17,8 +17,7 @@ import Vision
 class FaceCoordinatesController {
         
     private var cameraGraphicView: CameraGraphicView
-    private var previewLayer: AVCaptureVideoPreviewLayer
-     
+         
     private let topSafeHeight: CGFloat = {
         if #available(iOS 11.0, *) {
             let window = UIApplication.shared.windows[0]
@@ -29,12 +28,8 @@ class FaceCoordinatesController {
         }
     }()
     
-    init(
-        cameraGraphicView: CameraGraphicView,
-        previewLayer: AVCaptureVideoPreviewLayer
-    ) {
+    init(cameraGraphicView: CameraGraphicView) {
         self.cameraGraphicView = cameraGraphicView
-        self.previewLayer = previewLayer
     }
             
     public func hasFaceDetectionBoxError(detectionBox: CGRect) -> String? {
@@ -110,7 +105,7 @@ class FaceCoordinatesController {
     public func getDetectionBox(boundingBox: CGRect, imageBuffer: CVPixelBuffer) -> CGRect {
         
         // Normalize the bounding box coordinates to UI.
-        let faceBoundingBox = self.previewLayer
+        let faceBoundingBox = previewLayer
             .layerRectConverted(fromMetadataOutputRect: boundingBox)
             .increase(by: CGFloat(captureOptions.facePaddingPercent))
         

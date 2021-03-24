@@ -28,7 +28,7 @@ public class CameraGraphicView: UIView {
         }
     }
     
-    private var faceDetectionBox: CGRect? = nil
+    private var detectionBox: CGRect? = nil
     private var faceContours: [CGPoint] = []
     
     public override init(frame: CGRect) {
@@ -59,11 +59,11 @@ public class CameraGraphicView: UIView {
         }
         
         // Draw face detection box.
-        let isDrawFaceDetectionBox: Bool =
+        let isDrawDetectionBox: Bool =
             captureOptions.detectionBox &&
-            self.faceDetectionBox != nil
-        if isDrawFaceDetectionBox {
-            self.drawFaceDetectionBox(context: context)
+            self.detectionBox != nil
+        if isDrawDetectionBox {
+            self.drawDetectionBox(context: context)
         }
                 
         // Draw face contours.
@@ -71,30 +71,30 @@ public class CameraGraphicView: UIView {
             self.drawFaceContours(context: context)
         }
     }
-    
-    /**
-     Draw face bitmap blurred above the face detection box.
-          
-     - Parameter faceDetectionBox: The face coordinates within the UI graphic view.
-     - Parameter faceContours: List of points that represents the shape of the face detected .
-     */
-    func handleDraw(
-        faceDetectionBox: CGRect,
+        
+    public func handleDraw(
+        detectionBox: CGRect,
         faceContours: [CGPoint]
     ) {
-        self.faceDetectionBox = faceDetectionBox
+        self.detectionBox = detectionBox
         self.faceContours = faceContours
         
         DispatchQueue.main.async {
             self.setNeedsDisplay()
         }
     }
-    
-    /**
-     Erase anything draw.
-     */
-    func clear() {
-        self.faceDetectionBox = nil
+        
+    public func handleDraw(detectionBox: CGRect) {
+        self.detectionBox = detectionBox
+        self.faceContours = []
+        
+        DispatchQueue.main.async {
+            self.setNeedsDisplay()
+        }
+    }
+        
+    public func clear() {
+        self.detectionBox = nil
         self.faceContours = []
 
         DispatchQueue.main.async {
@@ -120,19 +120,19 @@ public class CameraGraphicView: UIView {
         context.clear(smallRect)
     }
             
-    func drawFaceDetectionBox(context: CGContext) {
-        guard let faceDetectionBox: CGRect = self.faceDetectionBox else {
+    func drawDetectionBox(context: CGContext) {
+        guard let detectionBox: CGRect = self.detectionBox else {
             return
         }
         
         context.setLineWidth(2)
         context.setStrokeColor(UIColor.white.cgColor)
-        context.stroke(faceDetectionBox)
+        context.stroke(detectionBox)
         
-        let left = faceDetectionBox.minX
-        let top = faceDetectionBox.minY
-        let right = faceDetectionBox.maxX
-        let bottom = faceDetectionBox.maxY
+        let left = detectionBox.minX
+        let top = detectionBox.minY
+        let right = detectionBox.maxX
+        let bottom = detectionBox.maxY
         let midY = (bottom - top) / 2.0
         
         // edge - top-left > bottom-left
