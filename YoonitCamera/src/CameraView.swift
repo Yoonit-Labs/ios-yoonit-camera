@@ -70,7 +70,8 @@ public class CameraView: UIView {
         
         self.cameraController = CameraController(
             session: self.session,
-            cameraGraphicView: self.cameraGraphicView!
+            cameraGraphicView: self.cameraGraphicView!,
+            previewLayer: self.previewLayer
         )
     }
     

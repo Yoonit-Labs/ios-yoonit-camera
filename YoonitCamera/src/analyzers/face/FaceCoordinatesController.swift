@@ -12,18 +12,34 @@
 import AVFoundation
 import UIKit
 import YoonitFacefy
+import Vision
 
 class FaceCoordinatesController {
         
     private var cameraGraphicView: CameraGraphicView
-        
-    init(cameraGraphicView: CameraGraphicView) {
+    private var previewLayer: AVCaptureVideoPreviewLayer
+     
+    private let topSafeHeight: CGFloat = {
+        if #available(iOS 11.0, *) {
+            let window = UIApplication.shared.windows[0]
+            let safeFrame = window.safeAreaLayoutGuide.layoutFrame
+            return safeFrame.minY > 24 ? safeFrame.minY : 0
+        } else {
+            return 0
+        }
+    }()
+    
+    init(
+        cameraGraphicView: CameraGraphicView,
+        previewLayer: AVCaptureVideoPreviewLayer
+    ) {
         self.cameraGraphicView = cameraGraphicView
+        self.previewLayer = previewLayer
     }
             
-    public func hasFaceDetectionBoxError(faceDetectionBox: CGRect) -> String? {
+    public func hasFaceDetectionBoxError(detectionBox: CGRect) -> String? {
                             
-        if faceDetectionBox.isEmpty {
+        if detectionBox.isEmpty {
             return ""
         }
         
@@ -32,35 +48,35 @@ class FaceCoordinatesController {
                            
         // Face is out of the screen.
         let isOutOfTheScreen =
-            faceDetectionBox.minX < 0 ||
-            faceDetectionBox.minY < 0 ||
-            faceDetectionBox.maxY > screenHeight ||
-            faceDetectionBox.maxX > screenWidth
+            detectionBox.minX < 0 ||
+            detectionBox.minY < 0 ||
+            detectionBox.maxY > screenHeight ||
+            detectionBox.maxX > screenWidth
         if isOutOfTheScreen {
             return ""
         }
         
         // This variable is the face detection box percentage in relation with the
         // UI view. The value must be between 0 and 1.
-        let faceDetectionBoxRelatedWithScreen = Float(faceDetectionBox.width / screenWidth)
+        let detectionBoxRelatedWithScreen = Float(detectionBox.width / screenWidth)
 
         // Face smaller than the capture minimum size.
-        if (faceDetectionBoxRelatedWithScreen < captureOptions.faceCaptureMinSize) {
+        if (detectionBoxRelatedWithScreen < captureOptions.faceCaptureMinSize) {
             return Message.INVALID_CAPTURE_FACE_MIN_SIZE.rawValue
         }
         
         // Face bigger than the capture maximum size.
-        if (faceDetectionBoxRelatedWithScreen > captureOptions.faceCaptureMaxSize) {
+        if (detectionBoxRelatedWithScreen > captureOptions.faceCaptureMaxSize) {
             return Message.INVALID_CAPTURE_FACE_MAX_SIZE.rawValue
         }
         
         if captureOptions.faceROI.enable {
             
             // Detection box offsets.
-            let topOffset = CGFloat(faceDetectionBox.minY / screenHeight)
-            let rightOffset = CGFloat((screenWidth - faceDetectionBox.maxX) / screenWidth)
-            let bottomOffset = CGFloat((screenHeight - faceDetectionBox.maxY) / screenHeight)
-            let leftOffset = CGFloat(faceDetectionBox.minX / screenWidth)
+            let topOffset = CGFloat(detectionBox.minY / screenHeight)
+            let rightOffset = CGFloat((screenWidth - detectionBox.maxX) / screenWidth)
+            let bottomOffset = CGFloat((screenHeight - detectionBox.maxY) / screenHeight)
+            let leftOffset = CGFloat(detectionBox.minX / screenWidth)
             
             if captureOptions.faceROI.isOutOf(
                 topOffset: topOffset,
@@ -80,7 +96,7 @@ class FaceCoordinatesController {
                     (Float(captureOptions.faceROI.rightOffset + captureOptions.faceROI.leftOffset) *
                         Float(screenWidth))
                 
-                let faceRelatedWithROI: Float = Float(faceDetectionBox.width) / roiWidth
+                let faceRelatedWithROI: Float = Float(detectionBox.width) / roiWidth
                                                     
                 if captureOptions.faceROI.minimumSize > faceRelatedWithROI {
                     return Message.INVALID_CAPTURE_FACE_ROI_MIN_SIZE.rawValue
@@ -89,6 +105,28 @@ class FaceCoordinatesController {
         }
         
         return nil
+    }
+    
+    public func getDetectionBox(boundingBox: CGRect, imageBuffer: CVPixelBuffer) -> CGRect {
+        
+        // Normalize the bounding box coordinates to UI.
+        let faceBoundingBox = self.previewLayer
+            .layerRectConverted(fromMetadataOutputRect: boundingBox)
+            .increase(by: CGFloat(captureOptions.facePaddingPercent))
+        
+        if faceBoundingBox.isNaN() {
+            return CGRect()
+        }
+        
+        let scale = CGFloat(CVPixelBufferGetWidth(imageBuffer)) / self.cameraGraphicView.bounds.width
+        let faceBoundingBoxScaled = faceBoundingBox.adjustedBySafeArea(height: self.topSafeHeight / scale)
+        
+        let left = Int(faceBoundingBoxScaled.minX)
+        let top = Int(faceBoundingBoxScaled.minY)
+        let right = Int(faceBoundingBoxScaled.maxX)
+        let bottom = Int(faceBoundingBoxScaled.maxY)
+            
+        return CGRect(x: left, y: top, width: right - left, height: bottom - top)
     }
     
     public func getFaceContours(

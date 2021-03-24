@@ -36,13 +36,15 @@ class CameraController: NSObject {
     
     init(
         session: AVCaptureSession,
-        cameraGraphicView: CameraGraphicView
+        cameraGraphicView: CameraGraphicView,
+        previewLayer: AVCaptureVideoPreviewLayer
     ) {
         self.session = session
         self.cameraGraphicView = cameraGraphicView
         
         self.faceAnalyzer = FaceAnalyzer(
-            cameraGraphicView: cameraGraphicView
+            cameraGraphicView: cameraGraphicView,
+            previewLayer: previewLayer
         )
         
         self.frameAnalyzer = FrameAnalyzer()
