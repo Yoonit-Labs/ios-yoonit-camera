@@ -104,10 +104,7 @@ class CameraViewController: UIViewController {
         self.qrCodeTextField.isHidden = true
         
         self.cameraView.cameraEventListener = self
-        self.cameraView.startPreview()
-        self.cameraView.setDetectionBox(true)
-        self.cameraView.setCameraLens("back")
-        self.captureType = "qrcode"
+        self.cameraView.startPreview()        
                         
         self.cameraView.setROILeftOffset(0.1)
         self.cameraView.setROIRightOffset(0.1)
@@ -211,6 +208,10 @@ class CameraViewController: UIViewController {
         } else {
             self.clearFaceImagePreview()
         }
+    }
+    
+    @IBAction func toggleTorch(_ sender: UISwitch) {
+        self.cameraView.setTorch(sender.isOn)
     }
     
     func clearFaceImagePreview() {

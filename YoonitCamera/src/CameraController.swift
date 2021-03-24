@@ -179,7 +179,8 @@ class CameraController: NSObject {
         videoDataOutput.alwaysDiscardsLateVideoFrames = true
         videoDataOutput.setSampleBufferDelegate(
             self,
-            queue: DispatchQueue(label: "analyzer_queue"))
+            queue: DispatchQueue(label: "analyzer_queue")
+        )
                         
         self.session.addOutput(videoDataOutput)
         
@@ -188,7 +189,8 @@ class CameraController: NSObject {
         self.session.addOutput(metadataOutput)
         metadataOutput.setMetadataObjectsDelegate(
             self,
-            queue: DispatchQueue.main)
+            queue: DispatchQueue.main
+        )
         metadataOutput.metadataObjectTypes = [.qr]
         
         // Connection handler.
@@ -196,6 +198,16 @@ class CameraController: NSObject {
             with: AVMediaType.video),
             connection.isVideoOrientationSupported else { return }
         connection.videoOrientation = .portrait
+    }
+    
+    func setTorch(enable: Bool) {
+        if let device = AVCaptureDevice.default(for: .video) {
+            if device.hasTorch {
+                try! device.lockForConfiguration()
+                device.torchMode = enable ? .on : .off
+                device.unlockForConfiguration()
+            }
+        }
     }
 }
 

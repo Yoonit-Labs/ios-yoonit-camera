@@ -462,5 +462,16 @@ public class CameraView: UIView {
             alpha: CGFloat(alpha)
         )
     }
+    
+    /**
+     Set to enable/disable the device torch. The S.O. force to lock the camera preview to enable the torch.
+     
+     - Parameter enable: The indicator to enable/disable the torch.
+     Default value is `false`.
+     */
+    @objc
+    public func setTorch(_ enable: Bool) {
+        self.cameraController?.setTorch(enable: enable)
+    }
 }
 
