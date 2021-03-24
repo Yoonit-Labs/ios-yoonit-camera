@@ -34,29 +34,26 @@ public enum KeyError: String {
     // Tried to input invalid face padding percent.
     case INVALID_FACE_PADDING_PERCENT = "INVALID_FACE_PADDING_PERCENT"
         
-    // Tried to input invalid face capture minimum size.
-    case INVALID_FACE_CAPTURE_MIN_SIZE = "INVALID_FACE_CAPTURE_MIN_SIZE"
+    // Tried to input invalid capture minimum size.
+    case INVALID_MINIMUM_SIZE = "INVALID_MINIMUM_SIZE"
     
-    // Tried to input invalid face capture maximum size.
-    case INVALID_FACE_CAPTURE_MAX_SIZE = "INVALID_FACE_CAPTURE_MAX_SIZE"
+    // Tried to input invalid capture maximum size.
+    case INVALID_MAXIMUM_SIZE = "INVALID_MAXIMUM_SIZE"
         
-    // Tried to input invalid face region of interest top offset.
-    case INVALID_FACE_ROI_TOP_OFFSET = "INVALID_FACE_ROI_TOP_OFFSET"
+    // Tried to input invalid region of interest top offset.
+    case INVALID_ROI_TOP_OFFSET = "INVALID_ROI_TOP_OFFSET"
 
-    // Tried to input invalid face region of interest right offset.
-    case INVALID_FACE_ROI_RIGHT_OFFSET = "INVALID_FACE_ROI_RIGHT_OFFSET"
+    // Tried to input invalid region of interest right offset.
+    case INVALID_ROI_RIGHT_OFFSET = "INVALID_ROI_RIGHT_OFFSET"
 
-    // Tried to input invalid face region of interest bottom offset.
-    case INVALID_FACE_ROI_BOTTOM_OFFSET = "INVALID_FACE_ROI_BOTTOM_OFFSET"
+    // Tried to input invalid region of interest bottom offset.
+    case INVALID_ROI_BOTTOM_OFFSET = "INVALID_ROI_BOTTOM_OFFSET"
 
-    // Tried to input invalid face region of interest left offset.
-    case INVALID_FACE_ROI_LEFT_OFFSET = "INVALID_FACE_ROI_LEFT_OFFSET"
-
-    // Tried to input invalid face region of interest minimum size.
-    case INVALID_FACE_ROI_MIN_SIZE = "INVALID_FACE_ROI_MIN_SIZE"
+    // Tried to input invalid region of interest left offset.
+    case INVALID_ROI_LEFT_OFFSET = "INVALID_ROI_LEFT_OFFSET"
     
-    // Tried to input invalid face region of interest area offset ARGB value color.
-    case INVALID_FACE_ROI_COLOR = "INVALID_FACE_ROI_COLOR"
+    // Tried to input invalid region of interest area offset ARGB value color.
+    case INVALID_ROI_COLOR = "INVALID_ROI_COLOR"
     
     // Tried to input invalid face contour ARGB value color.
     case INVALID_FACE_CONTOURS_COLOR = "INVALID_FACE_CONTOURS_COLOR"

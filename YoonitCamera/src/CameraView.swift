@@ -240,15 +240,15 @@ public class CameraView: UIView {
     }
     
     /**
-     Set to enable/disable face detection box when face detected.
-     The detection box is the detected face bounding box draw.
+     Set to enable/disable detection box when face/qrcode detected.
+     The detection box is the the face/qrcode bounding box normalized to UI.
      
-     - Parameter enable: The indicator to enable/disable face detection box.
+     - Parameter enable: The indicator to enable/disable detection box.
      Default value is `false`.
      */
     @objc
-    public func setFaceDetectionBox(_ enable: Bool) {
-        captureOptions.faceDetectionBox = enable
+    public func setDetectionBox(_ enable: Bool) {
+        captureOptions.detectionBox = enable
     }
     
     /**
@@ -311,153 +311,134 @@ public class CameraView: UIView {
     }
     
     /**
-     Limit the minimum face capture size.
-     This variable is the face detection box percentage in relation with the UI graphic view.
-     The value must be between 0 and 1.
+     Set a face/qrcode minimum size to detect in percentage related with the camera preview.
      
-     For example, if set 0.5, will capture face with the detection box width occupying
+     For example, if set `0.5`, will capture face/qrcode with the detection box width occupying
      at least 50% of the screen width.
      
-     - Parameter faceCaptureMinSize The face capture min size value.
-     Default value is `0`,
+     - Parameter minimumSize: Value between `0` and `1`.
+     Default value is `0.0`,
      */
     @objc
-    public func setFaceCaptureMinSize(_ faceCaptureMinSize: Float) {
-        if faceCaptureMinSize < 0.0 || faceCaptureMinSize > 1.0 {
-            fatalError(KeyError.INVALID_FACE_CAPTURE_MIN_SIZE.rawValue)
+    public func setMinimumSize(_ minimumSize: Float) {
+        if minimumSize < 0.0 || minimumSize > 1.0 {
+            fatalError(KeyError.INVALID_MINIMUM_SIZE.rawValue)
         }
         
-        captureOptions.faceCaptureMinSize = faceCaptureMinSize
+        captureOptions.minimumSize = minimumSize
     }
     
     /**
-     Limit the maximum face capture size.
-     This variable is the face detection box percentage in relation with the UI graphic view.
-     The value must be between 0 and 1.
+     Set a face/qrcode maximum size to detect in percentage related with the camera preview.
      
-     For example, if set 0.7, will capture face with the detection box width occupying
-     at least 70% of the screen width.
+     For example, if set `0.7`, will capture face/qrcode with the detection box width occupying
+     until 70% of the screen width.
      
-     - Parameter faceCaptureMaxSize The face capture max size value.
+     - Parameter maximumSize: Value between `0` and `1`.
      Default value is `1.0`.
      */
     @objc
-    public func setFaceCaptureMaxSize(_ faceCaptureMaxSize: Float) {
-        if faceCaptureMaxSize < 0.0 || faceCaptureMaxSize > 1.0 {
-            fatalError(KeyError.INVALID_FACE_CAPTURE_MAX_SIZE.rawValue)
+    public func setMaximumSize(_ maximumSize: Float) {
+        if maximumSize < 0.0 || maximumSize > 1.0 {
+            fatalError(KeyError.INVALID_MAXIMUM_SIZE.rawValue)
         }
         
-        captureOptions.faceCaptureMaxSize = faceCaptureMaxSize
+        captureOptions.maximumSize = maximumSize
     }
     
     /**
-     Set to apply enable/disable face region of interest.
+     Set to apply enable/disable region of interest.
      
-     - Parameter enable: The indicator to enable/disable face region of interest.
+     - Parameter enable: The indicator to enable/disable region of interest.
      Default value is `false`.
      */
     @objc
-    public func setFaceROIEnable(_ enable: Bool) {
-        captureOptions.faceROI.enable = enable
+    public func setROI(_ enable: Bool) {
+        captureOptions.roi.enable = enable
     }
     
     /**
-     Tried to input invalid face region of interest top offset.
+     Camera preview top distance in percentage.
      
-     - Parameter percentage: The "above" area of the face bounding box in percentage.
-     Default value is `0.0f`.
+     - Parameter percentage: Value between `0` and `1`. Represents the percentage.
+     Default value is `0.0`.
      */
     @objc
-    public func setFaceROITopOffset(_ topOffset: Float) {
+    public func setROITopOffset(_ topOffset: Float) {
         if (topOffset < 0.0 || topOffset > 1.0) {
-            fatalError(KeyError.INVALID_FACE_ROI_TOP_OFFSET.rawValue)
+            fatalError(KeyError.INVALID_ROI_TOP_OFFSET.rawValue)
         }
 
-        captureOptions.faceROI.topOffset = CGFloat(topOffset)
+        captureOptions.roi.topOffset = CGFloat(topOffset)
     }
 
     /**
-     Tried to input invalid face region of interest right offset.
+     Camera preview right distance in percentage.
      
-     - Parameter percentage: The "right" area of the face bounding box in percentage.
+     - Parameter percentage: Value between `0` and `1`. Represents the percentage.
      Default value is `0.0`.
      */
     @objc
-    public func setFaceROIRightOffset(_ rightOffset: Float) {
+    public func setROIRightOffset(_ rightOffset: Float) {
         if (rightOffset < 0.0 || rightOffset > 1.0) {
-            fatalError(KeyError.INVALID_FACE_ROI_RIGHT_OFFSET.rawValue)
+            fatalError(KeyError.INVALID_ROI_RIGHT_OFFSET.rawValue)
         }
 
-        captureOptions.faceROI.rightOffset = CGFloat(rightOffset)
+        captureOptions.roi.rightOffset = CGFloat(rightOffset)
     }
 
     /**
-     Tried to input invalid face region of interest bottom offset.
+     Camera preview bottom distance in percentage.
      
-     - Parameter percentage: The "bottom" area of the face bounding box in percentage.
+     - Parameter percentage: Value between `0` and `1`. Represents the percentage.
      Default value is `0.0`.
      */
     @objc
-    public func setFaceROIBottomOffset(_ bottomOffset: Float) {
+    public func setROIBottomOffset(_ bottomOffset: Float) {
         if (bottomOffset < 0.0 || bottomOffset > 1.0) {
-            fatalError(KeyError.INVALID_FACE_ROI_BOTTOM_OFFSET.rawValue)
+            fatalError(KeyError.INVALID_ROI_BOTTOM_OFFSET.rawValue)
         }
 
-        captureOptions.faceROI.bottomOffset = CGFloat(bottomOffset)
+        captureOptions.roi.bottomOffset = CGFloat(bottomOffset)
     }
 
     /**
-     Tried to input invalid face region of interest left offset.
+     Camera preview left distance in percentage.
      
-     - Parameter percentage: The "left" area of the face bounding box in percentage.
+     - Parameter percentage: Value between `0` and `1`. Represents the percentage.
      Default value is `0.0`.
      */
     @objc
-    public func setFaceROILeftOffset(_ leftOffset: Float) {
+    public func setROILeftOffset(_ leftOffset: Float) {
         if (leftOffset < 0.0 || leftOffset > 1.0) {
-            fatalError(KeyError.INVALID_FACE_ROI_LEFT_OFFSET.rawValue)
+            fatalError(KeyError.INVALID_ROI_LEFT_OFFSET.rawValue)
         }
 
-        captureOptions.faceROI.leftOffset = CGFloat(leftOffset)
+        captureOptions.roi.leftOffset = CGFloat(leftOffset)
     }
-    
-    /**
-     Set face minimum size in relation of the region of interest.
-     
-     - Parameter minimumSize: Represents in percentage [0, 1].
-     Default value is `0`.
-     */
-    @objc
-    public func setFaceROIMinSize(_ minimumSize: Float) {
-        if minimumSize < 0.0 || minimumSize > 1.0 {
-            fatalError(KeyError.INVALID_FACE_ROI_MIN_SIZE.rawValue)
-        }
         
-        captureOptions.faceROI.minimumSize = minimumSize
-    }
-    
     /**
-     Set face region of interest offset color visibility.
+     Set to enable/disable region of interest offset visibility.
      
-     - Parameter enable: The indicator to show/hide the face region of interest area offset.
+     - Parameter enable: The indicator to enable/disable region of interest visibility.
      Default value is `false`.
      */
     @objc
-    public func setFaceROIAreaOffset(_ enable: Bool) {
-        captureOptions.faceROI.areaOffsetEnable = enable
+    public func setROIAreaOffset(_ enable: Bool) {
+        captureOptions.roi.areaOffsetEnable = enable
     }
 
     /**
-     Set face region of interest area offset color.
+     Set region of interest area offset color.
      
-     - Parameter red: Float that represent red color.
-     - Parameter green: Float that represent green color.
-     - Parameter blue: Float that represent blue color.
-     - Parameter alpha: Float that represents the alpha.
-     Default value is 0.4, 1.0, 1.0, 1.0 (white color).
+     - Parameter alpha: Values between `0` and `1`.
+     - Parameter red: Values between `0` and `1`.
+     - Parameter green: Values between `0` and `1`.
+     - Parameter blue: Values between `0` and `1`.
+     Default value is `(0.4, 1.0, 1.0, 1.0)`.
      */
     @objc
-    public func setFaceROIAreaOffsetColor(
+    public func setROIAreaOffsetColor(
         _ alpha: Float,
         _ red: Float,
         _ green: Float,
@@ -469,10 +450,10 @@ public class CameraView: UIView {
             green < 0.0 || green > 1.0 ||
             blue < 0.0 || blue > 1.0
         ) {
-            fatalError(KeyError.INVALID_FACE_ROI_COLOR.rawValue)
+            fatalError(KeyError.INVALID_ROI_COLOR.rawValue)
         }
             
-        captureOptions.faceROI.areaOffsetColor = UIColor(
+        captureOptions.roi.areaOffsetColor = UIColor(
             red: CGFloat(red),
             green: CGFloat(green),
             blue: CGFloat(blue),

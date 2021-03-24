@@ -13,15 +13,12 @@ import Foundation
 
 public enum Message: String {
     
-    // Face width percentage in relation of the screen width is less than the CaptureOptions.faceCaptureMinSize
-    case INVALID_CAPTURE_FACE_MIN_SIZE = "INVALID_CAPTURE_FACE_MIN_SIZE"
+    // Face/QRCode width percentage in relation of the screen width is less than the set.
+    case INVALID_MINIMUM_SIZE = "INVALID_MINIMUM_SIZE"
     
-    // Face width percentage in relation of the screen width is more than the CaptureOptions.faceCaptureMinSize
-    case INVALID_CAPTURE_FACE_MAX_SIZE = "INVALID_CAPTURE_FACE_MAX_SIZE"
+    // Face/QRCode width percentage in relation of the screen width is more than the set.
+    case INVALID_MAXIMUM_SIZE = "INVALID_MAXIMUM_SIZE"
     
     // Face bounding box is out of the setted region of interest.
-    case INVALID_CAPTURE_FACE_OUT_OF_ROI = "INVALID_CAPTURE_FACE_OUT_OF_ROI"
-    
-    // Face width percentage in relation of the screen width is less than the CaptureOptions.FaceROI.minimumSize.
-    case INVALID_CAPTURE_FACE_ROI_MIN_SIZE = "INVALID_CAPTURE_FACE_ROI_MIN_SIZE"
+    case INVALID_OUT_OF_ROI = "INVALID_OUT_OF_ROI"
 }

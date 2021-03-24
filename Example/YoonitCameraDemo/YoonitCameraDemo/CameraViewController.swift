@@ -105,11 +105,13 @@ class CameraViewController: UIViewController {
         
         self.cameraView.cameraEventListener = self
         self.cameraView.startPreview()
+        self.cameraView.setDetectionBox(true)
+        self.captureType = "face"
                         
-        self.cameraView.setFaceROILeftOffset(0.1)
-        self.cameraView.setFaceROIRightOffset(0.1)
-        self.cameraView.setFaceROITopOffset(0.1)
-        self.cameraView.setFaceROIBottomOffset(0.1)
+        self.cameraView.setROILeftOffset(0.1)
+        self.cameraView.setROIRightOffset(0.1)
+        self.cameraView.setROITopOffset(0.1)
+        self.cameraView.setROIBottomOffset(0.1)
         
         self.menu.anchorView = self.cameraTypeDropDown
         self.menu.selectionAction = {
@@ -156,20 +158,16 @@ class CameraViewController: UIViewController {
     }
     
     @IBAction func onFaceMinSwitchClick(_ sender: UISwitch) {
-        self.cameraView.setFaceCaptureMinSize(sender.isOn ? 0.7 : 0.0)
+        self.cameraView.setMinimumSize(sender.isOn ? 0.7 : 0.0)
     }
     
     @IBAction func onFaceMaxSwitchClick(_ sender: UISwitch) {
-        self.cameraView.setFaceCaptureMaxSize(sender.isOn ? 0.9 : 1.0)
+        self.cameraView.setMaximumSize(sender.isOn ? 0.9 : 1.0)
     }
     
     @IBAction func onFaceROISwitchClick(_ sender: UISwitch) {
-        self.cameraView.setFaceROIEnable(sender.isOn)
-        self.cameraView.setFaceROIAreaOffset(sender.isOn)
-    }
-    
-    @IBAction func onFaceROIMinSizeSwitchClick(_ sender: UISwitch) {
-        self.cameraView.setFaceCaptureMinSize(sender.isOn ? 0.7 : 0.0)
+        self.cameraView.setROI(sender.isOn)
+        self.cameraView.setROIAreaOffset(sender.isOn)
     }
   
     @IBAction func toggleCam(_ sender: UIButton) {
@@ -185,7 +183,7 @@ class CameraViewController: UIViewController {
     }
         
     @IBAction func toggleFaceDetectionBox(_ sender: UISwitch) {
-        self.cameraView.setFaceDetectionBox(sender.isOn)
+        self.cameraView.setDetectionBox(sender.isOn)
     }
     
     @IBAction func toggleFaceContours(_ sender: UISwitch) {
