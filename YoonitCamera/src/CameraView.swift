@@ -287,6 +287,42 @@ public class CameraView: UIView {
     }
     
     /**
+     Set a face/qrcode minimum size to detect in percentage related with the camera preview.
+     
+     For example, if set `0.5`, will capture face/qrcode with the detection box width occupying
+     at least 50% of the screen width.
+     
+     - Parameter minimumSize: Value between `0` and `1`.
+     Default value is `0.0`,
+     */
+    @objc
+    public func setDetectionMinSize(_ minimumSize: Float) {
+        if minimumSize < 0.0 || minimumSize > 1.0 {
+            fatalError(KeyError.INVALID_MINIMUM_SIZE.rawValue)
+        }
+        
+        captureOptions.minimumSize = minimumSize
+    }
+    
+    /**
+     Set a face/qrcode maximum size to detect in percentage related with the camera preview.
+     
+     For example, if set `0.7`, will capture face/qrcode with the detection box width occupying
+     until 70% of the screen width.
+     
+     - Parameter maximumSize: Value between `0` and `1`.
+     Default value is `1.0`.
+     */
+    @objc
+    public func setDetectionMaxSize(_ maximumSize: Float) {
+        if maximumSize < 0.0 || maximumSize > 1.0 {
+            fatalError(KeyError.INVALID_MAXIMUM_SIZE.rawValue)
+        }
+        
+        captureOptions.maximumSize = maximumSize
+    }
+    
+    /**
      Set to enable/disable face contours when face detected.
      
      - Parameter enable: The indicator to enable/disable face contours.
@@ -344,43 +380,7 @@ public class CameraView: UIView {
         
         captureOptions.facePaddingPercent = facePaddingPercent
     }
-    
-    /**
-     Set a face/qrcode minimum size to detect in percentage related with the camera preview.
-     
-     For example, if set `0.5`, will capture face/qrcode with the detection box width occupying
-     at least 50% of the screen width.
-     
-     - Parameter minimumSize: Value between `0` and `1`.
-     Default value is `0.0`,
-     */
-    @objc
-    public func setMinimumSize(_ minimumSize: Float) {
-        if minimumSize < 0.0 || minimumSize > 1.0 {
-            fatalError(KeyError.INVALID_MINIMUM_SIZE.rawValue)
-        }
         
-        captureOptions.minimumSize = minimumSize
-    }
-    
-    /**
-     Set a face/qrcode maximum size to detect in percentage related with the camera preview.
-     
-     For example, if set `0.7`, will capture face/qrcode with the detection box width occupying
-     until 70% of the screen width.
-     
-     - Parameter maximumSize: Value between `0` and `1`.
-     Default value is `1.0`.
-     */
-    @objc
-    public func setMaximumSize(_ maximumSize: Float) {
-        if maximumSize < 0.0 || maximumSize > 1.0 {
-            fatalError(KeyError.INVALID_MAXIMUM_SIZE.rawValue)
-        }
-        
-        captureOptions.maximumSize = maximumSize
-    }
-    
     /**
      Set to apply enable/disable region of interest.
      

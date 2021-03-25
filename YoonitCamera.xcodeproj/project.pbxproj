@@ -145,15 +145,13 @@
 		5C0C6435254208E400EDF95B /* src */ = {
 			isa = PBXGroup;
 			children = (
+				5CA17A17260CD6D800DA0C3E /* enums */,
 				5C0AF5C8256DA06800A5DF84 /* models */,
 				5C0C64322541F5E500EDF95B /* analyzers */,
 				5C0C64312541F4FB00EDF95B /* utils */,
 				5C0C642E2541DD1A00EDF95B /* delegates */,
 				6176EF0E252CF9F600F4D4DD /* CameraController.swift */,
 				6176EF09252CF9F600F4D4DD /* CameraView.swift */,
-				6176EF05252CF9F600F4D4DD /* CaptureType.swift */,
-				5CB645572549935E0019BD43 /* KeyError.swift */,
-				5CDBECFD256EF5AC00BF09A4 /* Message.swift */,
 				5C1E318825C1E2F8002D2DB6 /* CameraGraphicView.swift */,
 			);
 			path = src;
@@ -165,6 +163,16 @@
 				5C5058D6260BCC5C00286F91 /* QRCodeAnalyzer.swift */,
 			);
 			path = qrcode;
+			sourceTree = "<group>";
+		};
+		5CA17A17260CD6D800DA0C3E /* enums */ = {
+			isa = PBXGroup;
+			children = (
+				6176EF05252CF9F600F4D4DD /* CaptureType.swift */,
+				5CB645572549935E0019BD43 /* KeyError.swift */,
+				5CDBECFD256EF5AC00BF09A4 /* Message.swift */,
+			);
+			path = enums;
 			sourceTree = "<group>";
 		};
 		5CB645592549EB010019BD43 /* frame */ = {
