@@ -157,7 +157,7 @@ class YourViewController: UIViewController, CameraEventListenerDelegate {
 | setROILeftOffset       | `leftOffset: Float`     | Value between `0` and `1`. Represents the percentage. | void | Camera preview left distance in percentage.
 | setROIAreaOffset | `enable: Bool` | `true` or `false` | void | Set to enable/disable region of interest offset visibility.
 | setROIAreaOffsetColor | `alpha: Float, red: Float, green: Float, blue: Float` | Value between `0` and `1` | void | Set face region of interest area offset color. Default value is `(0.4, 1.0, 1.0, 1.0)`.
-| setTorch | `enable: Bool` | `true` or `false` | void | Set to enable/disable the device torch. The S.O. force to lock the camera preview to enable the torch.
+| setTorch | `enable: Bool` | `true` or `false` | void | Set to enable/disable the device torch. Available only to camera lens `"back"`.
 
 ### Events
 

@@ -164,8 +164,7 @@ class CameraController: NSObject {
             mediaType: .video,
             position: cameraLens
         ).devices.first else {
-            self.cameraEventListener?.onError("You have a problem with your camera, please verify the settings of the your camera")
-            fatalError("No back camera device found, please make sure to run in an iOS device and not a simulator")
+            return
         }
                 
         let cameraInput = try! AVCaptureDeviceInput(device: device)
@@ -202,7 +201,7 @@ class CameraController: NSObject {
     
     func setTorch(enable: Bool) {
         if let device = AVCaptureDevice.default(for: .video) {
-            if device.hasTorch {
+            if device.hasTorch && captureOptions.cameraLens == AVCaptureDevice.Position.back {
                 try! device.lockForConfiguration()
                 device.torchMode = enable ? .on : .off
                 device.unlockForConfiguration()
