@@ -126,7 +126,7 @@ public class CameraGraphicView: UIView {
         }
         
         context.setLineWidth(2)
-        context.setStrokeColor(UIColor.white.cgColor)
+        context.setStrokeColor(captureOptions.detectionBoxColor.cgColor)
         context.stroke(detectionBox)
         
         let left = detectionBox.minX
@@ -211,7 +211,7 @@ public class CameraGraphicView: UIView {
         from: CGPoint,
         to: CGPoint
     ) {
-        context.setStrokeColor(UIColor.white.cgColor)
+        context.setStrokeColor(captureOptions.detectionBoxColor.cgColor)
         context.setLineWidth(6)
         context.setLineCap(.round)
         context.move(to: from)

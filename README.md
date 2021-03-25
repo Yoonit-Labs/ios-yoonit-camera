@@ -144,6 +144,7 @@ class YourViewController: UIViewController, CameraEventListenerDelegate {
 | setOutputImageHeight      | `height: Int`                                                                 | Any positive `number` value that represents in pixels                             | void        | Set face image height to be created in pixels.
 | setSaveImageCaptured      | `enable: Bool`                                                     | `true` or `false`                                                                 | void        | Set to enable/disable save image when capturing face and frame.
 | setDetectionBox | `enable: Bool` | `true` or `false` | void | Set to enable/disable detection box when face/qrcode detected. The detection box is the the face/qrcode bounding box normalized to UI.
+| setDetectionBoxColor | `alpha: Float, red: Float, green: Float, blue: Float`   | Value between `0` and `1` | void | Set detection box ARGB color. Default value is `(0.4, 1.0, 1.0, 1.0)`.
 | setFaceContours              | `enable: Bool`                                  | `true` or `false`                                                               | void        | Set to enable/disable face contours when face detected. 
 | setFaceContoursColor | `alpha: Float, red: Float, green: Float, blue: Float`   | Value between `0` and `1` | void        | Set face contours ARGB color. Default value is `(0.4, 1.0, 1.0, 1.0)`.
 | setFacePaddingPercent | `facePaddingPercent: Float` | Any positive `Float` value. | void | Set face image and bounding box padding in percent.  
@@ -210,6 +211,7 @@ Pre-define key error used by the `onError` event.
 | INVALID_TIME_BETWEEN_IMAGES       | Tried to input invalid face time interval to capture face.
 | INVALID_OUTPUT_IMAGE_WIDTH        | Tried to input invalid image width.
 | INVALID_OUTPUT_IMAGE_HEIGHT       | Tried to input invalid image height.
+| INVALID_DETECTION_BOX_COLOR | Tried to input invalid detection box ARGB value color.
 | INVALID_FACE_PADDING_PERCENT      | Tried to input invalid face padding percent.
 | INVALID_MINIMUM_SIZE | Tried to input invalid capture minimum size. 
 | INVALID_MAXIMUM_SIZE | Tried to input invalid capture maximum size.

@@ -104,8 +104,7 @@ class CameraViewController: UIViewController {
         self.qrCodeTextField.isHidden = true
         
         self.cameraView.cameraEventListener = self
-        self.cameraView.startPreview()        
-                        
+        self.cameraView.startPreview()                            
         self.cameraView.setROILeftOffset(0.1)
         self.cameraView.setROIRightOffset(0.1)
         self.cameraView.setROITopOffset(0.1)

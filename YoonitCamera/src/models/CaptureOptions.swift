@@ -44,7 +44,15 @@ public class CaptureOptions {
     
     // Draw or not the face/qrcode detection box.
     var detectionBox: Bool = false
-            
+                
+    // Detection box color.
+    var detectionBoxColor: UIColor = UIColor(
+        red: 1.0,
+        green: 1.0,
+        blue: 1.0,
+        alpha: 1.0
+    )
+    
     // Face contours.
     var faceContours: Bool = false
 

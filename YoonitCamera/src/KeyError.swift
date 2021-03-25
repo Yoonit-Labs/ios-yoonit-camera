@@ -30,6 +30,9 @@ public enum KeyError: String {
 
     // Tried to input invalid image height.
     case INVALID_OUTPUT_IMAGE_HEIGHT = "INVALID_OUTPUT_IMAGE_HEIGHT"
+        
+    // Tried to input invalid detection box ARGB value color.
+    case INVALID_DETECTION_BOX_COLOR = "INVALID_DETECTION_BOX_COLOR"
     
     // Tried to input invalid face padding percent.
     case INVALID_FACE_PADDING_PERCENT = "INVALID_FACE_PADDING_PERCENT"
