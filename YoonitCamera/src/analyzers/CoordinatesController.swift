@@ -14,7 +14,7 @@ import UIKit
 import YoonitFacefy
 import Vision
 
-class FaceCoordinatesController {
+class CoordinatesController {
         
     private var cameraGraphicView: CameraGraphicView
          
@@ -102,9 +102,10 @@ class FaceCoordinatesController {
         return nil
     }
     
-    public func getDetectionBox(boundingBox: CGRect, imageBuffer: CVPixelBuffer) -> CGRect {
-        
-        // Normalize the bounding box coordinates to UI.
+    public func getDetectionBox(
+        boundingBox: CGRect,
+        imageBuffer: CVPixelBuffer
+    ) -> CGRect {
         let faceBoundingBox = previewLayer
             .layerRectConverted(fromMetadataOutputRect: boundingBox)
             .increase(by: CGFloat(captureOptions.facePaddingPercent))

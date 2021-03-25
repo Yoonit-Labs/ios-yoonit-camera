@@ -17,7 +17,7 @@ class QRCodeAnalyzer {
     
     private var cameraGraphicView: CameraGraphicView
     private var timestamp = Date().currentTimeMillis()
-    private var faceCoordinatesController: FaceCoordinatesController
+    private var coordinatesController: CoordinatesController
     private var isValid = true
     
     public var cameraEventListener: CameraEventListenerDelegate?
@@ -31,9 +31,7 @@ class QRCodeAnalyzer {
         cameraGraphicView: CameraGraphicView
     ) {
         self.cameraGraphicView = cameraGraphicView
-        self.faceCoordinatesController = FaceCoordinatesController(
-            cameraGraphicView: cameraGraphicView
-        )
+        self.coordinatesController = CoordinatesController(cameraGraphicView: cameraGraphicView)
     }
     
     public func qrcodeDetect(metadataObjects: [AVMetadataObject]) {
@@ -91,7 +89,7 @@ class QRCodeAnalyzer {
             let detectionBox: CGRect = barCodeObject.bounds
             
             if let error: String = self
-                .faceCoordinatesController
+                .coordinatesController
                 .hasFaceDetectionBoxError(detectionBox: detectionBox)
             {
                 onError(error)

@@ -22,7 +22,7 @@ class FaceAnalyzer {
     private let MAX_NUMBER_OF_IMAGES = 40
     
     private var cameraGraphicView: CameraGraphicView
-    private var faceCoordinatesController: FaceCoordinatesController
+    private var coordinatesController: CoordinatesController
     private let facefy: Facefy = Facefy()
     private var faceCropController = FaceCropController()
     private var cameraTimestamp = Date().currentTimeMillis()
@@ -43,7 +43,7 @@ class FaceAnalyzer {
     init(cameraGraphicView: CameraGraphicView) {
         self.cameraGraphicView = cameraGraphicView
         
-        self.faceCoordinatesController = FaceCoordinatesController(
+        self.coordinatesController = CoordinatesController(
             cameraGraphicView: cameraGraphicView
         )
     }
@@ -92,7 +92,7 @@ class FaceAnalyzer {
                         }[0]
                                     
                     // The detection box is the face bounding box coordinates normalized.
-                    let detectionBox: CGRect = self.faceCoordinatesController.getDetectionBox(
+                    let detectionBox: CGRect = self.coordinatesController.getDetectionBox(
                         boundingBox: closestFace.boundingBox,
                         imageBuffer: imageBuffer
                     )
@@ -102,7 +102,7 @@ class FaceAnalyzer {
                     // - String for error found with message;
                     // - "" for error found without message;
                     let error: String? = self
-                        .faceCoordinatesController
+                        .coordinatesController
                         .hasFaceDetectionBoxError(detectionBox: detectionBox)
                     
                     // Emit once if has error.
@@ -201,7 +201,7 @@ class FaceAnalyzer {
             self.facefy.detect(cameraInputImage) { faceDetected in
                 
                 // Get from faceDetected the graphic face bounding box.
-                let detectionBox: CGRect = self.faceCoordinatesController
+                let detectionBox: CGRect = self.coordinatesController
                     .getDetectionBox(
                         cameraInputImage: cameraInputImage,
                         faceDetected: faceDetected
@@ -219,7 +219,7 @@ class FaceAnalyzer {
                 if let faceDetected: FaceDetected = faceDetected {
                     
                     // Get the face contours scaled to UI graphic.
-                    let faceContours: [CGPoint] = self.faceCoordinatesController.getFaceContours(
+                    let faceContours: [CGPoint] = self.coordinatesController.getFaceContours(
                         cameraInputImage: cameraInputImage,
                         contours: faceDetected.contours
                     )
@@ -274,7 +274,7 @@ class FaceAnalyzer {
         detectionBox: CGRect
     ) -> Bool {
         // Get error, if exists, from the face detection box.
-        let error: String? = self.faceCoordinatesController
+        let error: String? = self.coordinatesController
             .hasFaceDetectionBoxError(detectionBox: detectionBox)
         
         // Handle emit error and face undetected.
