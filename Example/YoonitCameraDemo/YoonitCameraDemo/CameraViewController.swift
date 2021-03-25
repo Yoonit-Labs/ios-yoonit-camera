@@ -155,11 +155,11 @@ class CameraViewController: UIViewController {
     }
     
     @IBAction func onFaceMinSwitchClick(_ sender: UISwitch) {
-        self.cameraView.setMinimumSize(sender.isOn ? 0.7 : 0.0)
+        self.cameraView.setDetectionMinSize(sender.isOn ? 0.7 : 0.0)
     }
     
     @IBAction func onFaceMaxSwitchClick(_ sender: UISwitch) {
-        self.cameraView.setMaximumSize(sender.isOn ? 0.9 : 1.0)
+        self.cameraView.setDetectionMaxSize(sender.isOn ? 0.9 : 1.0)
     }
     
     @IBAction func onFaceROISwitchClick(_ sender: UISwitch) {
