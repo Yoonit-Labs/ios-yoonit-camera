@@ -308,10 +308,10 @@ public class CameraView: UIView {
      */
     @objc
     public func setFaceContoursColor(
-        alpha: Float,
-        red: Float,
-        green: Float,
-        blue: Float
+        _ alpha: Float,
+        _ red: Float,
+        _ green: Float,
+        _ blue: Float
     ) {
         let isColorValid: Bool =
             alpha < 0.0 || alpha > 1.0 ||
