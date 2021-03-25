@@ -14,28 +14,25 @@ import Foundation
 import AVFoundation
 
 /**
- Model to set face region of interest.
+ Model to set region of interest.
  */
-public class FaceROI {
+public class ROI {
     
     // Enable or disable ROI.
     var enable: Bool = false
     
-    // Enable or disable face region of interest area offset.
+    // Enable/disable region of interest area offset.
     var areaOffsetEnable: Bool = false
 
-    // Face region of interest area offset color.
+    // Region of interest area offset color.
     var areaOffsetColor: UIColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.4)
     
     // Region of interest in percentage.
     // Values valid [0, 1].
-    var topOffset: CGFloat = 0     // "Above" the face detected.
-    var rightOffset: CGFloat = 0   // "Right" of face detected.
-    var bottomOffset: CGFloat = 0  // "Bottom" face detected.
-    var leftOffset: CGFloat = 0    // "Left" face detected.
-    
-    // Minimum face size in percentage in relation of the ROI.
-    var minimumSize: Float = 0
+    var topOffset: CGFloat = 0
+    var rightOffset: CGFloat = 0
+    var bottomOffset: CGFloat = 0
+    var leftOffset: CGFloat = 0
         
     // Return if any attributes has modifications.
     var hasChanges: Bool {

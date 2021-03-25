@@ -143,20 +143,21 @@ class YourViewController: UIViewController, CameraEventListenerDelegate {
 | setOutputImageWidth       | `width: Int`                                                                  | Any positive `number` value that represents in pixels                             | void        | Set face image width to be created in pixels.
 | setOutputImageHeight      | `height: Int`                                                                 | Any positive `number` value that represents in pixels                             | void        | Set face image height to be created in pixels.
 | setSaveImageCaptured      | `enable: Bool`                                                     | `true` or `false`                                                                 | void        | Set to enable/disable save image when capturing face and frame.
-| setFaceDetectionBox       | `enable: Bool`                                                      | `true` or `false`                                                                 | void        | Set to enable/disable detection box when face detected.   
+| setDetectionBox | `enable: Bool` | `true` or `false` | void | Set to enable/disable detection box when face/qrcode detected. The detection box is the the face/qrcode bounding box normalized to UI.
+| setDetectionBoxColor | `alpha: Float, red: Float, green: Float, blue: Float`   | Value between `0` and `1` | void | Set detection box ARGB color. Default value is `(0.4, 1.0, 1.0, 1.0)`.
 | setFaceContours              | `enable: Bool`                                  | `true` or `false`                                                               | void        | Set to enable/disable face contours when face detected. 
-| setFaceContoursColor | `alpha: Float, red: Float, green: Float, blue: Float`   | Positive value between 0.0 and 1.0                                                | void        | Set face contours ARGB color. Default value is `(0.4, 1.0, 1.0, 1.0)`.
+| setFaceContoursColor | `alpha: Float, red: Float, green: Float, blue: Float`   | Value between `0` and `1` | void        | Set face contours ARGB color. Default value is `(0.4, 1.0, 1.0, 1.0)`.
 | setFacePaddingPercent | `facePaddingPercent: Float` | Any positive `Float` value. | void | Set face image and bounding box padding in percent.  
-| setFaceCaptureMinSize  | `faceCaptureMinSize: Float` | Value between `0` and `1`. Represents the percentage. | void | Set the minimum face capture based on the screen width.
-| setFaceCaptureMaxSize | `faceCaptureMaxSize: Float` | Value between `0` and `1`. Represents the percentage. | void | Set the maximum face capture based on the screen width.
-| setFaceROIEnable             | `enable: Bool`               | `true` or `false`                                                              | void        | Enable/disable face region of interest capture.
-| setFaceROITopOffset        | `topOffset: Float`       | Values between `0` and `1`. Represents the percentage. | void | Distance in percentage of the top face bounding box with the top of the camera preview. 
-| setFaceROIRightOffset     | `rightOffset: Float`   | Values between `0` and `1`. Represents the percentage. | void | Distance in percentage of the right face bounding box with the right of the camera preview.
-| setFaceROIBottomOffset | `bottomOffset: Float` | Values between `0` and `1`. Represents the percentage. | void | Distance in percentage of the bottom face bounding box with the bottom of the camera preview.
-| setFaceROILeftOffset       | `leftOffset: Float`     | Values between `0` and `1`. Represents the percentage. | void | Distance in percentage of the left face bounding box with the left of the camera preview.
-| setFaceROIMinSize          | `minimumSize: Float`   | Values between `0` and `1`. Represents the percentage.  | void | Set the minimum face size related with the region of interest.
-| setFaceROIAreaOffset         | `enable: Bool`                                  | `true` or `false`                                                               | void        | Set face region of interest offset color visibility.
-| setFaceROIAreaOffsetColor    | `alpha: Float, red: Float, green: Float, blue: Float`   | Any positive float between 0.0 and 1.0                                          | void        | Set face region of interest area offset color. Default value is `(0.4, 1.0, 1.0, 1.0)`.
+| setMinimumSize  | `minimumSize: Float` | Value between `0` and `1`. Represents the percentage. | void | Set face/qrcode minimum size to detect in percentage related with the camera preview.
+| setMaximumSize | `maximumSize: Float` | Value between `0` and `1`. Represents the percentage. | void | Set face/qrcode maximum size to detect in percentage related with the camera preview.
+| setROI             | `enable: Bool`               | `true` or `false`                                                              | void        | Enable/disable the region of interest capture.
+| setROITopOffset        | `topOffset: Float`       | Value between `0` and `1`. Represents the percentage. | void | Camera preview top distance in percentage. 
+| setROIRightOffset     | `rightOffset: Float`   | Value between `0` and `1`. Represents the percentage. | void | Camera preview right distance in percentage.
+| setROIBottomOffset | `bottomOffset: Float` | Value between `0` and `1`. Represents the percentage. | void | Camera preview bottom distance in percentage.
+| setROILeftOffset       | `leftOffset: Float`     | Value between `0` and `1`. Represents the percentage. | void | Camera preview left distance in percentage.
+| setROIAreaOffset | `enable: Bool` | `true` or `false` | void | Set to enable/disable region of interest offset visibility.
+| setROIAreaOffsetColor | `alpha: Float, red: Float, green: Float, blue: Float` | Value between `0` and `1` | void | Set face region of interest area offset color. Default value is `(0.4, 1.0, 1.0, 1.0)`.
+| setTorch | `enable: Bool` | `true` or `false` | void | Set to enable/disable the device torch. The S.O. force to lock the camera preview to enable the torch.
 
 ### Events
 
@@ -210,15 +211,15 @@ Pre-define key error used by the `onError` event.
 | INVALID_TIME_BETWEEN_IMAGES       | Tried to input invalid face time interval to capture face.
 | INVALID_OUTPUT_IMAGE_WIDTH        | Tried to input invalid image width.
 | INVALID_OUTPUT_IMAGE_HEIGHT       | Tried to input invalid image height.
+| INVALID_DETECTION_BOX_COLOR | Tried to input invalid detection box ARGB value color.
 | INVALID_FACE_PADDING_PERCENT      | Tried to input invalid face padding percent.
-| INVALID_FACE_CAPTURE_MIN_SIZE     | Tried to input invalid face capture minimum size. 
-| INVALID_FACE_CAPTURE_MAX_SIZE     | Tried to input invalid face capture maximum size.
-| INVALID_FACE_ROI_TOP_OFFSET       | Tried to input invalid face region of interest top offset.
-| INVALID_FACE_ROI_RIGHT_OFFSET     | Tried to input invalid face region of interest right offset.
-| INVALID_FACE_ROI_BOTTOM_OFFSET    | Tried to input invalid face region of interest bottom offset.
-| INVALID_FACE_ROI_LEFT_OFFSET      | Tried to input invalid face region of interest left offset.
-| INVALID_FACE_ROI_MIN_SIZE         | Tried to input invalid face region of interest minimum size.
-| INVALID_FACE_ROI_COLOR               | Tried to input invalid face region of interest area offset ARGB value color.
+| INVALID_MINIMUM_SIZE | Tried to input invalid capture minimum size. 
+| INVALID_MAXIMUM_SIZE | Tried to input invalid capture maximum size.
+| INVALID_ROI_TOP_OFFSET       | Tried to input invalid region of interest top offset.
+| INVALID_ROI_RIGHT_OFFSET     | Tried to input invalid region of interest right offset.
+| INVALID_ROI_BOTTOM_OFFSET    | Tried to input invalid region of interest bottom offset.
+| INVALID_ROI_LEFT_OFFSET      | Tried to input invalid region of interest left offset.
+| INVALID_ROI_COLOR               | Tried to input invalid region of interest area offset ARGB value color.
 | INVALID_FACE_CONTOURS_COLOR          | Tried to input invalid face contour ARGB value color.
 
 ### Message
@@ -227,10 +228,9 @@ Pre-define key messages used by the `onMessage` event.
 
 | Message                           | Description
 | -                                 | -
-| INVALID_CAPTURE_FACE_MIN_SIZE     | Face width percentage in relation of the screen width is less than the set (`setFaceCaptureMinSize`).
-| INVALID_CAPTURE_FACE_MAX_SIZE     | Face width percentage in relation of the screen width is more than the set (`setFaceCaptureMaxSize`).
-| INVALID_CAPTURE_FACE_OUT_OF_ROI   | Face bounding box is out of the set region of interest (`setFaceROIOffset`).
-| INVALID_CAPTURE_FACE_ROI_MIN_SIZE | Face width percentage in relation of the screen width is less than the set (`setFaceROIMinSize`).
+| INVALID_MINIMUM_SIZE | Face/QRCode width percentage in relation of the screen width is less than the set (`setMinimumSize`).
+| INVALID_MAXIMUM_SIZE | Face/QRCode width percentage in relation of the screen width is more than the set (`setMaximumSize`).
+| INVALID_OUT_OF_ROI | Face bounding box is out of the set region of interest (`setFaceROIOffset`).
 
 ## To contribute and make it better
 

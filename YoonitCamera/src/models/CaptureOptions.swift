@@ -18,8 +18,8 @@ import AVFoundation
  */
 public class CaptureOptions {
     
-    // Face region of interesting. Default is all the screen area.
-    var faceROI: FaceROI = FaceROI()
+    // Region of interesting.
+    var roi: ROI = ROI()
     
     // Camera image capture type: NONE, FACE, BARCODE and FRAME.
     var type: CaptureType = .NONE
@@ -42,9 +42,17 @@ public class CaptureOptions {
     // Face/Frame save images captured.
     var saveImageCaptured: Bool = false
     
-    // Draw or not the face detection box.
-    var faceDetectionBox: Bool = false
-            
+    // Draw or not the face/qrcode detection box.
+    var detectionBox: Bool = false
+                
+    // Detection box color.
+    var detectionBoxColor: UIColor = UIColor(
+        red: 1.0,
+        green: 1.0,
+        blue: 1.0,
+        alpha: 1.0
+    )
+    
     // Face contours.
     var faceContours: Bool = false
 
@@ -60,16 +68,16 @@ public class CaptureOptions {
     var facePaddingPercent: Float = 0.27
         
     /**
-     Face capture min size.
-     This variable is the face detection box percentage in relation with the UI graphic view.
-     The value must be between 0 and 1.
+     Face/qrcode minimum size to detect in percentage related with the camera preview.
+     This variable is the detection box percentage in relation with the UI graphic view.
+     The value must be between `0` and `1`.
      */
-    var faceCaptureMinSize: Float = 0
+    var minimumSize: Float = 0
     
     /**
-     Face capture maximum size.
-     This variable is the face detection box percentage in relation with the UI graphic view.
-     The value must be between 0 and 1.   
+     Face/qrcode maximum size to detect in percentage related with the camera preview.
+     This variable is the detection box percentage in relation with the UI graphic view.
+     The value must be between `0` and `1`.
      */
-    var faceCaptureMaxSize: Float = 1.0
+    var maximumSize: Float = 1.0
 }

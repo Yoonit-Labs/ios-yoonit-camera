@@ -28,7 +28,7 @@ public class CameraGraphicView: UIView {
         }
     }
     
-    private var faceDetectionBox: CGRect? = nil
+    private var detectionBox: CGRect? = nil
     private var faceContours: [CGPoint] = []
     
     public override init(frame: CGRect) {
@@ -52,18 +52,18 @@ public class CameraGraphicView: UIView {
         
         // Draw face region of interest area offset bitmap.
         let isDrawFaceROIAreaOffset: Bool =
-            captureOptions.faceROI.enable &&
-            captureOptions.faceROI.areaOffsetEnable
+            captureOptions.roi.enable &&
+            captureOptions.roi.areaOffsetEnable
         if isDrawFaceROIAreaOffset {
             self.drawFaceROIAreaOffset(context: context, rect: rect)
         }
         
         // Draw face detection box.
-        let isDrawFaceDetectionBox: Bool =
-            captureOptions.faceDetectionBox &&
-            self.faceDetectionBox != nil
-        if isDrawFaceDetectionBox {
-            self.drawFaceDetectionBox(context: context)
+        let isDrawDetectionBox: Bool =
+            captureOptions.detectionBox &&
+            self.detectionBox != nil
+        if isDrawDetectionBox {
+            self.drawDetectionBox(context: context)
         }
                 
         // Draw face contours.
@@ -71,30 +71,30 @@ public class CameraGraphicView: UIView {
             self.drawFaceContours(context: context)
         }
     }
-    
-    /**
-     Draw face bitmap blurred above the face detection box.
-          
-     - Parameter faceDetectionBox: The face coordinates within the UI graphic view.
-     - Parameter faceContours: List of points that represents the shape of the face detected .
-     */
-    func handleDraw(
-        faceDetectionBox: CGRect,
+        
+    public func handleDraw(
+        detectionBox: CGRect,
         faceContours: [CGPoint]
     ) {
-        self.faceDetectionBox = faceDetectionBox
+        self.detectionBox = detectionBox
         self.faceContours = faceContours
         
         DispatchQueue.main.async {
             self.setNeedsDisplay()
         }
     }
-    
-    /**
-     Erase anything draw.
-     */
-    func clear() {
-        self.faceDetectionBox = nil
+        
+    public func handleDraw(detectionBox: CGRect) {
+        self.detectionBox = detectionBox
+        self.faceContours = []
+        
+        DispatchQueue.main.async {
+            self.setNeedsDisplay()
+        }
+    }
+        
+    public func clear() {
+        self.detectionBox = nil
         self.faceContours = []
 
         DispatchQueue.main.async {
@@ -103,10 +103,10 @@ public class CameraGraphicView: UIView {
     }
     
     func drawFaceROIAreaOffset(context: CGContext, rect: CGRect) {
-        let topOffset: CGFloat = rect.height * captureOptions.faceROI.topOffset
-        let rightOffset: CGFloat = rect.width * captureOptions.faceROI.rightOffset
-        let bottomOffset: CGFloat = rect.height * captureOptions.faceROI.bottomOffset
-        let leftOffset: CGFloat = rect.width * captureOptions.faceROI.leftOffset
+        let topOffset: CGFloat = rect.height * captureOptions.roi.topOffset
+        let rightOffset: CGFloat = rect.width * captureOptions.roi.rightOffset
+        let bottomOffset: CGFloat = rect.height * captureOptions.roi.bottomOffset
+        let leftOffset: CGFloat = rect.width * captureOptions.roi.leftOffset
         
         let smallRect: CGRect = CGRect(
             x: leftOffset,
@@ -115,24 +115,24 @@ public class CameraGraphicView: UIView {
             height: rect.height - (topOffset + bottomOffset)
         )
         
-        context.setFillColor(captureOptions.faceROI.areaOffsetColor.cgColor)
+        context.setFillColor(captureOptions.roi.areaOffsetColor.cgColor)
         context.fill(rect)
         context.clear(smallRect)
     }
             
-    func drawFaceDetectionBox(context: CGContext) {
-        guard let faceDetectionBox: CGRect = self.faceDetectionBox else {
+    func drawDetectionBox(context: CGContext) {
+        guard let detectionBox: CGRect = self.detectionBox else {
             return
         }
         
         context.setLineWidth(2)
-        context.setStrokeColor(UIColor.white.cgColor)
-        context.stroke(faceDetectionBox)
+        context.setStrokeColor(captureOptions.detectionBoxColor.cgColor)
+        context.stroke(detectionBox)
         
-        let left = faceDetectionBox.minX
-        let top = faceDetectionBox.minY
-        let right = faceDetectionBox.maxX
-        let bottom = faceDetectionBox.maxY
+        let left = detectionBox.minX
+        let top = detectionBox.minY
+        let right = detectionBox.maxX
+        let bottom = detectionBox.maxY
         let midY = (bottom - top) / 2.0
         
         // edge - top-left > bottom-left
@@ -211,7 +211,7 @@ public class CameraGraphicView: UIView {
         from: CGPoint,
         to: CGPoint
     ) {
-        context.setStrokeColor(UIColor.white.cgColor)
+        context.setStrokeColor(captureOptions.detectionBoxColor.cgColor)
         context.setLineWidth(6)
         context.setLineCap(.round)
         context.move(to: from)

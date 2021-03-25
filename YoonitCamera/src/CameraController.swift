@@ -23,11 +23,13 @@ class CameraController: NSObject {
     private var cameraGraphicView: CameraGraphicView
     private var faceAnalyzer: FaceAnalyzer?
     private var frameAnalyzer: FrameAnalyzer?
+    private var qrcodeAnalyzer: QRCodeAnalyzer?
     
     public var cameraEventListener: CameraEventListenerDelegate? = nil {
         didSet {
             self.faceAnalyzer?.cameraEventListener = cameraEventListener
             self.frameAnalyzer?.cameraEventListener = cameraEventListener
+            self.qrcodeAnalyzer?.cameraEventListener = cameraEventListener
         }
     }
     
@@ -41,11 +43,9 @@ class CameraController: NSObject {
         self.session = session
         self.cameraGraphicView = cameraGraphicView
         
-        self.faceAnalyzer = FaceAnalyzer(
-            cameraGraphicView: cameraGraphicView
-        )
-        
+        self.faceAnalyzer = FaceAnalyzer(cameraGraphicView: cameraGraphicView)
         self.frameAnalyzer = FrameAnalyzer()
+        self.qrcodeAnalyzer = QRCodeAnalyzer(cameraGraphicView: cameraGraphicView)
     }
     
     required init?(coder: NSCoder) {
@@ -111,6 +111,9 @@ class CameraController: NSObject {
         case CaptureType.FRAME:
             self.frameAnalyzer?.start = true
             
+        case CaptureType.QRCODE:
+            self.qrcodeAnalyzer?.start = true
+            
         default:
             return
         }
@@ -122,6 +125,7 @@ class CameraController: NSObject {
     public func stopAnalyzer() {
         self.faceAnalyzer?.start = false
         self.frameAnalyzer?.start = false
+        self.qrcodeAnalyzer?.start = false
     }
         
     /**
@@ -175,7 +179,8 @@ class CameraController: NSObject {
         videoDataOutput.alwaysDiscardsLateVideoFrames = true
         videoDataOutput.setSampleBufferDelegate(
             self,
-            queue: DispatchQueue(label: "analyzer_queue"))
+            queue: DispatchQueue(label: "analyzer_queue")
+        )
                         
         self.session.addOutput(videoDataOutput)
         
@@ -184,7 +189,8 @@ class CameraController: NSObject {
         self.session.addOutput(metadataOutput)
         metadataOutput.setMetadataObjectsDelegate(
             self,
-            queue: DispatchQueue.main)
+            queue: DispatchQueue.main
+        )
         metadataOutput.metadataObjectTypes = [.qr]
         
         // Connection handler.
@@ -192,6 +198,16 @@ class CameraController: NSObject {
             with: AVMediaType.video),
             connection.isVideoOrientationSupported else { return }
         connection.videoOrientation = .portrait
+    }
+    
+    func setTorch(enable: Bool) {
+        if let device = AVCaptureDevice.default(for: .video) {
+            if device.hasTorch {
+                try! device.lockForConfiguration()
+                device.torchMode = enable ? .on : .off
+                device.unlockForConfiguration()
+            }
+        }
     }
 }
 
@@ -236,12 +252,6 @@ extension CameraController: AVCaptureMetadataOutputObjectsDelegate {
             return
         }
         
-        if let metadataObject = metadataObjects.first {
-            guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
-            guard let stringValue = readableObject.stringValue else { return }
-            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-                        
-            self.cameraEventListener?.onQRCodeScanned(stringValue)
-        }
+        self.qrcodeAnalyzer?.qrcodeDetect(metadataObjects: metadataObjects)
     }
 }
