@@ -58,10 +58,18 @@ class FaceAnalyzer {
             return
         }
         
-        self.faceDetectWithVision(imageBuffer: imageBuffer)
+        let currentTimestamp = Date().currentTimeMillis()
+        let diffTime = currentTimestamp - self.cameraTimestamp
+        
+        if diffTime > 200 {
+            self.cameraTimestamp = currentTimestamp
+            
+            self.faceDetectWithVision(imageBuffer: imageBuffer)
+        }
     }
     
     private func faceDetectWithVision(imageBuffer: CVPixelBuffer) {
+        
         // Detection face using VIsion API.
         let faceDetectRequest = VNDetectFaceRectanglesRequest {
             request, error in
@@ -72,7 +80,7 @@ class FaceAnalyzer {
             
             DispatchQueue.main.async {
                 // Found faces...
-                if let faces = request.results as? [VNFaceObservation], faces.count > 0, self.start {
+                if let faces = request.results as? [VNFaceObservation], faces.count > 0 {
                     
                     // Get image orientation.
                     let orientation = captureOptions.cameraLens == AVCaptureDevice.Position.back ?
@@ -125,19 +133,29 @@ class FaceAnalyzer {
                         faceContours: []
                     )
                     
-                    // Emit face detected detection box coordinates.
-                    self.cameraEventListener?.onFaceDetected(
-                        Int(detectionBox.minX),
-                        Int(detectionBox.minY),
-                        Int(detectionBox.width),
-                        Int(detectionBox.height),
-                        nil,
-                        nil,
-                        nil,
-                        nil,
-                        nil,
-                        nil
-                    )
+                    let cameraInputImage: UIImage = imageBuffer.toUIImage()
+                    self.facefy.detect(cameraInputImage) { faceDetected in
+                        if let faceDetected: FaceDetected = faceDetected {
+                            let leftEyeOpenProbability = faceDetected.leftEyeOpenProbability != nil ? NSNumber(value: Float(faceDetected.leftEyeOpenProbability!)) : nil
+                            let rightEyeOpenProbability = faceDetected.rightEyeOpenProbability != nil ? NSNumber(value: Float(faceDetected.rightEyeOpenProbability!)) : nil
+                            let smilingProbability = faceDetected.smilingProbability != nil ? NSNumber(value: Float(faceDetected.smilingProbability!)) : nil
+                            let headEulerAngleX = faceDetected.headEulerAngleX != nil ? NSNumber(value: Float(faceDetected.headEulerAngleX!)) : nil
+                            let headEulerAngleY = faceDetected.headEulerAngleY != nil ? NSNumber(value: Float(faceDetected.headEulerAngleY!)) : nil
+                            let headEulerAngleZ = faceDetected.headEulerAngleZ != nil ? NSNumber(value: Float(faceDetected.headEulerAngleZ!)) : nil
+                            self.cameraEventListener?.onFaceDetected(
+                                Int(detectionBox.minX),
+                                Int(detectionBox.minY),
+                                Int(detectionBox.width),
+                                Int(detectionBox.height),
+                                leftEyeOpenProbability,
+                                rightEyeOpenProbability,
+                                smilingProbability,
+                                headEulerAngleX,
+                                headEulerAngleY,
+                                headEulerAngleZ
+                            )
+                        }
+                    } onError: { message in }
                     
                     if !captureOptions.saveImageCaptured {
                         return
@@ -154,14 +172,13 @@ class FaceAnalyzer {
                         self.faceCropController.cropImage(
                             image: image!,
                             boundingBox: closestFace.boundingBox,
-                            captureOptions: captureOptions) {
-                            
-                            // Result of the crop face process.
-                            result in
+                            captureOptions: captureOptions
+                        ) { result in
                             
                             let imageResized = try! result.resize(
                                 width: captureOptions.imageOutputWidth,
-                                height: captureOptions.imageOutputHeight)
+                                height: captureOptions.imageOutputHeight
+                            )
                             
                             let fileURL = fileURLFor(index: self.numberOfImages)
                             let fileName = try! save(
@@ -189,77 +206,70 @@ class FaceAnalyzer {
     }
     
     private func faceDetectWithFacefy(imageBuffer: CVPixelBuffer) {
-        // Handle crop face process by time.
-        let currentTimestamp = Date().currentTimeMillis()
-        let diffTime = currentTimestamp - self.cameraTimestamp
-        
-        if diffTime > 200 {
-            self.cameraTimestamp = currentTimestamp
-                                        
-            let cameraInputImage: UIImage = imageBuffer.toUIImage()
-                            
-            self.facefy.detect(cameraInputImage) { faceDetected in
-                
-                // Get from faceDetected the graphic face bounding box.
-                let detectionBox: CGRect = self.coordinatesController
-                    .getDetectionBox(
-                        cameraInputImage: cameraInputImage,
-                        faceDetected: faceDetected
-                    )
-                
-                // Verify if has error on detection box.
-                if self.hasError(
+                                                
+        let cameraInputImage: UIImage = imageBuffer.toUIImage()
+                        
+        self.facefy.detect(cameraInputImage) { faceDetected in
+            
+            // Get from faceDetected the graphic face bounding box.
+            let detectionBox: CGRect = self.coordinatesController
+                .getDetectionBox(
                     cameraInputImage: cameraInputImage,
-                    detectionBox: detectionBox
-                ) {
-                    return
-                }
-                                            
-                // Process faceDetected results...
-                if let faceDetected: FaceDetected = faceDetected {
-                    
-                    // Get the face contours scaled to UI graphic.
-                    let faceContours: [CGPoint] = self.coordinatesController.getFaceContours(
-                        cameraInputImage: cameraInputImage,
-                        contours: faceDetected.contours
-                    )
-                    
-                    // Handle draw face detection box and face contours.
-                    self.cameraGraphicView.handleDraw(
-                        detectionBox: detectionBox,
-                        faceContours: faceContours
-                    )
-                                                                                
-                    let leftEyeOpenProbability = faceDetected.leftEyeOpenProbability != nil ? NSNumber(value: Float(faceDetected.leftEyeOpenProbability!)) : nil
-                    let rightEyeOpenProbability = faceDetected.rightEyeOpenProbability != nil ? NSNumber(value: Float(faceDetected.rightEyeOpenProbability!)) : nil
-                    let smilingProbability = faceDetected.smilingProbability != nil ? NSNumber(value: Float(faceDetected.smilingProbability!)) : nil
-                    let headEulerAngleX = faceDetected.headEulerAngleX != nil ? NSNumber(value: Float(faceDetected.headEulerAngleX!)) : nil
-                    let headEulerAngleY = faceDetected.headEulerAngleY != nil ? NSNumber(value: Float(faceDetected.headEulerAngleY!)) : nil
-                    let headEulerAngleZ = faceDetected.headEulerAngleZ != nil ? NSNumber(value: Float(faceDetected.headEulerAngleZ!)) : nil
-                    
-                    // Emit the faceDetected results.
-                    self.cameraEventListener?.onFaceDetected(
-                        Int(detectionBox.minX),
-                        Int(detectionBox.minY),
-                        Int(detectionBox.width),
-                        Int(detectionBox.height),
-                        leftEyeOpenProbability,
-                        rightEyeOpenProbability,
-                        smilingProbability,
-                        headEulerAngleX,
-                        headEulerAngleY,
-                        headEulerAngleZ
-                    )
-                    
-                    // Handle save the face detected image from the camera input image.
-                    self.handleSaveImage(
-                        cameraInputImage: cameraInputImage,
-                        faceDetected: faceDetected
-                    )
-                }
-            } onError: { message in
-                self.cameraEventListener?.onError(message)
+                    faceDetected: faceDetected
+                )
+            
+            // Verify if has error on detection box.
+            if self.hasError(
+                cameraInputImage: cameraInputImage,
+                detectionBox: detectionBox
+            ) {
+                return
             }
+                                        
+            // Process faceDetected results...
+            if let faceDetected: FaceDetected = faceDetected {
+                
+                // Get the face contours scaled to UI graphic.
+                let faceContours: [CGPoint] = self.coordinatesController.getFaceContours(
+                    cameraInputImage: cameraInputImage,
+                    contours: faceDetected.contours
+                )
+                
+                // Handle draw face detection box and face contours.
+                self.cameraGraphicView.handleDraw(
+                    detectionBox: detectionBox,
+                    faceContours: faceContours
+                )
+                                                                            
+                let leftEyeOpenProbability = faceDetected.leftEyeOpenProbability != nil ? NSNumber(value: Float(faceDetected.leftEyeOpenProbability!)) : nil
+                let rightEyeOpenProbability = faceDetected.rightEyeOpenProbability != nil ? NSNumber(value: Float(faceDetected.rightEyeOpenProbability!)) : nil
+                let smilingProbability = faceDetected.smilingProbability != nil ? NSNumber(value: Float(faceDetected.smilingProbability!)) : nil
+                let headEulerAngleX = faceDetected.headEulerAngleX != nil ? NSNumber(value: Float(faceDetected.headEulerAngleX!)) : nil
+                let headEulerAngleY = faceDetected.headEulerAngleY != nil ? NSNumber(value: Float(faceDetected.headEulerAngleY!)) : nil
+                let headEulerAngleZ = faceDetected.headEulerAngleZ != nil ? NSNumber(value: Float(faceDetected.headEulerAngleZ!)) : nil
+                
+                // Emit the faceDetected results.
+                self.cameraEventListener?.onFaceDetected(
+                    Int(detectionBox.minX),
+                    Int(detectionBox.minY),
+                    Int(detectionBox.width),
+                    Int(detectionBox.height),
+                    leftEyeOpenProbability,
+                    rightEyeOpenProbability,
+                    smilingProbability,
+                    headEulerAngleX,
+                    headEulerAngleY,
+                    headEulerAngleZ
+                )
+                
+                // Handle save the face detected image from the camera input image.
+                self.handleSaveImage(
+                    cameraInputImage: cameraInputImage,
+                    faceDetected: faceDetected
+                )
+            }
+        } onError: { message in
+            self.cameraEventListener?.onError(message)
         }
     }
     
