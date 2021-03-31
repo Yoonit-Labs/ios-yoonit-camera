@@ -459,9 +459,9 @@ public class CameraView: UIView {
      Default value is `false`.
      */
     @objc
-    public func setROIAreaOffset(_ enable: Bool) {
-        self.cameraGraphicView.update()
+    public func setROIAreaOffset(_ enable: Bool) {        
         captureOptions.roi.areaOffsetEnable = enable
+        self.cameraGraphicView.update()
     }
 
     /**
@@ -488,14 +488,14 @@ public class CameraView: UIView {
         ) {
             fatalError(KeyError.INVALID_ROI_COLOR.rawValue)
         }
-                     
-        self.cameraGraphicView.update()
+                             
         captureOptions.roi.areaOffsetColor = UIColor(
             red: CGFloat(red),
             green: CGFloat(green),
             blue: CGFloat(blue),
             alpha: CGFloat(alpha)
         )
+        self.cameraGraphicView.update()
     }
     
     /**
