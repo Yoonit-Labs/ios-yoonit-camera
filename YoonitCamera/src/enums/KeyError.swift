@@ -37,10 +37,10 @@ public enum KeyError: String {
     // Tried to input invalid face padding percent.
     case INVALID_FACE_PADDING_PERCENT = "INVALID_FACE_PADDING_PERCENT"
         
-    // Tried to input invalid capture minimum size.
+    // Tried to input invalid minimum size.
     case INVALID_MINIMUM_SIZE = "INVALID_MINIMUM_SIZE"
     
-    // Tried to input invalid capture maximum size.
+    // Tried to input invalid maximum size.
     case INVALID_MAXIMUM_SIZE = "INVALID_MAXIMUM_SIZE"
         
     // Tried to input invalid region of interest top offset.
