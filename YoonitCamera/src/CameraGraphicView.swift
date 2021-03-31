@@ -43,6 +43,12 @@ public class CameraGraphicView: UIView {
         self.isOpaque = false
     }
     
+    public func update() {
+        DispatchQueue.main.async {
+            self.setNeedsDisplay()
+        }
+    }
+    
     public override func draw(_ rect: CGRect) {
         if !self.draw {
             return
@@ -78,28 +84,19 @@ public class CameraGraphicView: UIView {
     ) {
         self.detectionBox = detectionBox
         self.faceContours = faceContours
-        
-        DispatchQueue.main.async {
-            self.setNeedsDisplay()
-        }
+        self.update()
     }
         
     public func handleDraw(detectionBox: CGRect) {
         self.detectionBox = detectionBox
         self.faceContours = []
-        
-        DispatchQueue.main.async {
-            self.setNeedsDisplay()
-        }
+        self.update()
     }
         
     public func clear() {
         self.detectionBox = nil
         self.faceContours = []
-
-        DispatchQueue.main.async {
-            self.setNeedsDisplay()
-        }
+        self.update()
     }
     
     func drawFaceROIAreaOffset(context: CGContext, rect: CGRect) {

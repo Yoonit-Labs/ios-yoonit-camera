@@ -14,6 +14,9 @@ import UIKit
 import YoonitFacefy
 import Vision
 
+/**
+ Responsible to manipulate everything related with the UI coordinates.
+ */
 class CoordinatesController {
         
     private var cameraGraphicView: CameraGraphicView
@@ -78,17 +81,19 @@ class CoordinatesController {
                         Float(screenWidth))
                 
                 let faceRelatedWithROI: Float = Float(detectionBox.width) / roiWidth
-                                                    
+                                           
                 if captureOptions.minimumSize > faceRelatedWithROI {
                     return Message.INVALID_MINIMUM_SIZE.rawValue
                 }
             }
+            
+            return nil
         }
         
         // This variable is the face detection box percentage in relation with the
         // UI view. The value must be between 0 and 1.
         let detectionBoxRelatedWithScreen = Float(detectionBox.width / screenWidth)
-
+        
         // Face smaller than the capture minimum size.
         if (detectionBoxRelatedWithScreen < captureOptions.minimumSize) {
             return Message.INVALID_MINIMUM_SIZE.rawValue

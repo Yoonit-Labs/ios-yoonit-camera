@@ -134,7 +134,7 @@ class YourViewController: UIViewController, CameraEventListenerDelegate {
 | startPreview              | -                                                                             | -                                                                                 | void        | Start camera preview if has permission.
 | startCaptureType          | `captureType: String`                                                         | <ul><li>`"none"`</li><li>`"face"`</li><li>`"qrcode"`</li><li>`"frame"`</li></ul> | void        | Set capture type none, face, QR Code or frame.
 | stopCapture               | -                                                                             | -                                                                                 | void        | Stop any type of capture.
-| destroy | - | - | void | Remove camera preview.
+| destroy | - | - | void | Destroy camera preview.
 | toggleCameraLens          | -                                                                             | -                                                                                 | void        | Toggle camera lens facing front/back.
 | setCameraLens             | `cameraLens: String`        | <ul><li>`"front"`</li><li>`"back"`</li></ul>                                      | void         | Set camera to use "front" or "back" lens. Default value is "front".
 | getCameraLens             | -                                                                             | -                                                                                 | String         | Return "front" or "back". 
@@ -213,8 +213,8 @@ Pre-define key error used by the `onError` event.
 | INVALID_OUTPUT_IMAGE_HEIGHT       | Tried to input invalid image height.
 | INVALID_DETECTION_BOX_COLOR | Tried to input invalid detection box ARGB value color.
 | INVALID_FACE_PADDING_PERCENT      | Tried to input invalid face padding percent.
-| INVALID_MINIMUM_SIZE | Tried to input invalid capture minimum size. 
-| INVALID_MAXIMUM_SIZE | Tried to input invalid capture maximum size.
+| INVALID_MINIMUM_SIZE | Tried to input invalid minimum size. 
+| INVALID_MAXIMUM_SIZE | Tried to input invalid maximum size.
 | INVALID_ROI_TOP_OFFSET       | Tried to input invalid region of interest top offset.
 | INVALID_ROI_RIGHT_OFFSET     | Tried to input invalid region of interest right offset.
 | INVALID_ROI_BOTTOM_OFFSET    | Tried to input invalid region of interest bottom offset.
@@ -228,9 +228,9 @@ Pre-define key messages used by the `onMessage` event.
 
 | Message                           | Description
 | -                                 | -
-| INVALID_MINIMUM_SIZE | Face/QRCode width percentage in relation of the screen width is less than the set (`setMinimumSize`).
+| INVALID_MINIMUM_SIZE | Face/QRCode width percentage in relation of the screen width is less than the set (`setDetectionMinSize`).
 | INVALID_MAXIMUM_SIZE | Face/QRCode width percentage in relation of the screen width is more than the set (`setMaximumSize`).
-| INVALID_OUT_OF_ROI | Face bounding box is out of the set region of interest (`setFaceROIOffset`).
+| INVALID_OUT_OF_ROI | Face bounding box is out of the set region of interest (`setROI`).
 
 ## To contribute and make it better
 

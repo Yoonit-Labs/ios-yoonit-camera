@@ -20,10 +20,10 @@ class CameraViewController: UIViewController {
     @IBOutlet var cameraTypeDropDown: UIButton!
     @IBOutlet var qrCodeTextField: UITextField!
     @IBOutlet var imageCapturedTextField: UITextField!
-    @IBOutlet var faceDetectionBoxSwitch: UISwitch!
+    @IBOutlet var detectionBoxSwitch: UISwitch!
     @IBOutlet var faceContoursSwitch: UISwitch!
     @IBOutlet var imageCaptureSwitch: UISwitch!
-    @IBOutlet var featuresPanel: UIView!
+    @IBOutlet var configurationsView: UIView!
     
     var showImagePreview = false {
         didSet {
@@ -150,21 +150,27 @@ class CameraViewController: UIViewController {
         self.menu.show()
     }
     
-    @IBAction func toggleFeatuesPanel(_ sender: UISwitch) {
-        self.featuresPanel.isHidden = !sender.isOn
+    @IBAction func toggleConfigurationsView(_ sender: UISwitch) {
+        self.configurationsView.isHidden = !sender.isOn
     }
     
-    @IBAction func onFaceMinSwitchClick(_ sender: UISwitch) {
+    @IBAction func onDetectionMinSwitchClick(_ sender: UISwitch) {
         self.cameraView.setDetectionMinSize(sender.isOn ? 0.7 : 0.0)
     }
     
-    @IBAction func onFaceMaxSwitchClick(_ sender: UISwitch) {
+    @IBAction func onDetectionMaxSwitchClick(_ sender: UISwitch) {
         self.cameraView.setDetectionMaxSize(sender.isOn ? 0.9 : 1.0)
     }
     
-    @IBAction func onFaceROISwitchClick(_ sender: UISwitch) {
+    @IBAction func toggleROI(_ sender: UISwitch) {
         self.cameraView.setROI(sender.isOn)
         self.cameraView.setROIAreaOffset(sender.isOn)
+    }
+    
+    @IBAction func toggleROIColor(_ sender: UISwitch) {
+        sender.isOn
+            ? self.cameraView.setROIAreaOffsetColor(1, 1, 0, 0)
+            : self.cameraView.setROIAreaOffsetColor(1, 1, 1, 1)
     }
   
     @IBAction func toggleCam(_ sender: UIButton) {
@@ -179,12 +185,24 @@ class CameraViewController: UIViewController {
         print("camera lens \(self.cameraView.getCameraLens())")
     }
         
-    @IBAction func toggleFaceDetectionBox(_ sender: UISwitch) {
+    @IBAction func toggleDetectionBox(_ sender: UISwitch) {
         self.cameraView.setDetectionBox(sender.isOn)
+    }
+    
+    @IBAction func toggleDetectionBoxColor(_ sender: UISwitch) {
+        sender.isOn
+            ? self.cameraView.setDetectionBoxColor(1, 1, 0, 0)
+            : self.cameraView.setDetectionBoxColor(1, 1, 1, 1)
     }
     
     @IBAction func toggleFaceContours(_ sender: UISwitch) {
         self.cameraView.setFaceContours(sender.isOn)
+    }
+    
+    @IBAction func toggleContoursColor(_ sender: UISwitch) {
+        sender.isOn
+            ? self.cameraView.setFaceContoursColor(1, 1, 0, 0)
+            : self.cameraView.setFaceContoursColor(1, 1, 1, 1)
     }
     
     @IBAction func toggleCameraOn(_ sender: UISwitch) {
@@ -194,7 +212,7 @@ class CameraViewController: UIViewController {
             self.cameraView.destroy()
             self.clearFaceImagePreview()
             self.captureType = "none"
-            self.faceDetectionBoxSwitch.isOn = false
+            self.detectionBoxSwitch.isOn = false
             self.imageCaptureSwitch.isOn = false
         }
     }
