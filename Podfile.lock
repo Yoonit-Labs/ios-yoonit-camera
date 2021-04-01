@@ -1,5 +1,5 @@
 PODS:
-  - GoogleDataTransport (8.3.0):
+  - GoogleDataTransport (8.3.1):
     - GoogleUtilities/Environment (~> 7.2)
     - nanopb (~> 2.30907.0)
     - PromisesObjC (~> 1.2)
@@ -54,11 +54,11 @@ PODS:
   - nanopb/encode (2.30907.0)
   - PromisesObjC (1.2.12)
   - Protobuf (3.14.0)
-  - YoonitFacefy (1.0.4):
+  - YoonitFacefy (1.0.5):
     - GoogleMLKit/FaceDetection
 
 DEPENDENCIES:
-  - YoonitFacefy (from `https://github.com/Yoonit-Labs/ios-yoonit-facefy.git`, tag `1.0.4`)
+  - YoonitFacefy (from `https://github.com/Yoonit-Labs/ios-yoonit-facefy.git`, tag `1.0.5`)
 
 SPEC REPOS:
   trunk:
@@ -78,15 +78,15 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   YoonitFacefy:
     :git: https://github.com/Yoonit-Labs/ios-yoonit-facefy.git
-    :tag: 1.0.4
+    :tag: 1.0.5
 
 CHECKOUT OPTIONS:
   YoonitFacefy:
     :git: https://github.com/Yoonit-Labs/ios-yoonit-facefy.git
-    :tag: 1.0.4
+    :tag: 1.0.5
 
 SPEC CHECKSUMS:
-  GoogleDataTransport: b006084b73915a42c28a3466961a4edda3065da6
+  GoogleDataTransport: 8b0e733ea77c9218778e5a9e34ba9508b8328939
   GoogleMLKit: 6ca2a10de262ee1017b52ac045e8967884ace992
   GoogleToolboxForMac: 471e0c05d39506e50e6398f46fa9a12ae0efeff9
   GoogleUtilities: e1d9ed4e544fc32a93e00e721400cbc3f377200d
@@ -98,8 +98,8 @@ SPEC CHECKSUMS:
   nanopb: 59221d7f958fb711001e6a449489542d92ae113e
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   Protobuf: 0cde852566359049847168e51bd1c690e0f70056
-  YoonitFacefy: 7d4eba6167bb23fdc27777c4e9f0c2da2f8e1b32
+  YoonitFacefy: 0a7faa647a661444b37d73ab92208969f0b8e430
 
-PODFILE CHECKSUM: ef1a61d08132a581255f13e3897632f04f4f75aa
+PODFILE CHECKSUM: 368508974268395751246212b4bdd7f22dcb188c
 
 COCOAPODS: 1.10.1
