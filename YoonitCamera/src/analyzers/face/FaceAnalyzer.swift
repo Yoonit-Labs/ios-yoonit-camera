@@ -134,7 +134,7 @@ class FaceAnalyzer {
                     )
                     
                     let cameraInputImage: UIImage = imageBuffer.toUIImage()
-                    self.facefy.detect(cameraInputImage) { faceDetected in
+                    self.facefy.detect(self.flipImageLeftRight(cameraInputImage)!) { faceDetected in
                         if let faceDetected: FaceDetected = faceDetected {
                             let leftEyeOpenProbability = faceDetected.leftEyeOpenProbability != nil ? NSNumber(value: Float(faceDetected.leftEyeOpenProbability!)) : nil
                             let rightEyeOpenProbability = faceDetected.rightEyeOpenProbability != nil ? NSNumber(value: Float(faceDetected.rightEyeOpenProbability!)) : nil
@@ -203,6 +203,23 @@ class FaceAnalyzer {
             orientation: .leftMirrored,
             options: [:]
         ).perform([faceDetectRequest])
+    }
+    
+    func flipImageLeftRight(_ image: UIImage) -> UIImage? {
+
+        UIGraphicsBeginImageContextWithOptions(image.size, false, image.scale)
+        
+        let context = UIGraphicsGetCurrentContext()!
+        
+        context.translateBy(x: image.size.width, y: image.size.height)
+        context.scaleBy(x: -image.scale, y: -image.scale)
+        context.draw(image.cgImage!, in: CGRect(origin:CGPoint.zero, size: image.size))
+
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+
+        UIGraphicsEndImageContext()
+
+        return newImage
     }
     
     private func faceDetectWithFacefy(imageBuffer: CVPixelBuffer) {
