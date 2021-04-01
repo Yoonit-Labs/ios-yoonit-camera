@@ -15,6 +15,12 @@ import DropDown
 
 class CameraViewController: UIViewController {
     
+    private enum SegmentedIndex: Int {
+        case CONFIGURATIONS = 0
+        case ANALYSIS = 1
+        case HIDE = 2
+    }
+    
     @IBOutlet var savedFrame: UIImageView!
     @IBOutlet var cameraView: CameraView!
     @IBOutlet var cameraTypeDropDown: UIButton!
@@ -24,6 +30,20 @@ class CameraViewController: UIViewController {
     @IBOutlet var faceContoursSwitch: UISwitch!
     @IBOutlet var imageCaptureSwitch: UISwitch!
     @IBOutlet var configurationsView: UIView!
+    @IBOutlet var analysisView: UIView!
+    @IBOutlet var segmentedControl: UISegmentedControl!
+    @IBOutlet var leftEyeLabel: UILabel!
+    @IBOutlet var leftEyeRawLabel: UILabel!
+    @IBOutlet var rightEyeLabel: UILabel!
+    @IBOutlet var rightEyeRawLabel: UILabel!
+    @IBOutlet var smilingLabel: UILabel!
+    @IBOutlet var smilingRawLabel: UILabel!
+    @IBOutlet var verticalLabel: UILabel!
+    @IBOutlet var verticalRawLabel: UILabel!
+    @IBOutlet var horizontalLabel: UILabel!
+    @IBOutlet var horizontalRawLabel: UILabel!
+    @IBOutlet var tiltLabel: UILabel!
+    @IBOutlet var tiltRawLabel: UILabel!
     
     var showImagePreview = false {
         didSet {
@@ -39,29 +59,21 @@ class CameraViewController: UIViewController {
                 self.cameraTypeDropDown.setTitle("No capture", for: .normal)
                 self.clearFaceImagePreview()
                 self.qrCodeTextField.isHidden = true
-                return;
-                
             case "face":
                 self.cameraView.startCaptureType(self.captureType)
                 self.cameraTypeDropDown.setTitle("Face capture", for: .normal)
                 self.showImagePreview = true
                 self.qrCodeTextField.isHidden = true
-                return;
-                
             case "frame":
                 self.cameraView.startCaptureType(self.captureType)
                 self.cameraTypeDropDown.setTitle("Frame capture", for: .normal)
                 self.showImagePreview = true
                 self.qrCodeTextField.isHidden = true
-                return;
-                
             case "qrcode":
                 self.cameraView.startCaptureType(self.captureType)
                 self.cameraTypeDropDown.setTitle("Code capture", for: .normal)
                 self.qrCodeTextField.isHidden = false
                 self.clearFaceImagePreview()
-                return;
-                
             default:
                 return;
             }
@@ -109,31 +121,22 @@ class CameraViewController: UIViewController {
         self.cameraView.setROIRightOffset(0.1)
         self.cameraView.setROITopOffset(0.1)
         self.cameraView.setROIBottomOffset(0.1)
+        self.cameraView.setDetectionBox(true)
+        self.captureType = "face"
         
         self.menu.anchorView = self.cameraTypeDropDown
-        self.menu.selectionAction = {
-            index, title in
-                        
+        self.menu.selectionAction = { index, title in
             switch title {
             case "No capture":
                 self.captureType = "none"
-                break;
-                
             case "Face capture":
                 self.captureType = "face"
-                break;
-                
             case "Frame capture":
                 self.captureType = "frame"
-                break;
-                
             case "Code capture":
                 self.captureType = "qrcode"
-                break;
-                
             default:
                 self.captureType = "none"
-                break;
             }
         }
     }
@@ -145,9 +148,24 @@ class CameraViewController: UIViewController {
     @objc func onActive(_ notification: Notification) {
         self.cameraView.startPreview()
     }
-    
+            
     @IBAction func showDropDown(_ sender: UIButton) {
         self.menu.show()
+    }
+    
+    @IBAction func onSegmentedControlChanged(_ sender: UISegmentedControl) {
+        
+        switch sender.selectedSegmentIndex {
+        case SegmentedIndex.CONFIGURATIONS.rawValue:
+            self.configurationsView.isHidden = false
+            self.analysisView.isHidden = true
+        case SegmentedIndex.ANALYSIS.rawValue:
+            self.configurationsView.isHidden = true
+            self.analysisView.isHidden = false
+        default:
+            self.configurationsView.isHidden = true
+            self.analysisView.isHidden = true
+        }
     }
     
     @IBAction func toggleConfigurationsView(_ sender: UISwitch) {
@@ -181,8 +199,6 @@ class CameraViewController: UIViewController {
             self.cameraView.setCameraLens("front")
             sender.setTitle("Front cam", for: .normal)
         }
-        
-        print("camera lens \(self.cameraView.getCameraLens())")
     }
         
     @IBAction func toggleDetectionBox(_ sender: UISwitch) {
@@ -248,7 +264,6 @@ extension CameraViewController: CameraEventListenerDelegate {
         _ total: Int,
         _ imagePath: String
     ) {
-        
         let subpath = imagePath.substring(from: imagePath.index(imagePath.startIndex, offsetBy: 7))
         let image = UIImage(contentsOfFile: subpath)
         
@@ -275,16 +290,66 @@ extension CameraViewController: CameraEventListenerDelegate {
         _ headEulerAngleY: NSNumber?,
         _ headEulerAngleZ: NSNumber?
     ) {
-        print(
-            "onFaceDetected" +
-            "\n x: \(x), y: \(y), width: \(width), height: \(height)" +
-            "\n leftEyeOpenProbability: \(leftEyeOpenProbability)" +
-            "\n rightEyeOpenProbability: \(rightEyeOpenProbability)" +
-            "\n smilingProbability: \(smilingProbability)" +
-            "\n headEulerAngleX: \(headEulerAngleX)" +
-            "\n headEulerAngleY: \(headEulerAngleY)" +
-            "\n headEulerAngleZ: \(headEulerAngleZ)"
-        )
+        if let probability: Float = leftEyeOpenProbability?.floatValue {
+            self.leftEyeLabel.text = probability > 0.8 ? "Open" : "Close"
+            self.leftEyeRawLabel.text = String(format: "%.4f", probability)
+        }
+        if let probability: Float = rightEyeOpenProbability?.floatValue {
+            self.rightEyeLabel.text = probability > 0.8 ? "Open" : "Close"
+            self.rightEyeRawLabel.text = String(format: "%.4f", probability)
+        }
+        if let probability: Float = smilingProbability?.floatValue {
+            self.smilingLabel.text = probability > 0.8 ? "Smiling" : "Not Smiling"
+            self.smilingRawLabel.text = String(format: "%.4f", probability)
+        }
+        if let angle: Float = headEulerAngleX?.floatValue {
+            var text = ""
+            if angle < -36 {
+                text = "Super Down"
+            } else if -36 < angle && angle < -12 {
+                text = "Down"
+            } else if -12 < angle && angle < 12 {
+                text = "Frontal"
+            } else if 12 < angle && angle < 36 {
+                text = "Up"
+            } else if 36 < angle {
+                text = "Super Up"
+            }
+            self.verticalLabel.text = text
+            self.verticalRawLabel.text = String(format: "%.2f", angle)
+        }
+        if let angle: Float = headEulerAngleY?.floatValue {
+            var text = ""
+            if angle < -36 {
+                text = "Super Right"
+            } else if -36 < angle && angle < -12 {
+                text = "Right"
+            } else if -12 < angle && angle < 12 {
+                text = "Frontal"
+            } else if 12 < angle && angle < 36 {
+                text = "Left"
+            } else if 36 < angle {
+                text = "Super Left"
+            }
+            self.horizontalLabel.text = text
+            self.horizontalRawLabel.text = String(format: "%.2f", angle)
+        }
+        if let angle: Float = headEulerAngleZ?.floatValue {
+            var text = ""
+            if angle < -36 {
+                text = "Super Left"
+            } else if -36 < angle && angle < -12 {
+                text = "Left"
+            } else if -12 < angle && angle < 12 {
+                text = "Frontal"
+            } else if 12 < angle && angle < 36 {
+                text = "Right"
+            } else if 36 < angle {
+                text = "Super Right"
+            }
+            self.tiltLabel.text = text
+            self.tiltRawLabel.text = String(format: "%.2f", angle)
+        }
     }
     
     func onFaceUndetected() {
