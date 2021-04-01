@@ -196,8 +196,8 @@ Here we explaining the above gif and how reached the "results". Each "movement" 
 | Head Direction | Attribute         |  _v_ < -36° | -36° < _v_ < -12° | -12° < _v_ < 12° | 12° < _v_ < 36° |  36° < _v_  |
 | -              | -                 | -           | -                 | -                | -               | -           |
 | Vertical       | `headEulerAngleX` | Super Down  | Down              | Frontal          | Up              | Super Up    |
-| Horizontal     | `headEulerAngleY` | Super Right | Right             | Frontal          | Left            | Super Left  |
-| Tilt           | `headEulerAngleZ` | Super Left  | Left              | Frontal          | Right           | Super Right |
+| Horizontal     | `headEulerAngleY` | Super Left  | Left              | Frontal          | Right           | Super Right |
+| Tilt           | `headEulerAngleZ` | Super Right | Right             | Frontal          | Left            | Super Left  |
 
 ### KeyError
 
@@ -229,7 +229,7 @@ Pre-define key messages used by the `onMessage` event.
 | Message                           | Description
 | -                                 | -
 | INVALID_MINIMUM_SIZE | Face/QRCode width percentage in relation of the screen width is less than the set (`setDetectionMinSize`).
-| INVALID_MAXIMUM_SIZE | Face/QRCode width percentage in relation of the screen width is more than the set (`setMaximumSize`).
+| INVALID_MAXIMUM_SIZE | Face/QRCode width percentage in relation of the screen width is more than the set (`setDetectionMaxSize`).
 | INVALID_OUT_OF_ROI | Face bounding box is out of the set region of interest (`setROI`).
 
 ## To contribute and make it better

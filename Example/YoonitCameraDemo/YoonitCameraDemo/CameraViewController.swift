@@ -321,15 +321,15 @@ extension CameraViewController: CameraEventListenerDelegate {
         if let angle: Float = headEulerAngleY?.floatValue {
             var text = ""
             if angle < -36 {
-                text = "Super Right"
+                text = "Super Left"
             } else if -36 < angle && angle < -12 {
-                text = "Right"
+                text = "Left"
             } else if -12 < angle && angle < 12 {
                 text = "Frontal"
             } else if 12 < angle && angle < 36 {
-                text = "Left"
+                text = "Right"
             } else if 36 < angle {
-                text = "Super Left"
+                text = "Super Right"
             }
             self.horizontalLabel.text = text
             self.horizontalRawLabel.text = String(format: "%.2f", angle)
@@ -337,15 +337,15 @@ extension CameraViewController: CameraEventListenerDelegate {
         if let angle: Float = headEulerAngleZ?.floatValue {
             var text = ""
             if angle < -36 {
-                text = "Super Left"
+                text = "Super Right"
             } else if -36 < angle && angle < -12 {
-                text = "Left"
+                text = "Right"
             } else if -12 < angle && angle < 12 {
                 text = "Frontal"
             } else if 12 < angle && angle < 36 {
-                text = "Right"
+                text = "Left"
             } else if 36 < angle {
-                text = "Super Right"
+                text = "Super Left"
             }
             self.tiltLabel.text = text
             self.tiltRawLabel.text = String(format: "%.2f", angle)
