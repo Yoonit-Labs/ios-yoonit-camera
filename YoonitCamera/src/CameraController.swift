@@ -156,47 +156,49 @@ class CameraController: NSObject {
      */
     private func buildCameraInput(cameraLens: AVCaptureDevice.Position) {
         
-        self.faceAnalyzer?.numberOfImages = 0
-        self.frameAnalyzer?.numberOfImages = 0
-        
-        guard let device = AVCaptureDevice.DiscoverySession(
-            deviceTypes: [.builtInWideAngleCamera],
-            mediaType: .video,
-            position: cameraLens
-        ).devices.first else {
-            return
+        DispatchQueue.main.async {
+            self.faceAnalyzer?.numberOfImages = 0
+            self.frameAnalyzer?.numberOfImages = 0
+            
+            guard let device = AVCaptureDevice.DiscoverySession(
+                deviceTypes: [.builtInWideAngleCamera],
+                mediaType: .video,
+                position: cameraLens
+            ).devices.first else {
+                return
+            }
+                    
+            let cameraInput = try! AVCaptureDeviceInput(device: device)
+            self.session.addInput(cameraInput)
+            
+            // Video output capture =========================================
+            let videoDataOutput = AVCaptureVideoDataOutput()
+            videoDataOutput.videoSettings =
+                [(kCVPixelBufferPixelFormatTypeKey as NSString) :
+                NSNumber(value: kCVPixelFormatType_32BGRA)] as [String : Any]
+            videoDataOutput.alwaysDiscardsLateVideoFrames = true
+            videoDataOutput.setSampleBufferDelegate(
+                self,
+                queue: DispatchQueue.main
+            )
+                            
+            self.session.addOutput(videoDataOutput)
+            
+            // QRCode output capture ========================================
+            let metadataOutput = AVCaptureMetadataOutput()
+            self.session.addOutput(metadataOutput)
+            metadataOutput.setMetadataObjectsDelegate(
+                self,
+                queue: DispatchQueue.main
+            )
+            metadataOutput.metadataObjectTypes = [.qr]
+            
+            // Connection handler.
+            guard let connection = videoDataOutput.connection(
+                with: AVMediaType.video),
+                connection.isVideoOrientationSupported else { return }
+            connection.videoOrientation = .portrait
         }
-                
-        let cameraInput = try! AVCaptureDeviceInput(device: device)
-        self.session.addInput(cameraInput)
-        
-        // Video output capture =========================================
-        let videoDataOutput = AVCaptureVideoDataOutput()
-        videoDataOutput.videoSettings =
-            [(kCVPixelBufferPixelFormatTypeKey as NSString) :
-            NSNumber(value: kCVPixelFormatType_32BGRA)] as [String : Any]
-        videoDataOutput.alwaysDiscardsLateVideoFrames = true
-        videoDataOutput.setSampleBufferDelegate(
-            self,
-            queue: DispatchQueue(label: "analyzer_queue")
-        )
-                        
-        self.session.addOutput(videoDataOutput)
-        
-        // QRCode output capture ========================================
-        let metadataOutput = AVCaptureMetadataOutput()
-        self.session.addOutput(metadataOutput)
-        metadataOutput.setMetadataObjectsDelegate(
-            self,
-            queue: DispatchQueue.main
-        )
-        metadataOutput.metadataObjectTypes = [.qr]
-        
-        // Connection handler.
-        guard let connection = videoDataOutput.connection(
-            with: AVMediaType.video),
-            connection.isVideoOrientationSupported else { return }
-        connection.videoOrientation = .portrait
     }
     
     func setTorch(enable: Bool) {
