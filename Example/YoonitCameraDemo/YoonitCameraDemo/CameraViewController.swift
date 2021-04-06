@@ -44,7 +44,13 @@ class CameraViewController: UIViewController {
     @IBOutlet var horizontalRawLabel: UILabel!
     @IBOutlet var tiltLabel: UILabel!
     @IBOutlet var tiltRawLabel: UILabel!
-    
+    @IBOutlet var sharpnessLabel: UILabel!
+    @IBOutlet var sharpnessRawLabel: UILabel!
+    @IBOutlet var darknessLabel: UILabel!
+    @IBOutlet var darknessRawLabel: UILabel!
+    @IBOutlet var lightnessLabel: UILabel!
+    @IBOutlet var lightnessRawLabel: UILabel!
+                
     var showImagePreview = false {
         didSet {
             self.imageCapturedTextField.isHidden = !self.showImagePreview
@@ -122,6 +128,7 @@ class CameraViewController: UIViewController {
         self.cameraView.setROITopOffset(0.1)
         self.cameraView.setROIBottomOffset(0.1)
         self.cameraView.setDetectionBox(true)
+        self.cameraView.setSaveImageCaptured(true)
         self.captureType = "face"
         
         self.menu.anchorView = self.cameraTypeDropDown
@@ -262,7 +269,10 @@ extension CameraViewController: CameraEventListenerDelegate {
         _ type: String,
         _ count: Int,
         _ total: Int,
-        _ imagePath: String
+        _ imagePath: String,
+        _ darkness: NSNumber?,
+        _ lightness: NSNumber?,
+        _ sharpness: NSNumber?
     ) {
         let subpath = imagePath.substring(from: imagePath.index(imagePath.startIndex, offsetBy: 7))
         let image = UIImage(contentsOfFile: subpath)
@@ -275,6 +285,18 @@ extension CameraViewController: CameraEventListenerDelegate {
             self.imageCapturedTextField.text = "\(type): \(count) / \(total)"
         }
         
+        if let darkness = darkness?.floatValue {
+            self.darknessLabel.text = darkness > 0.7 ? "Too Dark" : "Normal"
+            self.darknessRawLabel.text = String(format: "%.4f", darkness)
+        }
+        if let lightness = lightness?.floatValue {
+            self.lightnessLabel.text = lightness > 0.65 ? "Too Light" : "Normal"
+            self.lightnessRawLabel.text = String(format: "%.4f", lightness)
+        }
+        if let sharpness = sharpness?.floatValue {
+            self.sharpnessLabel.text = sharpness < 0.1591 ? "Blurred" : "Normal"
+            self.sharpnessRawLabel.text = String(format: "%.4f", sharpness)
+        }
         self.savedFrame.image = self.showImagePreview ? image : nil
     }
     

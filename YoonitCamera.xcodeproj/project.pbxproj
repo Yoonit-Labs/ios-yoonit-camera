@@ -15,12 +15,12 @@
 		5C6A82A225F926BF005D489C /* tutorial.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5C6A82A125F926BF005D489C /* tutorial.gif */; };
 		5CB645582549935E0019BD43 /* KeyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB645572549935E0019BD43 /* KeyError.swift */; };
 		5CB6455B2549EB2A0019BD43 /* FrameAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB6455A2549EB2A0019BD43 /* FrameAnalyzer.swift */; };
+		5CC366BA261CB060006DBA66 /* ImageQualityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC366B9261CB060006DBA66 /* ImageQualityController.swift */; };
 		5CDBECFE256EF5AC00BF09A4 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDBECFD256EF5AC00BF09A4 /* Message.swift */; };
 		6176EEFB252CF9D200F4D4DD /* YoonitCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = 6176EEF9252CF9D200F4D4DD /* YoonitCamera.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6176EF10252CF9F600F4D4DD /* FaceAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF02252CF9F600F4D4DD /* FaceAnalyzer.swift */; };
 		6176EF11252CF9F600F4D4DD /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF03252CF9F600F4D4DD /* extensions.swift */; };
 		6176EF13252CF9F600F4D4DD /* CaptureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF05252CF9F600F4D4DD /* CaptureType.swift */; };
-		6176EF14252CF9F600F4D4DD /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF06252CF9F600F4D4DD /* Utils.swift */; };
 		6176EF16252CF9F600F4D4DD /* CoordinatesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF08252CF9F600F4D4DD /* CoordinatesController.swift */; };
 		6176EF17252CF9F600F4D4DD /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF09252CF9F600F4D4DD /* CameraView.swift */; };
 		6176EF18252CF9F600F4D4DD /* CameraEventListenerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF0A252CF9F600F4D4DD /* CameraEventListenerDelegate.swift */; };
@@ -45,6 +45,7 @@
 		5C6A82A125F926BF005D489C /* tutorial.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = tutorial.gif; sourceTree = "<group>"; };
 		5CB645572549935E0019BD43 /* KeyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyError.swift; sourceTree = "<group>"; };
 		5CB6455A2549EB2A0019BD43 /* FrameAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameAnalyzer.swift; sourceTree = "<group>"; };
+		5CC366B9261CB060006DBA66 /* ImageQualityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageQualityController.swift; sourceTree = "<group>"; };
 		5CDBECFD256EF5AC00BF09A4 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		6176EEF6252CF9D200F4D4DD /* YoonitCamera.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YoonitCamera.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6176EEF9252CF9D200F4D4DD /* YoonitCamera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YoonitCamera.h; sourceTree = "<group>"; };
@@ -52,7 +53,6 @@
 		6176EF02252CF9F600F4D4DD /* FaceAnalyzer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaceAnalyzer.swift; sourceTree = "<group>"; };
 		6176EF03252CF9F600F4D4DD /* extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 		6176EF05252CF9F600F4D4DD /* CaptureType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaptureType.swift; sourceTree = "<group>"; };
-		6176EF06252CF9F600F4D4DD /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		6176EF08252CF9F600F4D4DD /* CoordinatesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinatesController.swift; sourceTree = "<group>"; };
 		6176EF09252CF9F600F4D4DD /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		6176EF0A252CF9F600F4D4DD /* CameraEventListenerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraEventListenerDelegate.swift; sourceTree = "<group>"; };
@@ -109,7 +109,6 @@
 			children = (
 				6176EF03252CF9F600F4D4DD /* extensions.swift */,
 				6176EF0F252CF9F600F4D4DD /* FileUtils.swift */,
-				6176EF06252CF9F600F4D4DD /* Utils.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -117,7 +116,6 @@
 		5C0C64322541F5E500EDF95B /* analyzers */ = {
 			isa = PBXGroup;
 			children = (
-				6176EF08252CF9F600F4D4DD /* CoordinatesController.swift */,
 				5C5058D9260BCC6500286F91 /* qrcode */,
 				5C0C64342541F60600EDF95B /* face */,
 				5CB645592549EB010019BD43 /* frame */,
@@ -136,6 +134,7 @@
 		5C0C6435254208E400EDF95B /* src */ = {
 			isa = PBXGroup;
 			children = (
+				5CC366B8261CAFF3006DBA66 /* controllers */,
 				5CA17A17260CD6D800DA0C3E /* enums */,
 				5C0AF5C8256DA06800A5DF84 /* models */,
 				5C0C64322541F5E500EDF95B /* analyzers */,
@@ -172,6 +171,15 @@
 				5CB6455A2549EB2A0019BD43 /* FrameAnalyzer.swift */,
 			);
 			path = frame;
+			sourceTree = "<group>";
+		};
+		5CC366B8261CAFF3006DBA66 /* controllers */ = {
+			isa = PBXGroup;
+			children = (
+				6176EF08252CF9F600F4D4DD /* CoordinatesController.swift */,
+				5CC366B9261CB060006DBA66 /* ImageQualityController.swift */,
+			);
+			path = controllers;
 			sourceTree = "<group>";
 		};
 		6176EEEC252CF9D200F4D4DD = {
@@ -347,9 +355,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6176EF14252CF9F600F4D4DD /* Utils.swift in Sources */,
 				5CB645582549935E0019BD43 /* KeyError.swift in Sources */,
 				6176EF10252CF9F600F4D4DD /* FaceAnalyzer.swift in Sources */,
+				5CC366BA261CB060006DBA66 /* ImageQualityController.swift in Sources */,
 				6176EF13252CF9F600F4D4DD /* CaptureType.swift in Sources */,
 				5C1E318925C1E2F8002D2DB6 /* CameraGraphicView.swift in Sources */,
 				6176EF1D252CF9F600F4D4DD /* FileUtils.swift in Sources */,
