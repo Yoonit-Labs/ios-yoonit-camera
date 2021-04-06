@@ -18,7 +18,10 @@ public protocol CameraEventListenerDelegate {
         _ type: String,
         _ count: Int,
         _ total: Int,
-        _ imagePath: String
+        _ imagePath: String,
+        _ darkness: NSNumber?,
+        _ lightness: NSNumber?,
+        _ sharpness: NSNumber?
     )
 
     func onFaceDetected(

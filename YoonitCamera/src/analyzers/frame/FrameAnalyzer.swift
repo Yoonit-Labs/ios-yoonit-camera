@@ -31,7 +31,7 @@ class FrameAnalyzer: NSObject {
     private var lastTimestamp = Date().currentTimeMillis()
                 
     func frameCaptured(imageBuffer: CVPixelBuffer) {
-        if !self.start {
+        if !self.start || !captureOptions.saveImageCaptured {
             return
         }
         
@@ -41,19 +41,12 @@ class FrameAnalyzer: NSObject {
         if diffTime > captureOptions.timeBetweenImages {
             self.lastTimestamp = currentTimestamp
             
-            DispatchQueue.main.async {
-                if (!captureOptions.saveImageCaptured) {
-                    return
+            DispatchQueue.global(qos: .userInitiated).async {
+                var image: UIImage = imageBuffer.toUIImage()
+                
+                if captureOptions.cameraLens == .front {
+                    image = image.withHorizontallyFlippedOrientation()
                 }
-                
-                let orientation = captureOptions.cameraLens.rawValue == 1 ?
-                    UIImage.Orientation.up : UIImage.Orientation.upMirrored
-                
-                let image = imageFromPixelBuffer(
-                    imageBuffer: imageBuffer,
-                    scale: UIScreen.main.scale,
-                    orientation: orientation
-                )
                                         
                 let fileURL = fileURLFor(index: self.numberOfImages)
                 let filePath = try! save(
@@ -61,17 +54,38 @@ class FrameAnalyzer: NSObject {
                     fileURL: fileURL
                 )
                 
-                self.handleEmitImageCaptured(filePath: filePath)
+                let (
+                    darkness,
+                    lightness,
+                    sharpness
+                ) = ImageQualityController.processImage(imageBuffer: imageBuffer)
+            
+                DispatchQueue.main.async {
+                    self.handleEmitImageCaptured(
+                        filePath: filePath,
+                        darkness: darkness,
+                        lightness: lightness,
+                        sharpness: sharpness
+                    )
+                }
             }
         }
     }
     
     /**
-     Handle emit frame image file created.
+     Handle emit frame file saved and the quality of the image;
      
      - Parameter imagePath: image file path.
+     - Parameter darkness: image darkness classification.
+     - Parameter lightness: image lighness classification.
+     - Parameter sharpness: image sharpness classification.
      */
-    func handleEmitImageCaptured(filePath: String) {
+    func handleEmitImageCaptured(
+        filePath: String,
+        darkness: NSNumber?,
+        lightness: NSNumber?,
+        sharpness: NSNumber?
+    ) {
         
         // process frame number of images.
         if (captureOptions.numberOfImages > 0) {
@@ -81,7 +95,10 @@ class FrameAnalyzer: NSObject {
                     "frame",
                     self.numberOfImages,
                     captureOptions.numberOfImages,
-                    filePath
+                    filePath,
+                    darkness,
+                    lightness,
+                    sharpness
                 )
                 return
             }
@@ -97,7 +114,10 @@ class FrameAnalyzer: NSObject {
             "frame",
             self.numberOfImages,
             captureOptions.numberOfImages,
-            filePath
+            filePath,
+            darkness,
+            lightness,
+            sharpness
         )
     }
 }

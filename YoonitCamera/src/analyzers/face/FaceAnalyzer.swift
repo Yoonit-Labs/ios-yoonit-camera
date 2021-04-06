@@ -12,7 +12,6 @@
 import AVFoundation
 import UIKit
 import YoonitFacefy
-import Vision
 
 /**
  This class is responsible to handle the operations related with the face capture.
@@ -60,44 +59,63 @@ class FaceAnalyzer {
         let currentTimestamp = Date().currentTimeMillis()
         let diffTime = currentTimestamp - self.cameraTimestamp
         
-        if diffTime > 200 {
-            self.cameraTimestamp = currentTimestamp
-                        
+        if diffTime < 200 {
+            return
+        }
+        self.cameraTimestamp = currentTimestamp
+                                
+        DispatchQueue.global(qos: .userInitiated).async {
             self.detect(imageBuffer: imageBuffer)
         }
     }
                     
     private func detect(imageBuffer: CVPixelBuffer) {
-                                                
-        guard let cameraInputImage: UIImage = imageBuffer.toUIImage().flipHorizontally() else {
+        
+        guard let cameraInputImage: UIImage = imageBuffer
+            .toUIImage()
+            .flipHorizontally() else {
             return
         }
-                        
-        self.facefy.detect(cameraInputImage) { faceDetected in
+        
+        self.facefy.detect(cameraInputImage) {
+            faceDetected in
         
             // Get from faceDetected the graphic face bounding box.
-            let detectionBox: CGRect = self.coordinatesController
+            let detectionBox: CGRect = self
+                .coordinatesController
                 .getDetectionBox(
                     cameraInputImage: cameraInputImage,
                     faceDetected: faceDetected
                 )
+                        
+            let error: String? = self
+                .coordinatesController
+                .hasFaceDetectionBoxError(detectionBox: detectionBox)
             
-            // Verify if has error on detection box.
-            if self.hasError(
-                cameraInputImage: cameraInputImage,
-                detectionBox: detectionBox
-            ) {
+            // Handle emit error and face undetected.
+            if error != nil {
+                if self.isValid {
+                    self.isValid = false
+                    self.cameraGraphicView.clear()
+                    if error != "" {
+                        self.cameraEventListener?.onMessage(error!)
+                    }
+                    self.cameraEventListener?.onFaceUndetected()
+                }
                 return
             }
-                                        
+            self.isValid = true
+                                                                                        
             // Process faceDetected results...
             if let faceDetected: FaceDetected = faceDetected {
                 
                 // Get the face contours scaled to UI graphic.
-                let faceContours: [CGPoint] = self.coordinatesController.getFaceContours(
-                    cameraInputImage: cameraInputImage,
-                    contours: faceDetected.contours
-                )
+                let faceContours: [CGPoint] = self
+                    .coordinatesController
+                    .getFaceContours(
+                        cameraInputImage: cameraInputImage,
+                        contours: faceDetected.contours
+                    )
                 
                 // Handle draw face detection box and face contours.
                 self.cameraGraphicView.handleDraw(
@@ -113,73 +131,62 @@ class FaceAnalyzer {
                 let headEulerAngleZ = faceDetected.headEulerAngleZ != nil ? NSNumber(value: Float(faceDetected.headEulerAngleZ!)) : nil
                 
                 // Emit the faceDetected results.
-                self.cameraEventListener?.onFaceDetected(
-                    Int(detectionBox.minX),
-                    Int(detectionBox.minY),
-                    Int(detectionBox.width),
-                    Int(detectionBox.height),
-                    leftEyeOpenProbability,
-                    rightEyeOpenProbability,
-                    smilingProbability,
-                    headEulerAngleX,
-                    headEulerAngleY,
-                    headEulerAngleZ
-                )
-                
+                DispatchQueue.main.async {
+                    self.cameraEventListener?.onFaceDetected(
+                        Int(detectionBox.minX),
+                        Int(detectionBox.minY),
+                        Int(detectionBox.width),
+                        Int(detectionBox.height),
+                        leftEyeOpenProbability,
+                        rightEyeOpenProbability,
+                        smilingProbability,
+                        headEulerAngleX,
+                        headEulerAngleY,
+                        headEulerAngleZ
+                    )
+                }
+                                                                
                 // Handle save the face detected image from the camera input image.
-                self.handleSaveImage(
+                let filePath: String? = self.handleSaveImage(
                     cameraInputImage: cameraInputImage,
                     faceDetected: faceDetected
                 )
+                
+                if let filePath: String = filePath {
+                    let (
+                        darkness,
+                        lightness,
+                        sharpness
+                    ) = ImageQualityController.processImage(imageBuffer: imageBuffer)
+                    
+                    self.handleEmitImageCaptured(
+                        filePath: filePath,
+                        darkness: darkness,
+                        lightness: lightness,
+                        sharpness: sharpness
+                    )
+                }
             }
         } onError: { message in
             self.cameraEventListener?.onError(message)
         }
     }
-    
-    /**
-     Verify if has error on detection box.
-     
-     - Parameter cameraInputImage: The camera frame captured.
-     - Parameter detectionBox: The face detection box graphic UI.
-     */
-    private func hasError(
-        cameraInputImage: UIImage,
-        detectionBox: CGRect
-    ) -> Bool {
-        // Get error, if exists, from the face detection box.
-        let error: String? = self.coordinatesController
-            .hasFaceDetectionBoxError(detectionBox: detectionBox)
-        
-        // Handle emit error and face undetected.
-        if error != nil {
-            if self.isValid {
-                self.isValid = false
-                self.cameraGraphicView.clear()
-                if error != "" {
-                    self.cameraEventListener?.onMessage(error!)
-                }
-                self.cameraEventListener?.onFaceUndetected()
-            }
-            return true
-        }
-        self.isValid = true
-        
-        return false
-    }
-        
+            
     /**
      Handle save the face detected image from the camera input image.
      
      - Parameter cameraInputImage: The camera frame captured.
      - Parameter faceDetected: The result of the face detected from the camera input image.
+     
+     - returns: the image file path.
      */
     private func handleSaveImage(
         cameraInputImage: UIImage,
         faceDetected: FaceDetected
-    ) {
+    ) -> String? {
+        
         if !captureOptions.saveImageCaptured {
-            return
+            return nil
         }
         
         // Handle crop face process by time.
@@ -204,22 +211,32 @@ class FaceAnalyzer {
                 )
                                                 
                 let fileURL = fileURLFor(index: self.numberOfImages)
-                let fileName = try! save(
+                let filePath = try! save(
                     image: imageResized,
                     fileURL: fileURL
                 )
                 
-                self.handleEmitImageCaptured(filePath: fileName)
+                return filePath
             }
         }
+        
+        return nil
     }
             
     /**
-     Handle emit face image file created.
+     Handle emit face file saved and the quality of the image;
      
      - Parameter filePath: image file path.
+     - Parameter darkness: image darkness classification.
+     - Parameter lightness: image lighness classification.
+     - Parameter sharpness: image sharpness classification.
      */
-    public func handleEmitImageCaptured(filePath: String) {
+    public func handleEmitImageCaptured(
+        filePath: String,
+        darkness: NSNumber?,
+        lightness: NSNumber?,
+        sharpness: NSNumber?
+    ) {
         
         // process face number of images.
         if (captureOptions.numberOfImages > 0) {
@@ -230,7 +247,11 @@ class FaceAnalyzer {
                     "face",
                     self.numberOfImages,
                     captureOptions.numberOfImages,
-                    filePath)
+                    filePath,
+                    darkness,
+                    lightness,
+                    sharpness
+                )
                 
                 return
             }
@@ -243,11 +264,15 @@ class FaceAnalyzer {
         
         // process face unlimited.
         self.numberOfImages = (self.numberOfImages + 1) % MAX_NUMBER_OF_IMAGES
+                
         self.cameraEventListener?.onImageCaptured(
             "face",
             self.numberOfImages,
             captureOptions.numberOfImages,
-            filePath
+            filePath,
+            darkness,
+            lightness,
+            sharpness
         )
     }
 }
