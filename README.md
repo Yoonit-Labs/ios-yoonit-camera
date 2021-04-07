@@ -6,9 +6,7 @@
 
 A iOS plugin to provide:
 * Camera preview (Front & Back)
-* Yoonit Facefy integration:
-  * Android: [android-yoonit-facefy](https://github.com/Yoonit-Labs/android-yoonit-facefy)
-  * iOS: [ios-yoonit-facefy](https://github.com/Yoonit-Labs/ios-yoonit-facefy)
+* [Yoonit Facefy](https://github.com/Yoonit-Labs/ios-yoonit-facefy) integration
 * [PyTorch](https://pytorch.org/mobile/home/) integration (Soon)
 * Computer vision pipeline (Soon)
 * Face detection, capture and image crop
@@ -82,21 +80,29 @@ class YourViewController: UIViewController, CameraEventListenerDelegate {
     ...
     self.cameraView.cameraEventListener = self
     ...
-    func onImageCaptured(type: String, count: Int, total: Int, imagePath: String) {
+    func onImageCaptured(
+        _ type: String, 
+        _ count: Int, 
+        _ total: Int, 
+        _ imagePath: String,
+        _ darkness: NSNumber?,
+        _ lightness: NSNumber?,
+        _ sharpness: NSNumber?
+    ) {
         // YOUR CODE
     }
     
     func onFaceDetected(
-        x: Int, 
-        y: Int, 
-        width: Int, 
-        height: Int, 
-        leftEyeOpenProbability: NSNumber?, 
-        rightEyeOpenProbability: NSNumber?, 
-        smilingProbability: NSNumber?, 
-        headEulerAngleX: NSNumber?, 
-        headEulerAngleY: NSNumber?, 
-        headEulerAngleZ: NSNumber?
+        _ x: Int, 
+        _ y: Int, 
+        _ width: Int, 
+        _ height: Int, 
+        _ leftEyeOpenProbability: NSNumber?, 
+        _ rightEyeOpenProbability: NSNumber?, 
+        _ smilingProbability: NSNumber?, 
+        _ headEulerAngleX: NSNumber?, 
+        _ headEulerAngleY: NSNumber?, 
+        _ headEulerAngleZ: NSNumber?
     ) {
         // YOUR CODE
     }
@@ -163,7 +169,7 @@ class YourViewController: UIViewController, CameraEventListenerDelegate {
 
 | Event                     | Parameters                                                | Description
 | -                         | -                                                         | -
-| onImageCaptured | `type: String, count: Int, total: Int, imagePath: String` | Must have started capture type of face/frame (see `startCaptureType`). Emitted when the face image file is created: <ul><li>type: '"face"' or '"frame"'</li><li>count: current index</li><li>total: total to create</li><li>imagePath: the image path</li><ul>  
+| onImageCaptured | `type: String, count: Int, total: Int, imagePath: String, darkness: NSNumber?, lightness: NSNumber?, sharpness: NSNumber?` | Must have started capture type of face/frame (see `startCaptureType`). Emitted when the image file is created: <ul><li>type: '"face"' or '"frame"'</li><li>count: current index</li><li>total: total to create</li><li>imagePath: the image path</li><li>inferences: each array element is the image inference result.</li><li>darkness: image darkness classification.</li><li>lightness: image lightness classification.</li><li>sharpness: image sharpness classification.</li><ul>  
 | onFaceDetected | `x: Int, y: Int, width: Int, height: Int, leftEyeOpenProbability: NSNumber?, rightEyeOpenProbability: NSNumber?, smilingProbability: NSNumber?, headEulerAngleX: NSNumber?, headEulerAngleY: NSNumber?, headEulerAngleZ: NSNumber?` | Must have started capture type of face. Emit the [face analysis](#face-analysis)
 | onFaceUndetected | -                                                         | Must have started capture type of face. Emitted after `onFaceDetected`, when there is no more face detecting.
 | onEndCapture | -                                                         | Must have started capture type of face/frame. Emitted when the number of image files created is equal of the number of images set (see the method `setNumberOfImages`).   
