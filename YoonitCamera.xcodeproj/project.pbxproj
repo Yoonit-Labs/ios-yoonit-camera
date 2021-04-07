@@ -11,17 +11,16 @@
 		5C0AF5BC256D864400A5DF84 /* ROI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0AF5BB256D864400A5DF84 /* ROI.swift */; };
 		5C0C64392542108B00EDF95B /* logo_cyberlabs.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C0C64382542108B00EDF95B /* logo_cyberlabs.png */; };
 		5C1E318925C1E2F8002D2DB6 /* CameraGraphicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1E318825C1E2F8002D2DB6 /* CameraGraphicView.swift */; };
-		5C505836260BB18500286F91 /* FaceCropController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C505835260BB18500286F91 /* FaceCropController.swift */; };
 		5C5058D7260BCC5C00286F91 /* QRCodeAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5058D6260BCC5C00286F91 /* QRCodeAnalyzer.swift */; };
 		5C6A82A225F926BF005D489C /* tutorial.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5C6A82A125F926BF005D489C /* tutorial.gif */; };
 		5CB645582549935E0019BD43 /* KeyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB645572549935E0019BD43 /* KeyError.swift */; };
 		5CB6455B2549EB2A0019BD43 /* FrameAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB6455A2549EB2A0019BD43 /* FrameAnalyzer.swift */; };
+		5CC366BA261CB060006DBA66 /* ImageQualityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC366B9261CB060006DBA66 /* ImageQualityController.swift */; };
 		5CDBECFE256EF5AC00BF09A4 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDBECFD256EF5AC00BF09A4 /* Message.swift */; };
 		6176EEFB252CF9D200F4D4DD /* YoonitCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = 6176EEF9252CF9D200F4D4DD /* YoonitCamera.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6176EF10252CF9F600F4D4DD /* FaceAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF02252CF9F600F4D4DD /* FaceAnalyzer.swift */; };
 		6176EF11252CF9F600F4D4DD /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF03252CF9F600F4D4DD /* extensions.swift */; };
 		6176EF13252CF9F600F4D4DD /* CaptureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF05252CF9F600F4D4DD /* CaptureType.swift */; };
-		6176EF14252CF9F600F4D4DD /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF06252CF9F600F4D4DD /* Utils.swift */; };
 		6176EF16252CF9F600F4D4DD /* CoordinatesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF08252CF9F600F4D4DD /* CoordinatesController.swift */; };
 		6176EF17252CF9F600F4D4DD /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF09252CF9F600F4D4DD /* CameraView.swift */; };
 		6176EF18252CF9F600F4D4DD /* CameraEventListenerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6176EF0A252CF9F600F4D4DD /* CameraEventListenerDelegate.swift */; };
@@ -38,15 +37,15 @@
 /* Begin PBXFileReference section */
 		0313D21BF12E6FB11B4F5D0B /* libPods-YoonitCamera.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YoonitCamera.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		53F75EAC7157668BAE054FF3 /* Pods-YoonitCamera.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YoonitCamera.debug.xcconfig"; path = "Target Support Files/Pods-YoonitCamera/Pods-YoonitCamera.debug.xcconfig"; sourceTree = "<group>"; };
-		5C0A28A726164D8800F98457 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		5C0A28A726164D8800F98457 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		5C0AF5BB256D864400A5DF84 /* ROI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ROI.swift; sourceTree = "<group>"; };
 		5C0C64382542108B00EDF95B /* logo_cyberlabs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_cyberlabs.png; sourceTree = "<group>"; };
 		5C1E318825C1E2F8002D2DB6 /* CameraGraphicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraGraphicView.swift; sourceTree = "<group>"; };
-		5C505835260BB18500286F91 /* FaceCropController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceCropController.swift; sourceTree = "<group>"; };
 		5C5058D6260BCC5C00286F91 /* QRCodeAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeAnalyzer.swift; sourceTree = "<group>"; };
 		5C6A82A125F926BF005D489C /* tutorial.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = tutorial.gif; sourceTree = "<group>"; };
 		5CB645572549935E0019BD43 /* KeyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyError.swift; sourceTree = "<group>"; };
 		5CB6455A2549EB2A0019BD43 /* FrameAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameAnalyzer.swift; sourceTree = "<group>"; };
+		5CC366B9261CB060006DBA66 /* ImageQualityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageQualityController.swift; sourceTree = "<group>"; };
 		5CDBECFD256EF5AC00BF09A4 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		6176EEF6252CF9D200F4D4DD /* YoonitCamera.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YoonitCamera.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6176EEF9252CF9D200F4D4DD /* YoonitCamera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YoonitCamera.h; sourceTree = "<group>"; };
@@ -54,7 +53,6 @@
 		6176EF02252CF9F600F4D4DD /* FaceAnalyzer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaceAnalyzer.swift; sourceTree = "<group>"; };
 		6176EF03252CF9F600F4D4DD /* extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 		6176EF05252CF9F600F4D4DD /* CaptureType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaptureType.swift; sourceTree = "<group>"; };
-		6176EF06252CF9F600F4D4DD /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		6176EF08252CF9F600F4D4DD /* CoordinatesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinatesController.swift; sourceTree = "<group>"; };
 		6176EF09252CF9F600F4D4DD /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		6176EF0A252CF9F600F4D4DD /* CameraEventListenerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraEventListenerDelegate.swift; sourceTree = "<group>"; };
@@ -111,7 +109,6 @@
 			children = (
 				6176EF03252CF9F600F4D4DD /* extensions.swift */,
 				6176EF0F252CF9F600F4D4DD /* FileUtils.swift */,
-				6176EF06252CF9F600F4D4DD /* Utils.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -119,7 +116,6 @@
 		5C0C64322541F5E500EDF95B /* analyzers */ = {
 			isa = PBXGroup;
 			children = (
-				6176EF08252CF9F600F4D4DD /* CoordinatesController.swift */,
 				5C5058D9260BCC6500286F91 /* qrcode */,
 				5C0C64342541F60600EDF95B /* face */,
 				5CB645592549EB010019BD43 /* frame */,
@@ -131,7 +127,6 @@
 			isa = PBXGroup;
 			children = (
 				6176EF02252CF9F600F4D4DD /* FaceAnalyzer.swift */,
-				5C505835260BB18500286F91 /* FaceCropController.swift */,
 			);
 			path = face;
 			sourceTree = "<group>";
@@ -139,6 +134,7 @@
 		5C0C6435254208E400EDF95B /* src */ = {
 			isa = PBXGroup;
 			children = (
+				5CC366B8261CAFF3006DBA66 /* controllers */,
 				5CA17A17260CD6D800DA0C3E /* enums */,
 				5C0AF5C8256DA06800A5DF84 /* models */,
 				5C0C64322541F5E500EDF95B /* analyzers */,
@@ -175,6 +171,15 @@
 				5CB6455A2549EB2A0019BD43 /* FrameAnalyzer.swift */,
 			);
 			path = frame;
+			sourceTree = "<group>";
+		};
+		5CC366B8261CAFF3006DBA66 /* controllers */ = {
+			isa = PBXGroup;
+			children = (
+				6176EF08252CF9F600F4D4DD /* CoordinatesController.swift */,
+				5CC366B9261CB060006DBA66 /* ImageQualityController.swift */,
+			);
+			path = controllers;
 			sourceTree = "<group>";
 		};
 		6176EEEC252CF9D200F4D4DD = {
@@ -350,9 +355,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6176EF14252CF9F600F4D4DD /* Utils.swift in Sources */,
 				5CB645582549935E0019BD43 /* KeyError.swift in Sources */,
 				6176EF10252CF9F600F4D4DD /* FaceAnalyzer.swift in Sources */,
+				5CC366BA261CB060006DBA66 /* ImageQualityController.swift in Sources */,
 				6176EF13252CF9F600F4D4DD /* CaptureType.swift in Sources */,
 				5C1E318925C1E2F8002D2DB6 /* CameraGraphicView.swift in Sources */,
 				6176EF1D252CF9F600F4D4DD /* FileUtils.swift in Sources */,
@@ -360,7 +365,6 @@
 				6176EF1B252CF9F600F4D4DD /* CaptureOptions.swift in Sources */,
 				6176EF16252CF9F600F4D4DD /* CoordinatesController.swift in Sources */,
 				6176EF18252CF9F600F4D4DD /* CameraEventListenerDelegate.swift in Sources */,
-				5C505836260BB18500286F91 /* FaceCropController.swift in Sources */,
 				6176EF1C252CF9F600F4D4DD /* CameraController.swift in Sources */,
 				6176EF17252CF9F600F4D4DD /* CameraView.swift in Sources */,
 				5CDBECFE256EF5AC00BF09A4 /* Message.swift in Sources */,
@@ -517,7 +521,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.5.0;
+				MARKETING_VERSION = 2.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yoonit.camera;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -547,7 +551,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.5.0;
+				MARKETING_VERSION = 2.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yoonit.camera;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
