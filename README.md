@@ -237,6 +237,7 @@ Pre-define key messages used by the `onMessage` event.
 | INVALID_MINIMUM_SIZE | Face/QRCode width percentage in relation of the screen width is less than the set (`setDetectionMinSize`).
 | INVALID_MAXIMUM_SIZE | Face/QRCode width percentage in relation of the screen width is more than the set (`setDetectionMaxSize`).
 | INVALID_OUT_OF_ROI | Face bounding box is out of the set region of interest (`setROI`).
+| INVALID_TORCH_LENS_USAGE | Torch not available with camera lens "front" (`setTorch`). 
 
 ## To contribute and make it better
 

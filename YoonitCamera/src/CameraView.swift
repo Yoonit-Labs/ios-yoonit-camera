@@ -367,10 +367,26 @@ public class CameraView: UIView {
     }
     
     /**
+     Set to enable/disable the device torch. Available only to camera lens "back".
+     
+     - Parameter enable: The indicator to enable/disable the torch.
+     Default value is `false`.
+     */
+    @objc
+    public func setTorch(_ enable: Bool) {
+        if captureOptions.cameraLens == .front {
+            self.cameraEventListener?.onMessage(Message.INVALID_TORCH_LENS_USAGE.rawValue)
+            return
+        }
+        
+        self.cameraController?.setTorch(enable: enable)
+    }
+    
+    /**
      Enlarge the face bounding box by percent.
      
      - Parameter facePaddingPercent: The percent to enlarge the bounding box.
-     Default value is `0.27`.
+     Default value is `0.0`.
      */
     @objc
     public func setFacePaddingPercent(_ facePaddingPercent: Float) {
@@ -496,17 +512,6 @@ public class CameraView: UIView {
             alpha: CGFloat(alpha)
         )
         self.cameraGraphicView.update()
-    }
-    
-    /**
-     Set to enable/disable the device torch. The S.O. force to lock the camera preview to enable the torch.
-     
-     - Parameter enable: The indicator to enable/disable the torch.
-     Default value is `false`.
-     */
-    @objc
-    public func setTorch(_ enable: Bool) {
-        self.cameraController?.setTorch(enable: enable)
     }
 }
 
