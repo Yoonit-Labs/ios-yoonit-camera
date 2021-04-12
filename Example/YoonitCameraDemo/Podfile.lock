@@ -55,7 +55,7 @@ PODS:
   - nanopb/encode (2.30907.0)
   - PromisesObjC (1.2.12)
   - Protobuf (3.14.0)
-  - YoonitCamera (2.5.0):
+  - YoonitCamera (2.6.0):
     - YoonitFacefy
   - YoonitFacefy (1.0.5):
     - GoogleMLKit/FaceDetection
@@ -99,7 +99,7 @@ SPEC CHECKSUMS:
   nanopb: 59221d7f958fb711001e6a449489542d92ae113e
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   Protobuf: 0cde852566359049847168e51bd1c690e0f70056
-  YoonitCamera: 386764f31018bed9aea89990ef6a79357c0b4367
+  YoonitCamera: ee26cdce297f5f93fdc4cb8359dbfdba7a884852
   YoonitFacefy: 0a7faa647a661444b37d73ab92208969f0b8e430
 
 PODFILE CHECKSUM: 01ed718a3d6dc39881ef3b45a7aac545c7752b78

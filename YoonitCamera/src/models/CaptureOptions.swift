@@ -65,7 +65,7 @@ public class CaptureOptions {
     )
     
     // Face capture padding percent.
-    var facePaddingPercent: Float = 0.27
+    var facePaddingPercent: Float = 0
         
     /**
      Face/qrcode minimum size to detect in percentage related with the camera preview.

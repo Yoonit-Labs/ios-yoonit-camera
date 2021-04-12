@@ -150,7 +150,7 @@ class CoordinatesController {
         if standardizedRect.isNaN() {
             return CGRect()
         }
-                
-        return standardizedRect
+                        
+        return standardizedRect.scale(by: CGFloat(captureOptions.facePaddingPercent))
     }
 }

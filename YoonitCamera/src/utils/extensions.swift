@@ -30,7 +30,7 @@ extension Date {
 }
 
 extension CGRect {
-    func increase(by percentage: CGFloat) -> CGRect {
+    func scale(by percentage: CGFloat) -> CGRect {
         let adjustmentWidth = (self.width * percentage) / 2.0
         let adjustmentHeight = (self.height * percentage) / 2.0
         return self.insetBy(dx: -adjustmentWidth, dy: -adjustmentHeight)

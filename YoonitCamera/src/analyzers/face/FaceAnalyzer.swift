@@ -198,7 +198,7 @@ class FaceAnalyzer {
                                 
             if let cgImage = cameraInputImage.cgImage {
                 var croppedImage: UIImage = UIImage(
-                    cgImage: cgImage.cropping(to: faceDetected.boundingBox)!
+                    cgImage: cgImage.cropping(to: faceDetected.boundingBox.scale(by: CGFloat(captureOptions.facePaddingPercent)))!
                 )
                                 
                 if captureOptions.cameraLens == AVCaptureDevice.Position.back {
