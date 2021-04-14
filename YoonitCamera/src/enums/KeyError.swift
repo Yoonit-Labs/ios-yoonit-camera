@@ -33,10 +33,7 @@ public enum KeyError: String {
         
     // Tried to input invalid detection box ARGB value color.
     case INVALID_DETECTION_BOX_COLOR = "INVALID_DETECTION_BOX_COLOR"
-    
-    // Tried to input invalid face padding percent.
-    case INVALID_FACE_PADDING_PERCENT = "INVALID_FACE_PADDING_PERCENT"
-        
+                
     // Tried to input invalid minimum size.
     case INVALID_MINIMUM_SIZE = "INVALID_MINIMUM_SIZE"
     

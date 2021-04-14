@@ -323,6 +323,58 @@ public class CameraView: UIView {
     }
     
     /**
+     Represents the percentage.
+     Positive value enlarges and negative value reduce the top side of the detection.
+     Use the `setDetectionBox` to have a visual result.
+     
+     Default value: `0`
+     */
+    @objc
+    public var detectionTopSize: Float = captureOptions.detectionTopSize {
+        didSet {
+            captureOptions.detectionTopSize = self.detectionTopSize
+        }
+    }
+    /**
+     Represents the percentage.
+     Positive value enlarges and negative value reduce the right side of the detection.
+     Use the `setDetectionBox` to have a visual result.
+     
+     Default value: `0`
+     */
+    @objc
+    public var detectionRightSize: Float = captureOptions.detectionRightSize {
+        didSet {
+            captureOptions.detectionRightSize = self.detectionRightSize
+        }
+    }
+    /**
+     Represents the percentage.
+     Positive value enlarges and negative value reduce the bottom side of the detection.
+     Use the `setDetectionBox` to have a visual result.
+     
+     Default value: `0`
+     */
+    @objc
+    public var detectionBottomSize: Float = captureOptions.detectionBottomSize {
+        didSet {
+            captureOptions.detectionBottomSize = self.detectionBottomSize
+        }
+    }
+    /**
+     Represents the percentage.
+     Positive value enlarges and negative value reduce the left side of the detection.
+     Use the `setDetectionBox` to have a visual result.
+     
+     Default value: `0`
+     */
+    @objc
+    public var detectionLeftSize: Float = captureOptions.detectionLeftSize {
+        didSet {
+            captureOptions.detectionLeftSize = self.detectionLeftSize
+        }
+    }
+    /**
      Set to enable/disable face contours when face detected.
      
      - Parameter enable: The indicator to enable/disable face contours.
@@ -381,22 +433,7 @@ public class CameraView: UIView {
         
         self.cameraController?.setTorch(enable: enable)
     }
-    
-    /**
-     Enlarge the face bounding box by percent.
-     
-     - Parameter facePaddingPercent: The percent to enlarge the bounding box.
-     Default value is `0.0`.
-     */
-    @objc
-    public func setFacePaddingPercent(_ facePaddingPercent: Float) {
-        if facePaddingPercent < 0 {
-            fatalError(KeyError.INVALID_FACE_PADDING_PERCENT.rawValue)
-        }
-        
-        captureOptions.facePaddingPercent = facePaddingPercent
-    }
-        
+            
     /**
      Set to apply enable/disable region of interest.
      
