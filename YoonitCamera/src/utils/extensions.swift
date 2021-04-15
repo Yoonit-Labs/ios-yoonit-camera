@@ -30,10 +30,23 @@ extension Date {
 }
 
 extension CGRect {
-    func increase(by percentage: CGFloat) -> CGRect {
-        let adjustmentWidth = (self.width * percentage) / 2.0
-        let adjustmentHeight = (self.height * percentage) / 2.0
-        return self.insetBy(dx: -adjustmentWidth, dy: -adjustmentHeight)
+    func scale(
+        top: Float,
+        right: Float,
+        bottom: Float,
+        left: Float
+    ) -> CGRect {
+        let newLeft: CGFloat = self.midX - ((CGFloat(left) + 1) * (self.width / 2))
+        let newTop: CGFloat = self.midY - ((CGFloat(top) + 1) * (self.height / 2))
+        let newRight: CGFloat = self.midX + ((CGFloat(right) + 1) * (self.width / 2))
+        let newBottom: CGFloat = self.midY + ((CGFloat(bottom) + 1) * (self.height / 2))
+                
+        return CGRect(
+            x: newLeft,
+            y: newTop,
+            width: newRight - newLeft,
+            height: newBottom - newTop
+        )
     }
     
     func isNaN() -> Bool {

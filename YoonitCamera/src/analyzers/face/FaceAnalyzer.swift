@@ -197,15 +197,22 @@ class FaceAnalyzer {
             self.faceTimestamp = currentTimestamp
                                 
             if let cgImage = cameraInputImage.cgImage {
-                var croppedImage: UIImage = UIImage(
-                    cgImage: cgImage.cropping(to: faceDetected.boundingBox)!
+                let isCameraLensBack = captureOptions.cameraLens == AVCaptureDevice.Position.back
+                                                
+                var image = UIImage(
+                    cgImage: cgImage.cropping(to: faceDetected.boundingBox.scale(
+                        top: captureOptions.detectionTopSize,
+                        right: isCameraLensBack ? captureOptions.detectionLeftSize : captureOptions.detectionRightSize,
+                        bottom: captureOptions.detectionBottomSize,
+                        left: isCameraLensBack ? captureOptions.detectionRightSize : captureOptions.detectionLeftSize
+                    ))!
                 )
-                                
-                if captureOptions.cameraLens == AVCaptureDevice.Position.back {
-                    croppedImage = croppedImage.withHorizontallyFlippedOrientation()
+                                                
+                if isCameraLensBack {
+                    image = image.flipHorizontally()!
                 }
                 
-                let imageResized: UIImage = try! croppedImage.resize(
+                let imageResized: UIImage = try! image.resize(
                     width: captureOptions.imageOutputWidth,
                     height: captureOptions.imageOutputHeight
                 )

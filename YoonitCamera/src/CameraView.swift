@@ -323,6 +323,58 @@ public class CameraView: UIView {
     }
     
     /**
+     Represents the percentage.
+     Positive value enlarges and negative value reduce the top side of the detection.
+     Use the `setDetectionBox` to have a visual result.
+     
+     Default value: `0`
+     */
+    @objc
+    public var detectionTopSize: Float = captureOptions.detectionTopSize {
+        didSet {
+            captureOptions.detectionTopSize = self.detectionTopSize
+        }
+    }
+    /**
+     Represents the percentage.
+     Positive value enlarges and negative value reduce the right side of the detection.
+     Use the `setDetectionBox` to have a visual result.
+     
+     Default value: `0`
+     */
+    @objc
+    public var detectionRightSize: Float = captureOptions.detectionRightSize {
+        didSet {
+            captureOptions.detectionRightSize = self.detectionRightSize
+        }
+    }
+    /**
+     Represents the percentage.
+     Positive value enlarges and negative value reduce the bottom side of the detection.
+     Use the `setDetectionBox` to have a visual result.
+     
+     Default value: `0`
+     */
+    @objc
+    public var detectionBottomSize: Float = captureOptions.detectionBottomSize {
+        didSet {
+            captureOptions.detectionBottomSize = self.detectionBottomSize
+        }
+    }
+    /**
+     Represents the percentage.
+     Positive value enlarges and negative value reduce the left side of the detection.
+     Use the `setDetectionBox` to have a visual result.
+     
+     Default value: `0`
+     */
+    @objc
+    public var detectionLeftSize: Float = captureOptions.detectionLeftSize {
+        didSet {
+            captureOptions.detectionLeftSize = self.detectionLeftSize
+        }
+    }
+    /**
      Set to enable/disable face contours when face detected.
      
      - Parameter enable: The indicator to enable/disable face contours.
@@ -367,20 +419,21 @@ public class CameraView: UIView {
     }
     
     /**
-     Enlarge the face bounding box by percent.
+     Set to enable/disable the device torch. Available only to camera lens "back".
      
-     - Parameter facePaddingPercent: The percent to enlarge the bounding box.
-     Default value is `0.27`.
+     - Parameter enable: The indicator to enable/disable the torch.
+     Default value is `false`.
      */
     @objc
-    public func setFacePaddingPercent(_ facePaddingPercent: Float) {
-        if facePaddingPercent < 0 {
-            fatalError(KeyError.INVALID_FACE_PADDING_PERCENT.rawValue)
+    public func setTorch(_ enable: Bool) {
+        if captureOptions.cameraLens == .front {
+            self.cameraEventListener?.onMessage(Message.INVALID_TORCH_LENS_USAGE.rawValue)
+            return
         }
         
-        captureOptions.facePaddingPercent = facePaddingPercent
+        self.cameraController?.setTorch(enable: enable)
     }
-        
+            
     /**
      Set to apply enable/disable region of interest.
      
@@ -496,17 +549,6 @@ public class CameraView: UIView {
             alpha: CGFloat(alpha)
         )
         self.cameraGraphicView.update()
-    }
-    
-    /**
-     Set to enable/disable the device torch. The S.O. force to lock the camera preview to enable the torch.
-     
-     - Parameter enable: The indicator to enable/disable the torch.
-     Default value is `false`.
-     */
-    @objc
-    public func setTorch(_ enable: Bool) {
-        self.cameraController?.setTorch(enable: enable)
     }
 }
 

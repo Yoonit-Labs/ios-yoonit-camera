@@ -53,20 +53,6 @@ public class CaptureOptions {
         alpha: 1.0
     )
     
-    // Face contours.
-    var faceContours: Bool = false
-
-    // Face contours color.
-    var faceContoursColor: UIColor = UIColor(
-        red: 1.0,
-        green: 1.0,
-        blue: 1.0,
-        alpha: 1.0
-    )
-    
-    // Face capture padding percent.
-    var facePaddingPercent: Float = 0.27
-        
     /**
      Face/qrcode minimum size to detect in percentage related with the camera preview.
      This variable is the detection box percentage in relation with the UI graphic view.
@@ -80,4 +66,20 @@ public class CaptureOptions {
      The value must be between `0` and `1`.
      */
     var maximumSize: Float = 1.0
+    
+    var detectionTopSize: Float = 0.0
+    var detectionRightSize: Float = 0.0
+    var detectionBottomSize: Float = 0.0
+    var detectionLeftSize: Float = 0.0
+    
+    // Face contours.
+    var faceContours: Bool = false
+
+    // Face contours color.
+    var faceContoursColor: UIColor = UIColor(
+        red: 1.0,
+        green: 1.0,
+        blue: 1.0,
+        alpha: 1.0
+    )
 }

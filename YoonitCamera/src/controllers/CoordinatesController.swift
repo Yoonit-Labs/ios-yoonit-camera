@@ -146,11 +146,16 @@ class CoordinatesController {
         let standardizedRect = previewLayer
             .layerRectConverted(fromMetadataOutputRect: normalizedRect)
             .standardized
-                   
+                
         if standardizedRect.isNaN() {
             return CGRect()
         }
-                
-        return standardizedRect
+                        
+        return standardizedRect.scale(
+            top: captureOptions.detectionTopSize,
+            right: captureOptions.detectionRightSize,
+            bottom: captureOptions.detectionBottomSize,
+            left: captureOptions.detectionLeftSize
+        )
     }
 }

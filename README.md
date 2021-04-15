@@ -23,10 +23,12 @@ A iOS plugin to provide:
   * [Start capturing face images](#start-capturing-face-images)
   * [Start scanning QR Codes](#start-scanning-qr-codes)
 * [API](#api)
+  * [Variables](#variables)
   * [Methods](#methods)
   * [Events](#events)
     * [Face Analysis](#face-analysis)
     * [Head Movements](#head-movements)
+    * [Image Quality](#image-quality)
   * [KeyError](#keyerror)
   * [Message](#message)
 * [To contribute and make it better](#to-contribute-and-make-it-better)
@@ -133,6 +135,15 @@ class YourViewController: UIViewController, CameraEventListenerDelegate {
 
 ## API
 
+### Variables
+
+| Variable            | Type  | Default Value | Description
+| -                   | -     |  -            | -
+| detectionTopSize    | Float | '0.0'        | Represents the percentage. Positive value enlarges and negative value reduce the top side of the detection. Use the `setDetectionBox` to have a visual result.
+| detectionRightSize  | Float | '0.0'        | Represents the percentage. Positive value enlarges and negative value reduce the right side of the detection. Use the `setDetectionBox` to have a visual result.
+| detectionBottomSize | Float | '0.0'        | Represents the percentage. Positive value enlarges and negative value reduce the bottom side of the detection. Use the `setDetectionBox` to have a visual result.
+| detectionLeftSize   | Float | '0.0'        | Represents the percentage. Positive value enlarges and negative value reduce the left side of the detection. Use the `setDetectionBox` to have a visual result.
+
 ### Methods   
 
 | Function                        | Parameters                                                                    | Valid values                                                                      | Return Type | Description
@@ -154,8 +165,7 @@ class YourViewController: UIViewController, CameraEventListenerDelegate {
 | setDetectionMinSize  | `minimumSize: Float` | Value between `0` and `1`. Represents the percentage. | void | Set face/qrcode minimum size to detect in percentage related with the camera preview.
 | setDetectionMaxSize | `maximumSize: Float` | Value between `0` and `1`. Represents the percentage. | void | Set face/qrcode maximum size to detect in percentage related with the camera preview.
 | setFaceContours              | `enable: Bool`                                  | `true` or `false`                                                               | void        | Set to enable/disable face contours when face detected. 
-| setFaceContoursColor | `alpha: Float, red: Float, green: Float, blue: Float`   | Value between `0` and `1` | void        | Set face contours ARGB color. Default value is `(0.4, 1.0, 1.0, 1.0)`.
-| setFacePaddingPercent | `facePaddingPercent: Float` | Any positive `Float` value. | void | Set face image and bounding box padding in percent.  
+| setFaceContoursColor | `alpha: Float, red: Float, green: Float, blue: Float`   | Value between `0` and `1` | void        | Set face contours ARGB color. Default value is `(0.4, 1.0, 1.0, 1.0)`.  
 | setROI             | `enable: Bool`               | `true` or `false`                                                              | void        | Enable/disable the region of interest capture.
 | setROITopOffset        | `topOffset: Float`       | Value between `0` and `1`. Represents the percentage. | void | Camera preview top distance in percentage. 
 | setROIRightOffset     | `rightOffset: Float`   | Value between `0` and `1`. Represents the percentage. | void | Camera preview right distance in percentage.
@@ -205,6 +215,22 @@ Here we explaining the above gif and how reached the "results". Each "movement" 
 | Horizontal     | `headEulerAngleY` | Super Left  | Left              | Frontal          | Right           | Super Right |
 | Tilt           | `headEulerAngleZ` | Super Right | Right             | Frontal          | Left            | Super Left  |
 
+### Image Quality
+
+The image quality is the classification of the three attributes: darkness, lightness and sharpness. Result available in the `onImageCaptured` event. Let's see each parameter specifications:
+
+| Threshold           | Classification
+| -                   | -
+| **Darkness**        |
+| darkness > 0.7        | Too dark
+| darkness <= 0.7     | Acceptable
+| **Lightness**       |
+| lightness > 0.65    | Too light
+| lightness <= 0.65   | Acceptable
+| **Sharpness**       |
+| sharpness >= 0.1591 | Blurred
+| sharpness < 0.1591  | Acceptable
+
 ### KeyError
 
 Pre-define key error used by the `onError` event.
@@ -218,7 +244,6 @@ Pre-define key error used by the `onError` event.
 | INVALID_OUTPUT_IMAGE_WIDTH        | Tried to input invalid image width.
 | INVALID_OUTPUT_IMAGE_HEIGHT       | Tried to input invalid image height.
 | INVALID_DETECTION_BOX_COLOR | Tried to input invalid detection box ARGB value color.
-| INVALID_FACE_PADDING_PERCENT      | Tried to input invalid face padding percent.
 | INVALID_MINIMUM_SIZE | Tried to input invalid minimum size. 
 | INVALID_MAXIMUM_SIZE | Tried to input invalid maximum size.
 | INVALID_ROI_TOP_OFFSET       | Tried to input invalid region of interest top offset.
@@ -237,6 +262,7 @@ Pre-define key messages used by the `onMessage` event.
 | INVALID_MINIMUM_SIZE | Face/QRCode width percentage in relation of the screen width is less than the set (`setDetectionMinSize`).
 | INVALID_MAXIMUM_SIZE | Face/QRCode width percentage in relation of the screen width is more than the set (`setDetectionMaxSize`).
 | INVALID_OUT_OF_ROI | Face bounding box is out of the set region of interest (`setROI`).
+| INVALID_TORCH_LENS_USAGE | Torch not available with camera lens "front" (`setTorch`). 
 
 ## To contribute and make it better
 

@@ -86,7 +86,12 @@ class QRCodeAnalyzer {
         self.timestamp = currentTimestamp
         
         if let barCodeObject: AVMetadataObject = previewLayer.transformedMetadataObject(for: closestQRCode) {
-            let detectionBox: CGRect = barCodeObject.bounds
+            let detectionBox: CGRect = barCodeObject.bounds.scale(
+                top: captureOptions.detectionTopSize,
+                right: captureOptions.detectionRightSize,
+                bottom: captureOptions.detectionBottomSize,
+                left: captureOptions.detectionLeftSize
+            )
             
             if let error: String = self
                 .coordinatesController
