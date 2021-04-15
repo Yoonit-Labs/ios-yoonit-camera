@@ -217,7 +217,7 @@ Here we explaining the above gif and how reached the "results". Each "movement" 
 
 ### Image Quality
 
-The image quality is the classification of the three attributes: darkness, lightness and sharpness. Result available in the `onImageCaptured` event. Let's see each parameters specifications:
+The image quality is the classification of the three attributes: darkness, lightness and sharpness. Result available in the `onImageCaptured` event. Let's see each parameter specifications:
 
 | Threshold           | Classification
 | -                   | -
