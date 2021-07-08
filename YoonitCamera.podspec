@@ -9,7 +9,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "YoonitCamera"
-  spec.version      = "2.7.0"
+  spec.version      = "2.7.1"
   spec.summary      = "The most advanced and modern Camera module for iOS with a lot of awesome features"
 
   # This description is used to generate tags and improve search results.
