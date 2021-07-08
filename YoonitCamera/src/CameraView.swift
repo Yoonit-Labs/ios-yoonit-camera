@@ -23,7 +23,7 @@ var previewLayer: AVCaptureVideoPreviewLayer!
  * Class responsible to handle the camera operations.
  */
 @objc
-public class CameraView: UIView {
+open class CameraView: UIView {
                 
     // Camera controller object.
     private var cameraController: CameraController? = nil
