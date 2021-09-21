@@ -15,6 +15,8 @@ A iOS plugin to provide:
 * Capture timed images
 * QR Code scanning
 
+<img src="https://raw.githubusercontent.com/Yoonit-Labs/ios-yoonit-camera/development/facefy.gif" width="300" />
+
 ## Table of Contents
 
 * [Installation](#installation)

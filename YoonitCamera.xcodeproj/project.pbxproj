@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C04A00F26FA7E330033DFB7 /* facefy.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5C04A00E26FA7E330033DFB7 /* facefy.gif */; };
 		5C0A28A826164D8800F98457 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 5C0A28A726164D8800F98457 /* Podfile */; };
 		5C0AF5BC256D864400A5DF84 /* ROI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0AF5BB256D864400A5DF84 /* ROI.swift */; };
 		5C0C64392542108B00EDF95B /* logo_cyberlabs.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C0C64382542108B00EDF95B /* logo_cyberlabs.png */; };
@@ -37,6 +38,7 @@
 /* Begin PBXFileReference section */
 		047B6A04814E50268BA4E2D7 /* Pods-YoonitCamera.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YoonitCamera.release.xcconfig"; path = "Target Support Files/Pods-YoonitCamera/Pods-YoonitCamera.release.xcconfig"; sourceTree = "<group>"; };
 		14635FC65AAD0B4EF03EB992 /* Pods-YoonitCamera.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YoonitCamera.debug.xcconfig"; path = "Target Support Files/Pods-YoonitCamera/Pods-YoonitCamera.debug.xcconfig"; sourceTree = "<group>"; };
+		5C04A00E26FA7E330033DFB7 /* facefy.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = facefy.gif; sourceTree = "<group>"; };
 		5C0A28A726164D8800F98457 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		5C0AF5BB256D864400A5DF84 /* ROI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ROI.swift; sourceTree = "<group>"; };
 		5C0C64382542108B00EDF95B /* logo_cyberlabs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_cyberlabs.png; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				6176EFA7252E476000F4D4DD /* Example */,
 				5C6A82A125F926BF005D489C /* tutorial.gif */,
 				5C0C64382542108B00EDF95B /* logo_cyberlabs.png */,
+				5C04A00E26FA7E330033DFB7 /* facefy.gif */,
 				6176EF25252CFEE000F4D4DD /* README.md */,
 				6176EF22252CFC9500F4D4DD /* LICENSE */,
 				6176EF1F252CFA4300F4D4DD /* YoonitCamera.podspec */,
@@ -300,6 +303,7 @@
 				6176EF23252CFC9500F4D4DD /* LICENSE in Resources */,
 				5C6A82A225F926BF005D489C /* tutorial.gif in Resources */,
 				6176EF20252CFA4300F4D4DD /* YoonitCamera.podspec in Resources */,
+				5C04A00F26FA7E330033DFB7 /* facefy.gif in Resources */,
 				5C0C64392542108B00EDF95B /* logo_cyberlabs.png in Resources */,
 				5C0A28A826164D8800F98457 /* Podfile in Resources */,
 				6176EFA8252E476000F4D4DD /* Example in Resources */,
