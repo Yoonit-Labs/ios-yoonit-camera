@@ -1,7 +1,5 @@
 <h1 align="center">iOS Yoonit Camera</h1>
 
-![GitHub tag (latest by date)]() ![GitHub]()
-
 <p align="center">
     <img src="https://img.shields.io/github/v/tag/Yoonit-Labs/ios-yoonit-camera?color=lightgrey&label=version&style=for-the-badge" />
     <img src="https://img.shields.io/github/license/Yoonit-Labs/ios-yoonit-camera?color=lightgrey&style=for-the-badge" />  
@@ -25,6 +23,31 @@
                 </td>
             </tr>
         <tbody>
+    </table>
+</div>
+
+<div align="center">
+    <h3>Sponsors</h3>
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    <b>Platinum</b>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" valign="middle">
+                    <a 
+                        href="https://cyberlabs.ai"
+                    >
+                        <img 
+                            src="https://raw.githubusercontent.com/Yoonit-Labs/ios-yoonit-camera/main/sponsor_cyberlabs.png"
+                            width="300" 
+                        />
+                    </a>
+                </td>
+            </tr>
+        </tbody>
     </table>
     <h5><a href="mailto:about@yoonit.dev">Become a sponsor!</a></h5>
 </div>
