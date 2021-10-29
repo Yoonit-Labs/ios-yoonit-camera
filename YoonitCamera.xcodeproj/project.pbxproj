@@ -12,6 +12,7 @@
 		5C0AF5BC256D864400A5DF84 /* ROI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0AF5BB256D864400A5DF84 /* ROI.swift */; };
 		5C0C64392542108B00EDF95B /* logo_cyberlabs.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C0C64382542108B00EDF95B /* logo_cyberlabs.png */; };
 		5C1E318925C1E2F8002D2DB6 /* CameraGraphicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1E318825C1E2F8002D2DB6 /* CameraGraphicView.swift */; };
+		5C319BC3272CADCE004EAF8A /* sponsor_cyberlabs.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C319BC2272CADCE004EAF8A /* sponsor_cyberlabs.png */; };
 		5C5058D7260BCC5C00286F91 /* QRCodeAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5058D6260BCC5C00286F91 /* QRCodeAnalyzer.swift */; };
 		5C6A82A225F926BF005D489C /* tutorial.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5C6A82A125F926BF005D489C /* tutorial.gif */; };
 		5CB645582549935E0019BD43 /* KeyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB645572549935E0019BD43 /* KeyError.swift */; };
@@ -43,6 +44,7 @@
 		5C0AF5BB256D864400A5DF84 /* ROI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ROI.swift; sourceTree = "<group>"; };
 		5C0C64382542108B00EDF95B /* logo_cyberlabs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_cyberlabs.png; sourceTree = "<group>"; };
 		5C1E318825C1E2F8002D2DB6 /* CameraGraphicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraGraphicView.swift; sourceTree = "<group>"; };
+		5C319BC2272CADCE004EAF8A /* sponsor_cyberlabs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sponsor_cyberlabs.png; sourceTree = "<group>"; };
 		5C5058D6260BCC5C00286F91 /* QRCodeAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeAnalyzer.swift; sourceTree = "<group>"; };
 		5C6A82A125F926BF005D489C /* tutorial.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = tutorial.gif; sourceTree = "<group>"; };
 		5CB645572549935E0019BD43 /* KeyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyError.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				6176EF22252CFC9500F4D4DD /* LICENSE */,
 				6176EF1F252CFA4300F4D4DD /* YoonitCamera.podspec */,
 				6176EEFA252CF9D200F4D4DD /* Info.plist */,
+				5C319BC2272CADCE004EAF8A /* sponsor_cyberlabs.png */,
 				5C0A28A726164D8800F98457 /* Podfile */,
 				6176EEF8252CF9D200F4D4DD /* YoonitCamera */,
 				6176EEF7252CF9D200F4D4DD /* Products */,
@@ -306,6 +309,7 @@
 				5C04A00F26FA7E330033DFB7 /* facefy.gif in Resources */,
 				5C0C64392542108B00EDF95B /* logo_cyberlabs.png in Resources */,
 				5C0A28A826164D8800F98457 /* Podfile in Resources */,
+				5C319BC3272CADCE004EAF8A /* sponsor_cyberlabs.png in Resources */,
 				6176EFA8252E476000F4D4DD /* Example in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
