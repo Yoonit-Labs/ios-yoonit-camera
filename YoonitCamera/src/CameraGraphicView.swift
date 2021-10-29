@@ -1,13 +1,18 @@
-//
-// +-+-+-+-+-+-+
-// |y|o|o|n|i|t|
-// +-+-+-+-+-+-+
-//
-// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-// | Yoonit Camera lib for iOS applications                          |
-// | Haroldo Teruya & Marcio Brufatto @ Cyberlabs AI 2020-2021       |
-// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-//
+/*
+ * ██╗   ██╗ ██████╗  ██████╗ ███╗   ██╗██╗████████╗
+ * ╚██╗ ██╔╝██╔═══██╗██╔═══██╗████╗  ██║██║╚══██╔══╝
+ *  ╚████╔╝ ██║   ██║██║   ██║██╔██╗ ██║██║   ██║
+ *   ╚██╔╝  ██║   ██║██║   ██║██║╚██╗██║██║   ██║
+ *    ██║   ╚██████╔╝╚██████╔╝██║ ╚████║██║   ██║
+ *    ╚═╝    ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝   ╚═╝
+ *
+ * https://yoonit.dev - about@yoonit.dev
+ *
+ * iOS Yoonit Camera
+ * The most advanced and modern Camera module for iOS with a lot of awesome features
+ *
+ * Haroldo Teruya & Márcio Bruffato @ 2020-2021
+ */
 
 import Foundation
 import UIKit
